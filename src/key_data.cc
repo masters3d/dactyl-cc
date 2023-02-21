@@ -118,209 +118,209 @@ KeyData::KeyData(TransformList key_origin) {
 
   // All keys in the dish are relative to d and then based off of their
   // associated key in the home row.
-  key_d.Configure([&](Key& k) {
+  key_2_3.Configure([&](Key& k) {
     k.name = "d";
     k.SetParent(key_origin);
     k.SetPosition(26.40, 50.32, 17.87);
     k.t().ry = -15;
   });
 
-  key_f.Configure([&](Key& k) {
+  key_2_4.Configure([&](Key& k) {
     k.name = "f";
 
     // Absolute:
     // k.SetPosition(44.3, 49.37, 28.1);
     // k.t().ry = -20;
 
-    k.SetParent(key_d);
+    k.SetParent(key_2_3);
     k.SetPosition(19.938, -0.950, 5.249);
     k.t().ry = -5;
   });
 
-  key_g.Configure([&](Key& k) {
+  key_2_5.Configure([&](Key& k) {
     k.name = "g";
 
     // Absolute:
     // k.SetPosition(60.16, 48.06, 37.39);
     // k.t().ry = -30;
 
-    k.SetParent(key_f);
+    k.SetParent(key_2_4);
     k.SetPosition(20, -1.310, 3.305);
     k.t().ry = -4;
   });
 
-  key_s.Configure([&](Key& k) {
+  key_2_2.Configure([&](Key& k) {
     k.name = "s";
 
     // Absolute:
     // k.SetPosition(6.09, 50.23, 18.05);
     // k.t().ry = -10;
 
-    k.SetParent(key_d);
+    k.SetParent(key_2_3);
     k.SetPosition(-19.571, -0.090, 5.430);
     k.t().ry = 5;
   });
 
-  key_a.Configure([&](Key& k) {
+  key_2_1.Configure([&](Key& k) {
     k.name = "a";
 
     // Absolute:
     // k.SetPosition(-15.41, 44.06, 19.7);
     // k.t().ry = -10;
 
-    k.SetParent(key_s);
+    k.SetParent(key_2_2);
     k.SetPosition(-20.887, -6.170, 5.358);
   });
 
-  key_caps.Configure([&](Key& k) {
+  key_2_0.Configure([&](Key& k) {
     k.name = "caps";
 
     // Absolute:
     // k.SetPosition(-37.7, 48.06, 15.98);
     // k.t().ry = -5;
 
-    k.SetParent(key_a);
+    k.SetParent(key_2_1);
     k.SetPosition(-22.597, 4.000, 0.207);
     k.t().ry = 5;
   });
 
   // D Column
-  key_e = GetRotatedKey(kDColumnRadius, true);
-  key_e.Configure([&](Key& k) {
+  key_1_3 = GetRotatedKey(kDColumnRadius, true);
+  key_1_3.Configure([&](Key& k) {
     k.name = "e";
-    k.SetParent(key_d);
+    k.SetParent(key_2_3);
   });
 
   // This key is different from the others in the column. It should be less angled due to the larger
   // radius.
-  key_3 = GetRotatedKey(kDColumnRadius + 15, true);
-  key_3.Configure([&](Key& k) {
+  key_0_3 = GetRotatedKey(kDColumnRadius + 15, true);
+  key_0_3.Configure([&](Key& k) {
     k.name = "3";
-    k.SetParent(key_e);
+    k.SetParent(key_1_3);
   });
 
-  key_c = GetRotatedKey(kDColumnRadius, false);
-  key_c.Configure([&](Key& k) {
+  key_3_3 = GetRotatedKey(kDColumnRadius, false);
+  key_3_3.Configure([&](Key& k) {
     k.name = "c";
-    k.SetParent(key_d);
+    k.SetParent(key_2_3);
   });
 
-  key_left_arrow = GetRotatedKey(kDColumnRadius, false);
-  key_left_arrow.Configure([&](Key& k) {
+  key_4_3 = GetRotatedKey(kDColumnRadius, false);
+  key_4_3.Configure([&](Key& k) {
     k.name = "left_arrow";
-    k.SetParent(key_c);
+    k.SetParent(key_3_3);
   });
 
   // S column
-  key_w = GetRotatedKey(kSColumnRadius, true);
-  key_w.Configure([&](Key& k) {
+  key_1_2 = GetRotatedKey(kSColumnRadius, true);
+  key_1_2.Configure([&](Key& k) {
     k.name = "w";
-    k.SetParent(key_s);
+    k.SetParent(key_2_2);
   });
 
-  key_2 = GetRotatedKey(kSColumnRadius, true);
-  key_2.Configure([&](Key& k) {
+  key_0_2 = GetRotatedKey(kSColumnRadius, true);
+  key_0_2.Configure([&](Key& k) {
     k.name = "2";
-    k.SetParent(key_w);
+    k.SetParent(key_1_2);
   });
 
-  key_x = GetRotatedKey(kSColumnRadius, false);
-  key_x.Configure([&](Key& k) {
+  key_3_2 = GetRotatedKey(kSColumnRadius, false);
+  key_3_2.Configure([&](Key& k) {
     k.name = "x";
-    k.SetParent(key_s);
+    k.SetParent(key_2_2);
   });
 
-  key_slash = GetRotatedKey(kSColumnRadius, false);
-  key_slash.Configure([&](Key& k) {
+  key_4_2 = GetRotatedKey(kSColumnRadius, false);
+  key_4_2.Configure([&](Key& k) {
     k.name = "slash";
-    k.SetParent(key_x);
+    k.SetParent(key_3_2);
   });
 
   // F column
-  key_r = GetRotatedKey(kFColumnRadius, true);
-  key_r.Configure([&](Key& k) {
+  key_1_4 = GetRotatedKey(kFColumnRadius, true);
+  key_1_4.Configure([&](Key& k) {
     k.name = "r";
-    k.SetParent(key_f);
+    k.SetParent(key_2_4);
   });
 
-  key_4 = GetRotatedKey(kFColumnRadius, true);
-  key_4.Configure([&](Key& k) {
+  key_0_4 = GetRotatedKey(kFColumnRadius, true);
+  key_0_4.Configure([&](Key& k) {
     k.name = "4";
-    k.SetParent(key_r);
+    k.SetParent(key_1_4);
   });
 
-  key_v = GetRotatedKey(kFColumnRadius, false);
-  key_v.Configure([&](Key& k) {
+  key_3_4 = GetRotatedKey(kFColumnRadius, false);
+  key_3_4.Configure([&](Key& k) {
     k.name = "v";
-    k.SetParent(key_f);
+    k.SetParent(key_2_4);
   });
 
-  key_right_arrow = GetRotatedKey(kFColumnRadius, false);
-  key_right_arrow.Configure([&](Key& k) {
+  key_4_4 = GetRotatedKey(kFColumnRadius, false);
+  key_4_4.Configure([&](Key& k) {
     k.name = "right_arrow";
-    k.SetParent(key_v);
+    k.SetParent(key_3_4);
   });
 
-  key_t = GetRotatedKey(kGColumnRadius, true);
-  key_t.Configure([&](Key& k) {
+  key_1_5 = GetRotatedKey(kGColumnRadius, true);
+  key_1_5.Configure([&](Key& k) {
     k.name = "t";
-    k.SetParent(key_g);
+    k.SetParent(key_2_5);
   });
 
-  key_5 = GetRotatedKey(kGColumnRadius, true);
-  key_5.Configure([&](Key& k) {
+  key_0_5 = GetRotatedKey(kGColumnRadius, true);
+  key_0_5.Configure([&](Key& k) {
     k.name = "5";
-    k.SetParent(key_t);
+    k.SetParent(key_1_5);
   });
 
-  key_b = GetRotatedKey(kGColumnRadius, false);
-  key_b.Configure([&](Key& k) {
+  key_3_5 = GetRotatedKey(kGColumnRadius, false);
+  key_3_5.Configure([&](Key& k) {
     k.name = "b";
-    k.SetParent(key_g);
+    k.SetParent(key_2_5);
   });
 
   // A column
-  key_q = GetRotatedKey(kAColumnRadius, true);
-  key_q.Configure([&](Key& k) {
+  key_1_1 = GetRotatedKey(kAColumnRadius, true);
+  key_1_1.Configure([&](Key& k) {
     k.name = "q";
-    k.SetParent(key_a);
+    k.SetParent(key_2_1);
   });
 
-  key_1 = GetRotatedKey(kAColumnRadius, true);
-  key_1.Configure([&](Key& k) {
+  key_0_1 = GetRotatedKey(kAColumnRadius, true);
+  key_0_1.Configure([&](Key& k) {
     k.name = "1";
-    k.SetParent(key_q);
+    k.SetParent(key_1_1);
   });
 
-  key_z = GetRotatedKey(kAColumnRadius, false);
-  key_z.Configure([&](Key& k) {
+  key_3_1 = GetRotatedKey(kAColumnRadius, false);
+  key_3_1.Configure([&](Key& k) {
     k.name = "z";
-    k.SetParent(key_a);
+    k.SetParent(key_2_1);
   });
 
-  key_tilde = GetRotatedKey(kAColumnRadius, false);
-  key_tilde.Configure([&](Key& k) {
+  key_4_1 = GetRotatedKey(kAColumnRadius, false);
+  key_4_1.Configure([&](Key& k) {
     k.name = "tilde";
-    k.SetParent(key_z);
+    k.SetParent(key_3_1);
   });
 
   // Caps column
-  key_tab = GetRotatedKey(kCapsColumnRadius, true);
-  key_tab.Configure([&](Key& k) {
+  key_1_0 = GetRotatedKey(kCapsColumnRadius, true);
+  key_1_0.Configure([&](Key& k) {
     k.name = "tab";
-    k.SetParent(key_caps);
+    k.SetParent(key_2_0);
   });
 
-  key_plus = GetRotatedKey(kCapsColumnRadius, true);
-  key_plus.Configure([&](Key& k) {
+  key_0_0 = GetRotatedKey(kCapsColumnRadius, true);
+  key_0_0.Configure([&](Key& k) {
     k.name = "plus";
-    k.SetParent(key_tab);
+    k.SetParent(key_1_0);
   });
 
-  key_shift = GetRotatedKey(kCapsColumnRadius, false);
-  key_shift.Configure([&](Key& k) {
+  key_3_0 = GetRotatedKey(kCapsColumnRadius, false);
+  key_3_0.Configure([&](Key& k) {
     k.name = "shift";
-    k.SetParent(key_caps);
+    k.SetParent(key_2_0);
   });
 
   // Keys are measured from the tip of the switch and by default keys are measured from the
@@ -329,7 +329,7 @@ KeyData::KeyData(TransformList key_origin) {
   for (Key* key : all_keys()) {
     key->AddTransform();
     key->disable_switch_z_offset = true;
-    key->t().z -= 10;
+    key->t().z -= switch_top_z_offset;
   }
 }
 

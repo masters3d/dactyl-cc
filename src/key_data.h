@@ -9,38 +9,38 @@ namespace scad {
 struct KeyData {
   KeyData(TransformList origin);
 
-  Key key_plus;
-  Key key_1;
-  Key key_2;
-  Key key_3;
-  Key key_4;
-  Key key_5;
+  Key key_0_0;
+  Key key_0_1;
+  Key key_0_2;
+  Key key_0_3;
+  Key key_0_4;
+  Key key_0_5;
 
-  Key key_tab;
-  Key key_q;
-  Key key_w;
-  Key key_e;
-  Key key_r;
-  Key key_t;
+  Key key_1_0;
+  Key key_1_1;
+  Key key_1_2;
+  Key key_1_3;
+  Key key_1_4;
+  Key key_1_5;
 
-  Key key_caps;
-  Key key_a;
-  Key key_s;
-  Key key_d;
-  Key key_f;
-  Key key_g;
+  Key key_2_0;
+  Key key_2_1;
+  Key key_2_2;
+  Key key_2_3;
+  Key key_2_4;
+  Key key_2_5;
 
-  Key key_shift;
-  Key key_z;
-  Key key_x;
-  Key key_c;
-  Key key_v;
-  Key key_b;
+  Key key_3_0;
+  Key key_3_1;
+  Key key_3_2;
+  Key key_3_3;
+  Key key_3_4;
+  Key key_3_5;
 
-  Key key_tilde;
-  Key key_slash;
-  Key key_left_arrow;
-  Key key_right_arrow;
+  Key key_4_1;
+  Key key_4_2;
+  Key key_4_3;
+  Key key_4_4;
 
   Key key_backspace;
   Key key_delete;
@@ -51,11 +51,11 @@ struct KeyData {
 
   // clang-format off
   KeyGrid grid {{
-    { &key_plus,   &key_1,      &key_2,      &key_3,           &key_4,            &key_5},
-    { &key_tab,    &key_q,      &key_w,      &key_e,           &key_r,            &key_t},
-    { &key_caps,   &key_a,      &key_s,      &key_d,           &key_f,            &key_g},
-    { &key_shift,  &key_z,      &key_x,      &key_c,           &key_v,            &key_b},
-    { nullptr,     &key_tilde,  &key_slash,  &key_left_arrow,  &key_right_arrow,  nullptr},
+    { &key_0_0,  &key_0_1,  &key_0_2,  &key_0_3,  &key_0_4,  &key_0_5},
+    { &key_1_0,  &key_1_1,  &key_1_2,  &key_1_3,  &key_1_4,  &key_1_5},
+    { &key_2_0,  &key_2_1,  &key_2_2,  &key_2_3,  &key_2_4,  &key_2_5},
+    { &key_3_0,  &key_3_1,  &key_3_2,  &key_3_3,  &key_3_4,  &key_3_5},
+    { nullptr,   &key_4_1,  &key_4_2,  &key_4_3,  &key_4_4,  nullptr},
   }};
   // clang-format on
 
