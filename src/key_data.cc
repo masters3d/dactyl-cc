@@ -23,10 +23,15 @@ constexpr double kColumn3Radius = 55;
 constexpr double kColumn4Radius = 70;
 constexpr double kColumn5Radius = 65;
 
+enum class RotationDirection { UP, DOWN};
+
+RotationDirection rotationDirectionUp = RotationDirection::UP;
+RotationDirection rotationDirectionDown = RotationDirection::DOWN;
+
 // Rotates a key about the x axis until it has traveled the direct distance (not on the arc).
-Key GetRotatedKey(double radius, bool up) {
+Key GetXAxisRotatedKey(double radius, RotationDirection rotationDirection) {
   double distance = kBowlKeySpacing;
-  double rotation_direction = up ? 1.0 : -1.0;
+  double rotation_direction = rotationDirection == RotationDirection::UP ? 1.0 : -1.0;
   double degrees = 1;
 
   // Use precomputed numbers for known radiuses to speed up execution.
@@ -189,7 +194,7 @@ KeyData::KeyData(TransformList key_origin) {
   });
 
   // D Column
-  key_1_3 = GetRotatedKey(kColumn3Radius, true);
+  key_1_3 = GetXAxisRotatedKey(kColumn3Radius, rotationDirectionUp);
   key_1_3.Configure([&](Key& k) {
     k.name = "e";
     k.SetParent(key_2_3);
@@ -197,131 +202,131 @@ KeyData::KeyData(TransformList key_origin) {
 
   // This key is different from the others in the column. It should be less angled due to the larger
   // radius.
-  key_0_3 = GetRotatedKey(kColumn3Radius + 15, true);
+  key_0_3 = GetXAxisRotatedKey(kColumn3Radius + 15, rotationDirectionUp);
   key_0_3.Configure([&](Key& k) {
     k.name = "3";
     k.SetParent(key_1_3);
   });
 
-  key_3_3 = GetRotatedKey(kColumn3Radius, false);
+  key_3_3 = GetXAxisRotatedKey(kColumn3Radius, rotationDirectionDown);
   key_3_3.Configure([&](Key& k) {
     k.name = "c";
     k.SetParent(key_2_3);
   });
 
-  key_4_3 = GetRotatedKey(kColumn3Radius, false);
+  key_4_3 = GetXAxisRotatedKey(kColumn3Radius, rotationDirectionDown);
   key_4_3.Configure([&](Key& k) {
     k.name = "left_arrow";
     k.SetParent(key_3_3);
   });
 
   // S column
-  key_1_2 = GetRotatedKey(kColumn2Radius, true);
+  key_1_2 = GetXAxisRotatedKey(kColumn2Radius, rotationDirectionUp);
   key_1_2.Configure([&](Key& k) {
     k.name = "w";
     k.SetParent(key_2_2);
   });
 
-  key_0_2 = GetRotatedKey(kColumn2Radius, true);
+  key_0_2 = GetXAxisRotatedKey(kColumn2Radius, rotationDirectionUp);
   key_0_2.Configure([&](Key& k) {
     k.name = "2";
     k.SetParent(key_1_2);
   });
 
-  key_3_2 = GetRotatedKey(kColumn2Radius, false);
+  key_3_2 = GetXAxisRotatedKey(kColumn2Radius, rotationDirectionDown);
   key_3_2.Configure([&](Key& k) {
     k.name = "x";
     k.SetParent(key_2_2);
   });
 
-  key_4_2 = GetRotatedKey(kColumn2Radius, false);
+  key_4_2 = GetXAxisRotatedKey(kColumn2Radius, rotationDirectionDown);
   key_4_2.Configure([&](Key& k) {
     k.name = "slash";
     k.SetParent(key_3_2);
   });
 
   // F column
-  key_1_4 = GetRotatedKey(kColumn4Radius, true);
+  key_1_4 = GetXAxisRotatedKey(kColumn4Radius, rotationDirectionUp);
   key_1_4.Configure([&](Key& k) {
     k.name = "r";
     k.SetParent(key_2_4);
   });
 
-  key_0_4 = GetRotatedKey(kColumn4Radius, true);
+  key_0_4 = GetXAxisRotatedKey(kColumn4Radius, rotationDirectionUp);
   key_0_4.Configure([&](Key& k) {
     k.name = "4";
     k.SetParent(key_1_4);
   });
 
-  key_3_4 = GetRotatedKey(kColumn4Radius, false);
+  key_3_4 = GetXAxisRotatedKey(kColumn4Radius, rotationDirectionDown);
   key_3_4.Configure([&](Key& k) {
     k.name = "v";
     k.SetParent(key_2_4);
   });
 
-  key_4_4 = GetRotatedKey(kColumn4Radius, false);
+  key_4_4 = GetXAxisRotatedKey(kColumn4Radius, rotationDirectionDown);
   key_4_4.Configure([&](Key& k) {
     k.name = "right_arrow";
     k.SetParent(key_3_4);
   });
 
-  key_1_5 = GetRotatedKey(kColumn5Radius, true);
+  key_1_5 = GetXAxisRotatedKey(kColumn5Radius, rotationDirectionUp);
   key_1_5.Configure([&](Key& k) {
     k.name = "t";
     k.SetParent(key_2_5);
   });
 
-  key_0_5 = GetRotatedKey(kColumn5Radius, true);
+  key_0_5 = GetXAxisRotatedKey(kColumn5Radius, rotationDirectionUp);
   key_0_5.Configure([&](Key& k) {
     k.name = "5";
     k.SetParent(key_1_5);
   });
 
-  key_3_5 = GetRotatedKey(kColumn5Radius, false);
+  key_3_5 = GetXAxisRotatedKey(kColumn5Radius, rotationDirectionDown);
   key_3_5.Configure([&](Key& k) {
     k.name = "b";
     k.SetParent(key_2_5);
   });
 
   // A column
-  key_1_1 = GetRotatedKey(kColumn1Radius, true);
+  key_1_1 = GetXAxisRotatedKey(kColumn1Radius, rotationDirectionUp);
   key_1_1.Configure([&](Key& k) {
     k.name = "q";
     k.SetParent(key_2_1);
   });
 
-  key_0_1 = GetRotatedKey(kColumn1Radius, true);
+  key_0_1 = GetXAxisRotatedKey(kColumn1Radius, rotationDirectionUp);
   key_0_1.Configure([&](Key& k) {
     k.name = "1";
     k.SetParent(key_1_1);
   });
 
-  key_3_1 = GetRotatedKey(kColumn1Radius, false);
+  key_3_1 = GetXAxisRotatedKey(kColumn1Radius, rotationDirectionDown);
   key_3_1.Configure([&](Key& k) {
     k.name = "z";
     k.SetParent(key_2_1);
   });
 
-  key_4_1 = GetRotatedKey(kColumn1Radius, false);
+  key_4_1 = GetXAxisRotatedKey(kColumn1Radius, rotationDirectionDown);
   key_4_1.Configure([&](Key& k) {
     k.name = "tilde";
     k.SetParent(key_3_1);
   });
 
   // Caps column
-  key_1_0 = GetRotatedKey(kColumn0Radius, true);
+  key_1_0 = GetXAxisRotatedKey(kColumn0Radius, rotationDirectionUp);
   key_1_0.Configure([&](Key& k) {
     k.name = "tab";
     k.SetParent(key_2_0);
   });
 
-  key_0_0 = GetRotatedKey(kColumn0Radius, true);
+  key_0_0 = GetXAxisRotatedKey(kColumn0Radius, rotationDirectionUp);
   key_0_0.Configure([&](Key& k) {
     k.name = "plus";
     k.SetParent(key_1_0);
   });
 
-  key_3_0 = GetRotatedKey(kColumn0Radius, false);
+  key_3_0 = GetXAxisRotatedKey(kColumn0Radius, rotationDirectionDown);
   key_3_0.Configure([&](Key& k) {
     k.name = "shift";
     k.SetParent(key_2_0);
