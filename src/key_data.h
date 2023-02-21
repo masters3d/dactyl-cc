@@ -42,12 +42,12 @@ struct KeyData {
   Key key_4_3;
   Key key_4_4;
 
-  Key key_backspace;
-  Key key_delete;
-  Key key_end;
-  Key key_home;
-  Key key_ctrl;
-  Key key_alt;
+  Key key_thumb_5_0;
+  Key key_thumb_5_1;
+  Key key_thumb_5_2;
+  Key key_thumb_5_3;
+  Key key_thumb_5_4;
+  Key key_thumb_5_5;
 
   KeyGrid grid {{
     { &key_0_0,  &key_0_1,  &key_0_2,  &key_0_3,  &key_0_4,  &key_0_5},
@@ -58,7 +58,7 @@ struct KeyData {
   }};
 
   std::vector<Key*> thumb_keys() {
-    return {&key_delete, &key_backspace, &key_ctrl, &key_alt, &key_home, &key_end};
+    return {&key_thumb_5_1, &key_thumb_5_0, &key_thumb_5_5, &key_thumb_5_4, &key_thumb_5_3, &key_thumb_5_2};
   }
 
   std::vector<Key*> all_keys() {

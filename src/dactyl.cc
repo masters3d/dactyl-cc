@@ -49,20 +49,20 @@ int main() {
 
   // Set all of the widths here. This must be done before calling any of GetTopLeft etc.
 
-  data.key_backspace.extra_width_bottom = 11;
-  data.key_backspace.extra_width_left = 3;
-  data.key_delete.extra_width_bottom = 11;
-  data.key_end.extra_width_bottom = 3;
-  data.key_ctrl.extra_width_top = 3;
-  data.key_alt.extra_width_top = 3;
-  data.key_alt.extra_width_right = 3;
-  data.key_alt.extra_width_left = 3;
-  data.key_home.extra_width_right = 3;
-  data.key_home.extra_width_left = 3;
-  data.key_home.extra_width_top = 3;
-  data.key_end.extra_width_top = 3;
-  data.key_end.extra_width_right = 3;
-  data.key_end.extra_width_left = 3;
+  data.key_thumb_5_0.extra_width_bottom = 11;
+  data.key_thumb_5_0.extra_width_left = 3;
+  data.key_thumb_5_1.extra_width_bottom = 11;
+  data.key_thumb_5_2.extra_width_bottom = 3;
+  data.key_thumb_5_5.extra_width_top = 3;
+  data.key_thumb_5_4.extra_width_top = 3;
+  data.key_thumb_5_4.extra_width_right = 3;
+  data.key_thumb_5_4.extra_width_left = 3;
+  data.key_thumb_5_3.extra_width_right = 3;
+  data.key_thumb_5_3.extra_width_left = 3;
+  data.key_thumb_5_3.extra_width_top = 3;
+  data.key_thumb_5_2.extra_width_top = 3;
+  data.key_thumb_5_2.extra_width_right = 3;
+  data.key_thumb_5_2.extra_width_left = 3;
 
   // left wall
   for (Key* key : data.grid.column(0)) {
@@ -93,16 +93,16 @@ int main() {
   // Thumb plate
   //
 
-  shapes.push_back(Union(ConnectHorizontal(data.key_ctrl, data.key_alt),
-                         ConnectHorizontal(data.key_backspace, data.key_delete),
-                         ConnectVertical(data.key_ctrl, data.key_delete),
-                         Tri(data.key_end.GetBottomLeft(),
-                             data.key_delete.GetBottomRight(),
-                             data.key_backspace.GetBottomLeft())));
+  shapes.push_back(Union(ConnectHorizontal(data.key_thumb_5_5, data.key_thumb_5_4),
+                         ConnectHorizontal(data.key_thumb_5_0, data.key_thumb_5_1),
+                         ConnectVertical(data.key_thumb_5_5, data.key_thumb_5_1),
+                         Tri(data.key_thumb_5_2.GetBottomLeft(),
+                             data.key_thumb_5_1.GetBottomRight(),
+                             data.key_thumb_5_0.GetBottomLeft())));
 
   shapes.push_back(ConnectMainKeys(data));
 
-  shapes.push_back(TriFan(data.key_ctrl.GetTopLeft(),
+  shapes.push_back(TriFan(data.key_thumb_5_5.GetTopLeft(),
                           {
                               data.key_3_5.GetBottomRight(),
                               data.key_3_5.GetTopRight(),
@@ -121,7 +121,7 @@ int main() {
                               data.key_4_3.GetBottomLeft(),
                               data.key_4_2.GetBottomRight().TranslateFront(0, 0, -1),
                           }));
-  shapes.push_back(TriFan(data.key_backspace.GetBottomLeft(),
+  shapes.push_back(TriFan(data.key_thumb_5_0.GetBottomLeft(),
                           {
                               slash_bottom_right,
                               data.key_4_3.GetBottomRight().TranslateFront(0, 0, -1),
@@ -134,17 +134,17 @@ int main() {
                               data.key_4_2.GetBottomRight().TranslateFront(0, 0, -1),
                               slash_bottom_right,
                           }));
-  shapes.push_back(TriFan(data.key_delete.GetTopLeft(),
+  shapes.push_back(TriFan(data.key_thumb_5_1.GetTopLeft(),
                           {
-                              data.key_ctrl.GetTopLeft(),
+                              data.key_thumb_5_5.GetTopLeft(),
                               data.key_3_5.GetBottomRight(),
-                              data.key_backspace.GetTopLeft(),
+                              data.key_thumb_5_0.GetTopLeft(),
                           }));
   shapes.push_back(TriFan(data.key_3_5.GetBottomLeft(),
                           {
                               data.key_3_5.GetBottomRight(),
-                              data.key_backspace.GetTopLeft(),
-                              data.key_backspace.GetTopLeft(),
+                              data.key_thumb_5_0.GetTopLeft(),
+                              data.key_thumb_5_0.GetTopLeft(),
                               data.key_4_4.GetBottomRight(),
                               data.key_4_4.GetTopRight(),
                               data.key_3_4.GetBottomRight(),
@@ -253,23 +253,23 @@ int main() {
         {data.key_2_5.GetTopRight(), right},
         {data.key_2_5.GetBottomRight(), right, 1, .5},
 
-        {data.key_ctrl.GetTopLeft().RotateFront(0, 0, -15), up, 1, .5},
-        {data.key_ctrl.GetTopRight(), up},
+        {data.key_thumb_5_5.GetTopLeft().RotateFront(0, 0, -15), up, 1, .5},
+        {data.key_thumb_5_5.GetTopRight(), up},
 
-        {data.key_alt.GetTopLeft(), up},
-        {data.key_alt.GetTopRight(), up, 0, .5},
-        {data.key_alt.GetTopRight(), right, 0, .5},
-        {data.key_alt.GetBottomRight(), right},
+        {data.key_thumb_5_4.GetTopLeft(), up},
+        {data.key_thumb_5_4.GetTopRight(), up, 0, .5},
+        {data.key_thumb_5_4.GetTopRight(), right, 0, .5},
+        {data.key_thumb_5_4.GetBottomRight(), right},
 
-        {data.key_home.GetTopRight(), right},
-        {data.key_home.GetBottomRight(), right},
+        {data.key_thumb_5_3.GetTopRight(), right},
+        {data.key_thumb_5_3.GetBottomRight(), right},
 
-        {data.key_end.GetTopRight(), right},
-        {data.key_end.GetBottomRight(), right, 0, .5},
-        {data.key_end.GetBottomRight(), down, 0, .5},
-        {data.key_end.GetBottomLeft(), down},
+        {data.key_thumb_5_2.GetTopRight(), right},
+        {data.key_thumb_5_2.GetBottomRight(), right, 0, .5},
+        {data.key_thumb_5_2.GetBottomRight(), down, 0, .5},
+        {data.key_thumb_5_2.GetBottomLeft(), down},
 
-        {data.key_backspace.GetBottomLeft(), down},
+        {data.key_thumb_5_0.GetBottomLeft(), down},
 
         {slash_bottom_right, down},
 
@@ -374,12 +374,12 @@ int main() {
     screw_right_top.x += 4;
     screw_right_top.y += -15.5;
 
-    glm::vec3 screw_right_bottom = data.key_end.GetBottomLeft().Apply(kOrigin);
+    glm::vec3 screw_right_bottom = data.key_thumb_5_2.GetBottomLeft().Apply(kOrigin);
     screw_right_bottom.z = 0;
     screw_right_bottom.y += 3.5;
     screw_right_bottom.x += 1.5;
 
-    glm::vec3 screw_right_mid = data.key_ctrl.GetTopLeft().Apply(kOrigin);
+    glm::vec3 screw_right_mid = data.key_thumb_5_5.GetTopLeft().Apply(kOrigin);
     screw_right_mid.z = 0;
     screw_right_mid.y += -.9;
 
@@ -401,7 +401,7 @@ int main() {
   AddShapes(&negative_shapes, screw_holes);
   // Cut off the parts sticking up into the thumb plate.
   negative_shapes.push_back(
-      data.key_backspace.GetTopLeft().Apply(Cube(50, 50, 6).TranslateZ(3)).Color("red"));
+      data.key_thumb_5_0.GetTopLeft().Apply(Cube(50, 50, 6).TranslateZ(3)).Color("red"));
 
   // Cut out hole for holder.
   Shape holder_hole = Cube(29.0, 20.0, 12.5).TranslateZ(12 / 2);
