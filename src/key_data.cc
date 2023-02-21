@@ -13,7 +13,7 @@ constexpr double kDefaultKeySpacing = 19;
 constexpr double kBowlKeySpacing = 18;
 
 // finger pinky
-constexpr double kColumn0Radius = 60;
+constexpr double kColumn0Radius = 70;
 constexpr double kColumn1Radius = 70;
 // finger ring
 constexpr double kColumn2Radius = 65;
@@ -189,7 +189,9 @@ KeyData::KeyData(TransformList key_origin) {
     // k.t().ry = -5;
 
     k.SetParent(key_2_1);
-    k.SetPosition(-22.597, 4.000, 0.207);
+    //k.SetPosition(-22.597, 4.000, 0.207);
+    k.SetPosition(-20.887, 0, 0);
+
     k.t().ry = 5;
   });
 
