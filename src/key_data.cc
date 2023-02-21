@@ -73,6 +73,24 @@ Key GetXAxisRotatedKey(double radius, RotationDirection rotationDirection) {
 }  // namespace
 
 KeyData::KeyData(TransformList key_origin) {
+
+
+  double anchor_x = 26.40;
+  double anchor_y = 50.32;
+  double anchor_z = 17.87;
+  double anchor_rotate_y = -15;
+
+
+  // Thumb cluster is indepenently position from bowl keys.
+  double anchor_thumb_x = 60;
+  double anchor_thumb_y = -9.18;
+  double anchor_thumb_z = 42.83;
+  double anchor_thumb_rotate_x = -21;
+  double anchor_thumb_rotate_y = 12;
+  double anchor_thumb_rotate_z = -4.5;
+
+
+
   //
   // Thumb keys
   //
@@ -80,10 +98,10 @@ KeyData::KeyData(TransformList key_origin) {
   key_thumb_5_0.Configure([&](Key& k) {
     k.name = "key_backspace";
     k.SetParent(key_origin);
-    k.SetPosition(60, -9.18, 42.83);
-    k.t().rz = -21;
-    k.t().rx = 12;
-    k.t().ry = -4.5;
+    k.SetPosition(anchor_thumb_x, anchor_thumb_y, anchor_thumb_z);
+    k.t().rz = anchor_thumb_rotate_x;
+    k.t().rx = anchor_thumb_rotate_y;
+    k.t().ry = anchor_thumb_rotate_z;
   });
 
   // Second thumb key.
@@ -130,8 +148,8 @@ KeyData::KeyData(TransformList key_origin) {
   key_2_3.Configure([&](Key& k) {
     k.name = "d";
     k.SetParent(key_origin);
-    k.SetPosition(26.40, 50.32, 17.87);
-    k.t().ry = -15;
+    k.SetPosition(anchor_x, anchor_y, anchor_z);
+    k.t().ry = anchor_rotate_y;
   });
 
   key_2_4.Configure([&](Key& k) {
@@ -192,7 +210,7 @@ KeyData::KeyData(TransformList key_origin) {
     //k.SetPosition(-22.597, 4.000, 0.207);
     k.SetPosition(-20.887, 0, 0);
 
-    k.t().ry = 5;
+    //k.t().ry = 5;
   });
 
   // D Column
