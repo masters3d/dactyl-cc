@@ -64,9 +64,11 @@ struct KeyData {
   std::vector<Key*> all_keys() {
     std::vector<Key*> keys;
     for (Key* key : thumb_keys()) {
+      key->description();
       keys.push_back(key);
     }
     for (Key* key : grid.keys()) {
+      key->description();
       keys.push_back(key);
     }
     return keys;

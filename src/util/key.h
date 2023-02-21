@@ -96,6 +96,8 @@ struct Key {
   TransformList GetTransforms() const;
   TransformList GetSwitchTransforms() const;
 
+  void description() const;
+
   Shape GetSwitch() const;
   Shape GetInverseSwitch() const;
   // Used to subtract and clear space in the key cap's path. Vertical length can be explicitly

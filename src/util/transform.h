@@ -46,6 +46,12 @@ struct Transform {
     return t;
   }
 
+  // Print out all the transforms info
+  void description() {
+    printf("x:%.3f, y:%.3f, z:%.3f, ", x, y, z);
+    printf("rx:%.3f, ry:%.3f, rz:%.3f \n", rx, ry, rz);
+  }
+
   glm::vec3 translation() const {
     return glm::vec3(x, y, z);
   }
@@ -179,6 +185,13 @@ class TransformList {
     transforms_.insert(transforms_.begin(), other.transforms_.begin(), other.transforms_.end());
     return *this;
   }
+
+  void description() const {
+      for (auto i : transforms_) {
+      i.description();
+    }
+  }
+
 
  private:
   std::vector<Transform> transforms_;

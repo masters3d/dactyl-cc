@@ -153,6 +153,12 @@ TransformList Key::GetTransforms() const {
   return transforms;
 }
 
+ void Key::description() const  {
+      printf("Key: %s transforms\n", name.c_str());
+      GetTransforms().description();
+  }
+
+
 TransformList Key::GetSwitchTransforms() const {
   double switch_z_offset = type == KeyType::DSA ? kDsaSwitchZOffset : kSaSwitchZOffset;
   if (disable_switch_z_offset) {
