@@ -58,6 +58,7 @@ struct Key {
   // files.
   std::string name;
 
+  std::string parent_identifier = "";
   TransformList parent_transforms;
   TransformList local_transforms;
 

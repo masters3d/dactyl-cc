@@ -138,6 +138,7 @@ Key& Key::SetPosition(double x, double y, double z) {
 
 Key& Key::SetParent(const Key& key) {
   parent_transforms = key.GetTransforms();
+  parent_identifier = key.name;
   return *this;
 }
 
@@ -154,8 +155,16 @@ TransformList Key::GetTransforms() const {
 }
 
  void Key::description() const  {
-      printf("Key: %s transforms\n", name.c_str());
-      GetTransforms().description();
+      printf("Start of Key: %s\n", name.c_str());
+      printf("Transforms:\n");
+      local_transforms.description();
+      if (parent_identifier != "") {
+		printf("Parent: %s\n", parent_identifier.c_str());
+      } else {
+        printf("Parent Transforms:\n");
+        parent_transforms.description();
+      }
+      printf("End of Key: %s\n", name.c_str());
   }
 
 
