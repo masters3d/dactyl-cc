@@ -71,17 +71,21 @@ int main() {
     }
   }
 
+  // right wall
   data.key_0_5.extra_width_right = 4;
   data.key_1_5.extra_width_right = 4;
   data.key_2_5.extra_width_right = 4;
 
+  // top wall
   for (Key* key : data.grid.row(0)) {
-    // top row
     if (key) {
       key->extra_width_top = 2;
     }
   }
-  data.key_3_5.extra_width_bottom = 3;
+
+// Last key on the right wall, closest to the thumb cluster.
+ data.key_3_5.extra_width_bottom = 3;
+
 
   std::vector<Shape> shapes;
 
@@ -156,34 +160,34 @@ int main() {
                           }));
 
   // Connecting top wall to keys
-  TransformList key_plus_top_right_wall = data.key_0_0.GetTopRight().TranslateFront(0, 3, -3);
-  TransformList key_2_top_left_wall = data.key_0_2.GetTopLeft().TranslateFront(0, 3.75, 0);
-  TransformList key_2_top_right_wall = data.key_0_2.GetTopRight().TranslateFront(0, 4, -1);
-  TransformList key_3_top_right_wall = data.key_0_3.GetTopRight().TranslateFront(0, 3.5, 0);
-  TransformList key_4_top_right_wall = data.key_0_4.GetTopRight().TranslateFront(0, 2.2, 0);
+  TransformList key_0_2_top_left_wall = data.key_0_2.GetTopLeft().TranslateFront(0, 3.75, 0);
+  TransformList key_0_0_top_right_wall = data.key_0_0.GetTopRight().TranslateFront(0, 3, -3);
+  TransformList key_0_2_top_right_wall = data.key_0_2.GetTopRight().TranslateFront(0, 4, -1);
+  TransformList key_0_3_top_right_wall = data.key_0_3.GetTopRight().TranslateFront(0, 3.5, 0);
+  TransformList key_0_4_top_right_wall = data.key_0_4.GetTopRight().TranslateFront(0, 2.2, 0);
 
-  shapes.push_back(TriFan(key_4_top_right_wall,
+  shapes.push_back(TriFan(key_0_4_top_right_wall,
                           {
                               data.key_0_5.GetTopRight(),
                               data.key_0_5.GetTopLeft(),
                               data.key_0_4.GetTopRight(),
                               data.key_0_4.GetTopLeft(),
                           }));
-  shapes.push_back(TriFan(key_3_top_right_wall,
+  shapes.push_back(TriFan(key_0_3_top_right_wall,
                           {
-                              key_4_top_right_wall,
+                              key_0_4_top_right_wall,
                               data.key_0_4.GetTopLeft(),
                               data.key_0_3.GetTopRight(),
                               data.key_0_3.GetTopLeft(),
-                              key_2_top_right_wall,
+                              key_0_2_top_right_wall,
                           }));
-  shapes.push_back(TriFan(key_2_top_right_wall,
+  shapes.push_back(TriFan(key_0_2_top_right_wall,
                           {
-                              key_2_top_left_wall,
+                              key_0_2_top_left_wall,
                               data.key_0_2.GetTopRight(),
                               data.key_0_3.GetTopLeft(),
                           }));
-  shapes.push_back(TriFan(key_2_top_left_wall,
+  shapes.push_back(TriFan(key_0_2_top_left_wall,
                           {
                               data.key_0_1.GetTopRight(),
                               data.key_0_2.GetTopLeft(),
@@ -193,11 +197,11 @@ int main() {
                           {
                               data.key_0_1.GetTopLeft(),
                               data.key_0_1.GetTopRight(),
-                              key_2_top_left_wall,
+                              key_0_2_top_left_wall,
                           }));
-  shapes.push_back(TriFan(key_plus_top_right_wall,
+  shapes.push_back(TriFan(key_0_0_top_right_wall,
                           {
-                              key_2_top_left_wall,
+                              key_0_2_top_left_wall,
                               data.key_0_0.GetTopRight(),
                               data.key_0_0.GetTopLeft(),
                           }));
@@ -229,16 +233,16 @@ int main() {
     std::vector<WallPoint> wall_points = {
         // Start top left and go clockwise
         {data.key_0_0.GetTopLeft(), up},
-        {key_plus_top_right_wall, up, 0, .3},
+        {key_0_0_top_right_wall, up, 0, .3},
 
-        {key_2_top_left_wall, up, 0, .3},
-        {key_2_top_right_wall, up},
+        {key_0_2_top_left_wall, up, 0, .3},
+        {key_0_2_top_right_wall, up},
 
         //{d.key_3.GetTopLeft(), up},
-        {key_3_top_right_wall, up},
+        {key_0_3_top_right_wall, up},
 
         // {d.key_4.GetTopLeft(), up},
-        {key_4_top_right_wall, up},
+        {key_0_4_top_right_wall, up},
         {data.key_0_5.GetTopRight(), up},
         {data.key_0_5.GetTopRight(), right},
         {data.key_0_5.GetBottomRight(), right},
