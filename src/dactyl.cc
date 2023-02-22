@@ -415,6 +415,7 @@ int main() {
   result = result.Subtract(UnionAll(negative_shapes));
   result.WriteToFile("left.scad");
   result.MirrorX().WriteToFile("right.scad");
+  ConnectMainKeys(data).WriteToFile("onlyKeys.scad");
 
   // Bottom plate
   {
