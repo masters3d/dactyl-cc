@@ -196,15 +196,6 @@ int main() {
                               data.key_3_4.GetBottomRight(),
                           }));
 
-  // Bottom right corner.
-  shapes.push_back(TriFan(data.key_3_0.GetBottomRight(),
-                          {
-                              data.key_3_1.GetBottomLeft(),
-                              data.key_4_1.GetTopLeft(),
-                              data.key_4_1.GetBottomLeft(),
-                              data.key_3_0.GetBottomLeft(),
-                          }));
-
 
   //
   // Make the wall
@@ -516,5 +507,15 @@ Shape ConnectBowlKeysGridToWall(KeyData& data) {
                               data.key_0_0.GetTopRight(),
                               data.key_0_0.GetTopLeft(),
                           }));
+
+  // Bottom right corner where there is not courner key.
+  shapes.push_back(TriFan(data.key_3_0.GetBottomRight(),
+                          {
+                              data.key_3_1.GetBottomLeft(),
+                              data.key_4_1.GetTopLeft(),
+                              data.key_4_1.GetBottomLeft(),
+                              data.key_3_0.GetBottomLeft(),
+                          }));
+
   return UnionAll(shapes);
 }
