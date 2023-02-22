@@ -440,17 +440,17 @@ Shape ConnectBowlKeysInternal(KeyData& data) {
         // No key at this location.
         continue;
       }
-      Key* left = data.grid.get_key(r, c - 1);
-      Key* top_left = data.grid.get_key(r - 1, c - 1);
-      Key* top = data.grid.get_key(r - 1, c);
+      Key* key_on_left = data.grid.get_key(r, c - 1);
+      Key* key_on_top_left = data.grid.get_key(r - 1, c - 1);
+      Key* key_on_top = data.grid.get_key(r - 1, c);
 
-      if (left) {
-        shapes.push_back(ConnectHorizontal(*left, *key));
+      if (key_on_left) {
+        shapes.push_back(ConnectHorizontal(*key_on_left, *key));
       }
-      if (top) {
-        shapes.push_back(ConnectVertical(*top, *key));
-        if (left && top_left) {
-          shapes.push_back(ConnectDiagonal(*top_left, *top, *key, *left));
+      if (key_on_top) {
+        shapes.push_back(ConnectVertical(*key_on_top, *key));
+        if (key_on_left && key_on_top_left) {
+          shapes.push_back(ConnectDiagonal(*key_on_top_left, *key_on_top, *key, *key_on_left));
         }
       }
     }
