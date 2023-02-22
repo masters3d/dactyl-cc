@@ -61,6 +61,10 @@ struct KeyData {
     return {&key_thumb_5_1, &key_thumb_5_0, &key_thumb_5_5, &key_thumb_5_4, &key_thumb_5_3, &key_thumb_5_2};
   }
 
+  std::vector<Key*> bowl_keys() {
+    return grid.keys();
+  }
+
   std::vector<Key*> all_keys() {
     std::vector<Key*> keys;
     for (Key* key : thumb_keys()) {

@@ -13,6 +13,9 @@ constexpr bool kWriteTestKeys = false;
 // Add the caps into the stl for testing.
 constexpr bool kAddCaps = false;
 
+// print every step of the way to validate changes
+constexpr bool kCreateIntermediateArtifacts = true;
+
 enum class Direction { UP, DOWN, LEFT, RIGHT };
 
 void AddShapes(std::vector<Shape>* shapes, std::vector<Shape> to_add) {
@@ -43,8 +46,36 @@ int main() {
         test_shapes.push_back(key->GetCap().Color("red"));
       }
     }
-    UnionAll(test_shapes).WriteToFile("test_keys.scad");
+    UnionAll(test_shapes).WriteToFile("validate_00_test_keys.scad");
     return 0;
+  }
+
+  std::vector<Shape> shapes;
+
+  // Contruct the bowl
+
+  // Creating the grid
+  shapes.push_back(ConnectMainKeys(data));
+
+  // adding the keys for bowl only
+  for (Key* key : data.bowl_keys()) {
+    shapes.push_back(key->GetSwitch());
+    if (kAddCaps) {
+      shapes.push_back(key->GetCap().Color("red"));
+    }
+  }
+
+  // Printing Intermediate Steps
+  if (kCreateIntermediateArtifacts) {
+    UnionAll(shapes).WriteToFile("validate_01_BowlKeysOnly.scad");
+  }
+
+  // adding the keys for thumb cluster
+  for (Key* key : data.thumb_keys()) {
+    shapes.push_back(key->GetSwitch());
+    if (kAddCaps) {
+      shapes.push_back(key->GetCap().Color("red"));
+    }
   }
 
   // Set all of the widths here. This must be done before calling any of GetTopLeft etc.
@@ -87,8 +118,6 @@ int main() {
  data.key_3_5.extra_width_bottom = 3;
 
 
-  std::vector<Shape> shapes;
-
   //
   // Thumb plate
   //
@@ -99,8 +128,6 @@ int main() {
                          Tri(data.key_thumb_5_2.GetBottomLeft(),
                              data.key_thumb_5_1.GetBottomRight(),
                              data.key_thumb_5_0.GetBottomLeft())));
-
-  shapes.push_back(ConnectMainKeys(data));
 
   shapes.push_back(TriFan(data.key_thumb_5_5.GetTopLeft(),
                           {
@@ -344,12 +371,6 @@ int main() {
     }
   }
 
-  for (Key* key : data.all_keys()) {
-    shapes.push_back(key->GetSwitch());
-    if (kAddCaps) {
-      shapes.push_back(key->GetCap().Color("red"));
-    }
-  }
 
   // Add all the screw inserts.
   std::vector<Shape> screw_holes;
@@ -413,9 +434,8 @@ int main() {
   Shape result = UnionAll(shapes);
   // Subtracting is expensive to preview and is best to disable while testing.
   result = result.Subtract(UnionAll(negative_shapes));
-  result.WriteToFile("left.scad");
-  result.MirrorX().WriteToFile("right.scad");
-  ConnectMainKeys(data).WriteToFile("onlyKeys.scad");
+  result.WriteToFile("product_left.scad");
+  result.MirrorX().WriteToFile("product_right.scad");
 
   // Bottom plate
   {
@@ -428,8 +448,8 @@ int main() {
                              .Projection()
                              .LinearExtrude(1.5)
                              .Subtract(UnionAll(screw_holes));
-    bottom_plate.WriteToFile("bottom_left.scad");
-    bottom_plate.MirrorX().WriteToFile("bottom_right.scad");
+    bottom_plate.WriteToFile("product_left_bottom.scad");
+    bottom_plate.MirrorX().WriteToFile("product_right_bottom.scad");
   }
 
   return 0;
