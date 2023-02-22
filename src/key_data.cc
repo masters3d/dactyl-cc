@@ -9,6 +9,7 @@ namespace scad {
 namespace {
 
 constexpr double kDefaultKeySpacing = 19;
+constexpr double kDefaultKeyHalfSpacing = 9;
 // The direct distance between switch tops in the bowl.
 constexpr double kBowlKeySpacing = 18;
 
@@ -78,6 +79,7 @@ KeyData::KeyData(TransformList key_origin) {
   double anchor_x = 26.40;
   double anchor_y = 50.32;
   double anchor_z = 17.87;
+  // This cotrolls the tilting of the whole bowl
   double anchor_rotate_y = -15;
 
 
@@ -115,21 +117,21 @@ KeyData::KeyData(TransformList key_origin) {
   key_thumb_5_2.Configure([&](Key& k) {
     k.name = "key_end";
     k.SetParent(key_thumb_5_1);
-    k.SetPosition(kDefaultKeySpacing, -9, 0);
+    k.SetPosition(kDefaultKeySpacing, kDefaultKeyHalfSpacing * -1, 0);
   });
 
   // Middle side key.
   key_thumb_5_3.Configure([&](Key& k) {
     k.name = "key_home";
     k.SetParent(key_thumb_5_1);
-    k.SetPosition(kDefaultKeySpacing, 10, 0);
+    k.SetPosition(kDefaultKeySpacing, kDefaultKeyHalfSpacing, 0);
   });
 
   // Top side key;
   key_thumb_5_4.Configure([&](Key& k) {
     k.name = "key_alt";
     k.SetParent(key_thumb_5_1);
-    k.SetPosition(kDefaultKeySpacing, 10 + kDefaultKeySpacing, 0);
+    k.SetPosition(kDefaultKeySpacing, kDefaultKeyHalfSpacing + kDefaultKeySpacing, 0);
   });
 
   // Top left key.

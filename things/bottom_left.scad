@@ -57,7 +57,7 @@ difference () {
                         rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                           rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                             translate ([19.000, 0.000, 0.000]) {
-                              translate ([19.000, 29.000, 0.000]) {
+                              translate ([19.000, 28.000, 0.000]) {
                                 translate ([0.000, 0.000, -10.000]) {
                                   translate ([-9.200, -9.200, 0.000]) {
                                     translate ([-3.000, -0.000, 0.000]) {
@@ -82,7 +82,7 @@ difference () {
                         rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                           rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                             translate ([19.000, 0.000, 0.000]) {
-                              translate ([19.000, 29.000, 0.000]) {
+                              translate ([19.000, 28.000, 0.000]) {
                                 translate ([0.000, 0.000, -10.000]) {
                                   translate ([-9.200, -9.200, 0.000]) {
                                     translate ([-3.000, -0.000, 0.000]) {
@@ -105,7 +105,7 @@ difference () {
                         rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                           rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                             translate ([19.000, 0.000, 0.000]) {
-                              translate ([19.000, 29.000, 0.000]) {
+                              translate ([19.000, 28.000, 0.000]) {
                                 translate ([0.000, 0.000, -10.000]) {
                                   translate ([-9.200, 9.200, 0.000]) {
                                     translate ([-3.000, 3.000, 0.000]) {
@@ -14748,7 +14748,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 29.000, 0.000]) {
+                            translate ([19.000, 28.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([-9.200, 9.200, 0.000]) {
                                   translate ([-3.000, 3.000, 0.000]) {
@@ -14766,10 +14766,10 @@ difference () {
                   }
                 }
                 hull () {
-                  translate ([80.511, -14.529, 40.613]) {
+                  translate ([80.169, -15.442, 40.392]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([79.355, -17.620, 40.613]) {
+                  translate ([79.013, -18.533, 40.392]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -14802,10 +14802,10 @@ difference () {
               }
               hull () {
                 hull () {
-                  translate ([80.511, -14.529, 40.613]) {
+                  translate ([80.169, -15.442, 40.392]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([79.355, -17.620, 40.613]) {
+                  translate ([79.013, -18.533, 40.392]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -14813,10 +14813,10 @@ difference () {
                   linear_extrude (height = 0.100, center = true, convexity = 10.000, twist = 0.000, slices = 20, scale = 1.000) {
                     projection (cut = false) {
                       hull () {
-                        translate ([80.511, -14.529, 40.613]) {
+                        translate ([80.169, -15.442, 40.392]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
-                        translate ([79.355, -17.620, 40.613]) {
+                        translate ([79.013, -18.533, 40.392]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
                       }
@@ -14833,7 +14833,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 29.000, 0.000]) {
+                            translate ([19.000, 28.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([-9.200, 9.200, 0.000]) {
                                   translate ([-3.000, 3.000, 0.000]) {
@@ -14851,10 +14851,10 @@ difference () {
                   }
                 }
                 hull () {
-                  translate ([80.511, -14.529, 40.613]) {
+                  translate ([80.169, -15.442, 40.392]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([79.355, -17.620, 40.613]) {
+                  translate ([79.013, -18.533, 40.392]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -14866,7 +14866,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 29.000, 0.000]) {
+                            translate ([19.000, 28.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([9.200, 9.200, 0.000]) {
                                   translate ([3.000, 3.000, 0.000]) {
@@ -14884,10 +14884,10 @@ difference () {
                   }
                 }
                 hull () {
-                  translate ([103.363, -23.082, 40.588]) {
+                  translate ([103.021, -23.996, 40.366]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([102.032, -26.642, 40.588]) {
+                  translate ([101.690, -27.555, 40.366]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -14896,10 +14896,10 @@ difference () {
             hull () {
               hull () {
                 hull () {
-                  translate ([80.511, -14.529, 40.613]) {
+                  translate ([80.169, -15.442, 40.392]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([79.355, -17.620, 40.613]) {
+                  translate ([79.013, -18.533, 40.392]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -14907,10 +14907,10 @@ difference () {
                   linear_extrude (height = 0.100, center = true, convexity = 10.000, twist = 0.000, slices = 20, scale = 1.000) {
                     projection (cut = false) {
                       hull () {
-                        translate ([80.511, -14.529, 40.613]) {
+                        translate ([80.169, -15.442, 40.392]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
-                        translate ([79.355, -17.620, 40.613]) {
+                        translate ([79.013, -18.533, 40.392]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
                       }
@@ -14920,10 +14920,10 @@ difference () {
               }
               hull () {
                 hull () {
-                  translate ([103.363, -23.082, 40.588]) {
+                  translate ([103.021, -23.996, 40.366]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([102.032, -26.642, 40.588]) {
+                  translate ([101.690, -27.555, 40.366]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -14931,10 +14931,10 @@ difference () {
                   linear_extrude (height = 0.100, center = true, convexity = 10.000, twist = 0.000, slices = 20, scale = 1.000) {
                     projection (cut = false) {
                       hull () {
-                        translate ([103.363, -23.082, 40.588]) {
+                        translate ([103.021, -23.996, 40.366]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
-                        translate ([102.032, -26.642, 40.588]) {
+                        translate ([101.690, -27.555, 40.366]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
                       }
@@ -14951,7 +14951,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 29.000, 0.000]) {
+                            translate ([19.000, 28.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([9.200, 9.200, 0.000]) {
                                   translate ([3.000, 3.000, 0.000]) {
@@ -14969,10 +14969,10 @@ difference () {
                   }
                 }
                 hull () {
-                  translate ([103.363, -23.082, 40.588]) {
+                  translate ([103.021, -23.996, 40.366]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([102.032, -26.642, 40.588]) {
+                  translate ([101.690, -27.555, 40.366]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -14984,7 +14984,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 29.000, 0.000]) {
+                            translate ([19.000, 28.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([9.200, 9.200, 0.000]) {
                                   translate ([3.000, 3.000, 0.000]) {
@@ -15002,10 +15002,10 @@ difference () {
                   }
                 }
                 hull () {
-                  translate ([105.231, -27.054, 39.888]) {
+                  translate ([104.889, -27.967, 39.667]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([101.559, -26.078, 39.888]) {
+                  translate ([101.217, -26.991, 39.667]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -15014,10 +15014,10 @@ difference () {
             hull () {
               hull () {
                 hull () {
-                  translate ([103.363, -23.082, 40.588]) {
+                  translate ([103.021, -23.996, 40.366]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([102.032, -26.642, 40.588]) {
+                  translate ([101.690, -27.555, 40.366]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -15025,10 +15025,10 @@ difference () {
                   linear_extrude (height = 0.100, center = true, convexity = 10.000, twist = 0.000, slices = 20, scale = 1.000) {
                     projection (cut = false) {
                       hull () {
-                        translate ([103.363, -23.082, 40.588]) {
+                        translate ([103.021, -23.996, 40.366]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
-                        translate ([102.032, -26.642, 40.588]) {
+                        translate ([101.690, -27.555, 40.366]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
                       }
@@ -15038,10 +15038,10 @@ difference () {
               }
               hull () {
                 hull () {
-                  translate ([105.231, -27.054, 39.888]) {
+                  translate ([104.889, -27.967, 39.667]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([101.559, -26.078, 39.888]) {
+                  translate ([101.217, -26.991, 39.667]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -15049,10 +15049,10 @@ difference () {
                   linear_extrude (height = 0.100, center = true, convexity = 10.000, twist = 0.000, slices = 20, scale = 1.000) {
                     projection (cut = false) {
                       hull () {
-                        translate ([105.231, -27.054, 39.888]) {
+                        translate ([104.889, -27.967, 39.667]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
-                        translate ([101.559, -26.078, 39.888]) {
+                        translate ([101.217, -26.991, 39.667]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
                       }
@@ -15069,7 +15069,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 29.000, 0.000]) {
+                            translate ([19.000, 28.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([9.200, 9.200, 0.000]) {
                                   translate ([3.000, 3.000, 0.000]) {
@@ -15087,10 +15087,10 @@ difference () {
                   }
                 }
                 hull () {
-                  translate ([105.231, -27.054, 39.888]) {
+                  translate ([104.889, -27.967, 39.667]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([101.559, -26.078, 39.888]) {
+                  translate ([101.217, -26.991, 39.667]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -15102,7 +15102,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 29.000, 0.000]) {
+                            translate ([19.000, 28.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([9.200, -9.200, 0.000]) {
                                   translate ([3.000, -0.000, 0.000]) {
@@ -15120,10 +15120,10 @@ difference () {
                   }
                 }
                 hull () {
-                  translate ([97.912, -46.596, 35.146]) {
+                  translate ([97.570, -47.509, 34.924]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([94.723, -45.748, 35.146]) {
+                  translate ([94.381, -46.662, 34.924]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -15132,10 +15132,10 @@ difference () {
             hull () {
               hull () {
                 hull () {
-                  translate ([105.231, -27.054, 39.888]) {
+                  translate ([104.889, -27.967, 39.667]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([101.559, -26.078, 39.888]) {
+                  translate ([101.217, -26.991, 39.667]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -15143,10 +15143,10 @@ difference () {
                   linear_extrude (height = 0.100, center = true, convexity = 10.000, twist = 0.000, slices = 20, scale = 1.000) {
                     projection (cut = false) {
                       hull () {
-                        translate ([105.231, -27.054, 39.888]) {
+                        translate ([104.889, -27.967, 39.667]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
-                        translate ([101.559, -26.078, 39.888]) {
+                        translate ([101.217, -26.991, 39.667]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
                       }
@@ -15156,10 +15156,10 @@ difference () {
               }
               hull () {
                 hull () {
-                  translate ([97.912, -46.596, 35.146]) {
+                  translate ([97.570, -47.509, 34.924]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([94.723, -45.748, 35.146]) {
+                  translate ([94.381, -46.662, 34.924]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -15167,10 +15167,10 @@ difference () {
                   linear_extrude (height = 0.100, center = true, convexity = 10.000, twist = 0.000, slices = 20, scale = 1.000) {
                     projection (cut = false) {
                       hull () {
-                        translate ([97.912, -46.596, 35.146]) {
+                        translate ([97.570, -47.509, 34.924]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
-                        translate ([94.723, -45.748, 35.146]) {
+                        translate ([94.381, -46.662, 34.924]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
                       }
@@ -15187,7 +15187,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 29.000, 0.000]) {
+                            translate ([19.000, 28.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([9.200, -9.200, 0.000]) {
                                   translate ([3.000, -0.000, 0.000]) {
@@ -15205,10 +15205,10 @@ difference () {
                   }
                 }
                 hull () {
-                  translate ([97.912, -46.596, 35.146]) {
+                  translate ([97.570, -47.509, 34.924]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([94.723, -45.748, 35.146]) {
+                  translate ([94.381, -46.662, 34.924]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -15220,7 +15220,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 10.000, 0.000]) {
+                            translate ([19.000, 9.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([9.200, 9.200, 0.000]) {
                                   translate ([3.000, 3.000, 0.000]) {
@@ -15238,10 +15238,10 @@ difference () {
                   }
                 }
                 hull () {
-                  translate ([98.733, -44.404, 35.677]) {
+                  translate ([98.391, -45.317, 35.456]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([95.543, -43.557, 35.677]) {
+                  translate ([95.201, -44.470, 35.456]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -15250,10 +15250,10 @@ difference () {
             hull () {
               hull () {
                 hull () {
-                  translate ([97.912, -46.596, 35.146]) {
+                  translate ([97.570, -47.509, 34.924]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([94.723, -45.748, 35.146]) {
+                  translate ([94.381, -46.662, 34.924]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -15261,10 +15261,10 @@ difference () {
                   linear_extrude (height = 0.100, center = true, convexity = 10.000, twist = 0.000, slices = 20, scale = 1.000) {
                     projection (cut = false) {
                       hull () {
-                        translate ([97.912, -46.596, 35.146]) {
+                        translate ([97.570, -47.509, 34.924]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
-                        translate ([94.723, -45.748, 35.146]) {
+                        translate ([94.381, -46.662, 34.924]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
                       }
@@ -15274,10 +15274,10 @@ difference () {
               }
               hull () {
                 hull () {
-                  translate ([98.733, -44.404, 35.677]) {
+                  translate ([98.391, -45.317, 35.456]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([95.543, -43.557, 35.677]) {
+                  translate ([95.201, -44.470, 35.456]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -15285,10 +15285,10 @@ difference () {
                   linear_extrude (height = 0.100, center = true, convexity = 10.000, twist = 0.000, slices = 20, scale = 1.000) {
                     projection (cut = false) {
                       hull () {
-                        translate ([98.733, -44.404, 35.677]) {
+                        translate ([98.391, -45.317, 35.456]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
-                        translate ([95.543, -43.557, 35.677]) {
+                        translate ([95.201, -44.470, 35.456]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
                       }
@@ -15305,7 +15305,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 10.000, 0.000]) {
+                            translate ([19.000, 9.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([9.200, 9.200, 0.000]) {
                                   translate ([3.000, 3.000, 0.000]) {
@@ -15323,10 +15323,10 @@ difference () {
                   }
                 }
                 hull () {
-                  translate ([98.733, -44.404, 35.677]) {
+                  translate ([98.391, -45.317, 35.456]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([95.543, -43.557, 35.677]) {
+                  translate ([95.201, -44.470, 35.456]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -15338,7 +15338,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 10.000, 0.000]) {
+                            translate ([19.000, 9.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([9.200, -9.200, 0.000]) {
                                   translate ([3.000, -0.000, 0.000]) {
@@ -15356,10 +15356,10 @@ difference () {
                   }
                 }
                 hull () {
-                  translate ([91.413, -63.946, 30.935]) {
+                  translate ([91.071, -64.859, 30.713]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([88.224, -63.099, 30.935]) {
+                  translate ([87.882, -64.012, 30.713]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -15368,10 +15368,10 @@ difference () {
             hull () {
               hull () {
                 hull () {
-                  translate ([98.733, -44.404, 35.677]) {
+                  translate ([98.391, -45.317, 35.456]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([95.543, -43.557, 35.677]) {
+                  translate ([95.201, -44.470, 35.456]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -15379,10 +15379,10 @@ difference () {
                   linear_extrude (height = 0.100, center = true, convexity = 10.000, twist = 0.000, slices = 20, scale = 1.000) {
                     projection (cut = false) {
                       hull () {
-                        translate ([98.733, -44.404, 35.677]) {
+                        translate ([98.391, -45.317, 35.456]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
-                        translate ([95.543, -43.557, 35.677]) {
+                        translate ([95.201, -44.470, 35.456]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
                       }
@@ -15392,10 +15392,10 @@ difference () {
               }
               hull () {
                 hull () {
-                  translate ([91.413, -63.946, 30.935]) {
+                  translate ([91.071, -64.859, 30.713]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([88.224, -63.099, 30.935]) {
+                  translate ([87.882, -64.012, 30.713]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -15403,10 +15403,10 @@ difference () {
                   linear_extrude (height = 0.100, center = true, convexity = 10.000, twist = 0.000, slices = 20, scale = 1.000) {
                     projection (cut = false) {
                       hull () {
-                        translate ([91.413, -63.946, 30.935]) {
+                        translate ([91.071, -64.859, 30.713]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
-                        translate ([88.224, -63.099, 30.935]) {
+                        translate ([87.882, -64.012, 30.713]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
                       }
@@ -15423,7 +15423,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 10.000, 0.000]) {
+                            translate ([19.000, 9.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([9.200, -9.200, 0.000]) {
                                   translate ([3.000, -0.000, 0.000]) {
@@ -15441,10 +15441,10 @@ difference () {
                   }
                 }
                 hull () {
-                  translate ([91.413, -63.946, 30.935]) {
+                  translate ([91.071, -64.859, 30.713]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([88.224, -63.099, 30.935]) {
+                  translate ([87.882, -64.012, 30.713]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -15486,10 +15486,10 @@ difference () {
             hull () {
               hull () {
                 hull () {
-                  translate ([91.413, -63.946, 30.935]) {
+                  translate ([91.071, -64.859, 30.713]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
-                  translate ([88.224, -63.099, 30.935]) {
+                  translate ([87.882, -64.012, 30.713]) {
                     cube (size = [ 0.100, 0.100, 0.100], center = true);
                   }
                 }
@@ -15497,10 +15497,10 @@ difference () {
                   linear_extrude (height = 0.100, center = true, convexity = 10.000, twist = 0.000, slices = 20, scale = 1.000) {
                     projection (cut = false) {
                       hull () {
-                        translate ([91.413, -63.946, 30.935]) {
+                        translate ([91.071, -64.859, 30.713]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
-                        translate ([88.224, -63.099, 30.935]) {
+                        translate ([87.882, -64.012, 30.713]) {
                           cube (size = [ 0.100, 0.100, 0.100], center = true);
                         }
                       }
@@ -18206,7 +18206,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 29.000, 0.000]) {
+                          translate ([19.000, 28.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([0.000, 0.000, -4.000]) {
                                 union () {
@@ -18267,7 +18267,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 29.000, 0.000]) {
+                            translate ([19.000, 28.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([9.200, 9.200, 0.000]) {
                                   translate ([3.000, 3.000, 0.000]) {
@@ -18290,7 +18290,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 29.000, 0.000]) {
+                            translate ([19.000, 28.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([9.200, 9.200, 0.000]) {
                                   translate ([0.000, 0.000, -1.750]) {
@@ -18311,7 +18311,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 29.000, 0.000]) {
+                            translate ([19.000, 28.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([-9.200, 9.200, 0.000]) {
                                   translate ([0.000, 0.000, -1.750]) {
@@ -18332,7 +18332,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 29.000, 0.000]) {
+                            translate ([19.000, 28.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([-9.200, 9.200, 0.000]) {
                                   translate ([-3.000, 3.000, 0.000]) {
@@ -18357,7 +18357,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 29.000, 0.000]) {
+                            translate ([19.000, 28.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([-9.200, -9.200, 0.000]) {
                                   translate ([-3.000, -0.000, 0.000]) {
@@ -18380,7 +18380,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 29.000, 0.000]) {
+                            translate ([19.000, 28.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([-9.200, -9.200, 0.000]) {
                                   translate ([0.000, 0.000, -1.750]) {
@@ -18401,7 +18401,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 29.000, 0.000]) {
+                            translate ([19.000, 28.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([-9.200, 9.200, 0.000]) {
                                   translate ([0.000, 0.000, -1.750]) {
@@ -18422,7 +18422,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 29.000, 0.000]) {
+                            translate ([19.000, 28.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([-9.200, 9.200, 0.000]) {
                                   translate ([-3.000, 3.000, 0.000]) {
@@ -18447,7 +18447,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 29.000, 0.000]) {
+                            translate ([19.000, 28.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([9.200, -9.200, 0.000]) {
                                   translate ([3.000, -0.000, 0.000]) {
@@ -18470,7 +18470,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 29.000, 0.000]) {
+                            translate ([19.000, 28.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([9.200, -9.200, 0.000]) {
                                   translate ([0.000, 0.000, -1.750]) {
@@ -18491,7 +18491,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 29.000, 0.000]) {
+                            translate ([19.000, 28.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([9.200, 9.200, 0.000]) {
                                   translate ([0.000, 0.000, -1.750]) {
@@ -18512,7 +18512,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 29.000, 0.000]) {
+                            translate ([19.000, 28.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([9.200, 9.200, 0.000]) {
                                   translate ([3.000, 3.000, 0.000]) {
@@ -18538,7 +18538,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 10.000, 0.000]) {
+                          translate ([19.000, 9.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([0.000, 0.000, -4.000]) {
                                 union () {
@@ -18599,7 +18599,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 10.000, 0.000]) {
+                            translate ([19.000, 9.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([9.200, 9.200, 0.000]) {
                                   translate ([3.000, 3.000, 0.000]) {
@@ -18622,7 +18622,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 10.000, 0.000]) {
+                            translate ([19.000, 9.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([9.200, 9.200, 0.000]) {
                                   translate ([0.000, 0.000, -1.750]) {
@@ -18643,7 +18643,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 10.000, 0.000]) {
+                            translate ([19.000, 9.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([-9.200, 9.200, 0.000]) {
                                   translate ([0.000, 0.000, -1.750]) {
@@ -18664,7 +18664,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 10.000, 0.000]) {
+                            translate ([19.000, 9.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([-9.200, 9.200, 0.000]) {
                                   translate ([-3.000, 3.000, 0.000]) {
@@ -18689,7 +18689,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 10.000, 0.000]) {
+                            translate ([19.000, 9.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([-9.200, -9.200, 0.000]) {
                                   translate ([-3.000, -0.000, 0.000]) {
@@ -18712,7 +18712,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 10.000, 0.000]) {
+                            translate ([19.000, 9.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([-9.200, -9.200, 0.000]) {
                                   translate ([0.000, 0.000, -1.750]) {
@@ -18733,7 +18733,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 10.000, 0.000]) {
+                            translate ([19.000, 9.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([-9.200, 9.200, 0.000]) {
                                   translate ([0.000, 0.000, -1.750]) {
@@ -18754,7 +18754,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 10.000, 0.000]) {
+                            translate ([19.000, 9.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([-9.200, 9.200, 0.000]) {
                                   translate ([-3.000, 3.000, 0.000]) {
@@ -18779,7 +18779,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 10.000, 0.000]) {
+                            translate ([19.000, 9.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([9.200, -9.200, 0.000]) {
                                   translate ([3.000, -0.000, 0.000]) {
@@ -18802,7 +18802,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 10.000, 0.000]) {
+                            translate ([19.000, 9.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([9.200, -9.200, 0.000]) {
                                   translate ([0.000, 0.000, -1.750]) {
@@ -18823,7 +18823,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 10.000, 0.000]) {
+                            translate ([19.000, 9.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([9.200, 9.200, 0.000]) {
                                   translate ([0.000, 0.000, -1.750]) {
@@ -18844,7 +18844,7 @@ difference () {
                       rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                         rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                           translate ([19.000, 0.000, 0.000]) {
-                            translate ([19.000, 10.000, 0.000]) {
+                            translate ([19.000, 9.000, 0.000]) {
                               translate ([0.000, 0.000, -10.000]) {
                                 translate ([9.200, 9.200, 0.000]) {
                                   translate ([3.000, 3.000, 0.000]) {
@@ -23377,7 +23377,7 @@ difference () {
                   rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                     rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                       translate ([19.000, 0.000, 0.000]) {
-                        translate ([19.000, 29.000, 0.000]) {
+                        translate ([19.000, 28.000, 0.000]) {
                           translate ([0.000, 0.000, -10.000]) {
                             translate ([0.000, 0.000, -4.000]) {
                               union () {
@@ -23438,7 +23438,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 29.000, 0.000]) {
+                          translate ([19.000, 28.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([9.200, 9.200, 0.000]) {
                                 translate ([3.000, 3.000, 0.000]) {
@@ -23461,7 +23461,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 29.000, 0.000]) {
+                          translate ([19.000, 28.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([9.200, 9.200, 0.000]) {
                                 translate ([0.000, 0.000, -1.750]) {
@@ -23482,7 +23482,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 29.000, 0.000]) {
+                          translate ([19.000, 28.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([-9.200, 9.200, 0.000]) {
                                 translate ([0.000, 0.000, -1.750]) {
@@ -23503,7 +23503,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 29.000, 0.000]) {
+                          translate ([19.000, 28.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([-9.200, 9.200, 0.000]) {
                                 translate ([-3.000, 3.000, 0.000]) {
@@ -23528,7 +23528,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 29.000, 0.000]) {
+                          translate ([19.000, 28.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([-9.200, -9.200, 0.000]) {
                                 translate ([-3.000, -0.000, 0.000]) {
@@ -23551,7 +23551,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 29.000, 0.000]) {
+                          translate ([19.000, 28.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([-9.200, -9.200, 0.000]) {
                                 translate ([0.000, 0.000, -1.750]) {
@@ -23572,7 +23572,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 29.000, 0.000]) {
+                          translate ([19.000, 28.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([-9.200, 9.200, 0.000]) {
                                 translate ([0.000, 0.000, -1.750]) {
@@ -23593,7 +23593,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 29.000, 0.000]) {
+                          translate ([19.000, 28.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([-9.200, 9.200, 0.000]) {
                                 translate ([-3.000, 3.000, 0.000]) {
@@ -23618,7 +23618,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 29.000, 0.000]) {
+                          translate ([19.000, 28.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([9.200, -9.200, 0.000]) {
                                 translate ([3.000, -0.000, 0.000]) {
@@ -23641,7 +23641,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 29.000, 0.000]) {
+                          translate ([19.000, 28.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([9.200, -9.200, 0.000]) {
                                 translate ([0.000, 0.000, -1.750]) {
@@ -23662,7 +23662,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 29.000, 0.000]) {
+                          translate ([19.000, 28.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([9.200, 9.200, 0.000]) {
                                 translate ([0.000, 0.000, -1.750]) {
@@ -23683,7 +23683,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 29.000, 0.000]) {
+                          translate ([19.000, 28.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([9.200, 9.200, 0.000]) {
                                 translate ([3.000, 3.000, 0.000]) {
@@ -23711,7 +23711,7 @@ difference () {
                   rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                     rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                       translate ([19.000, 0.000, 0.000]) {
-                        translate ([19.000, 10.000, 0.000]) {
+                        translate ([19.000, 9.000, 0.000]) {
                           translate ([0.000, 0.000, -10.000]) {
                             translate ([0.000, 0.000, -4.000]) {
                               union () {
@@ -23772,7 +23772,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 10.000, 0.000]) {
+                          translate ([19.000, 9.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([9.200, 9.200, 0.000]) {
                                 translate ([3.000, 3.000, 0.000]) {
@@ -23795,7 +23795,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 10.000, 0.000]) {
+                          translate ([19.000, 9.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([9.200, 9.200, 0.000]) {
                                 translate ([0.000, 0.000, -1.750]) {
@@ -23816,7 +23816,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 10.000, 0.000]) {
+                          translate ([19.000, 9.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([-9.200, 9.200, 0.000]) {
                                 translate ([0.000, 0.000, -1.750]) {
@@ -23837,7 +23837,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 10.000, 0.000]) {
+                          translate ([19.000, 9.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([-9.200, 9.200, 0.000]) {
                                 translate ([-3.000, 3.000, 0.000]) {
@@ -23862,7 +23862,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 10.000, 0.000]) {
+                          translate ([19.000, 9.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([-9.200, -9.200, 0.000]) {
                                 translate ([-3.000, -0.000, 0.000]) {
@@ -23885,7 +23885,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 10.000, 0.000]) {
+                          translate ([19.000, 9.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([-9.200, -9.200, 0.000]) {
                                 translate ([0.000, 0.000, -1.750]) {
@@ -23906,7 +23906,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 10.000, 0.000]) {
+                          translate ([19.000, 9.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([-9.200, 9.200, 0.000]) {
                                 translate ([0.000, 0.000, -1.750]) {
@@ -23927,7 +23927,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 10.000, 0.000]) {
+                          translate ([19.000, 9.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([-9.200, 9.200, 0.000]) {
                                 translate ([-3.000, 3.000, 0.000]) {
@@ -23952,7 +23952,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 10.000, 0.000]) {
+                          translate ([19.000, 9.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([9.200, -9.200, 0.000]) {
                                 translate ([3.000, -0.000, 0.000]) {
@@ -23975,7 +23975,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 10.000, 0.000]) {
+                          translate ([19.000, 9.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([9.200, -9.200, 0.000]) {
                                 translate ([0.000, 0.000, -1.750]) {
@@ -23996,7 +23996,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 10.000, 0.000]) {
+                          translate ([19.000, 9.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([9.200, 9.200, 0.000]) {
                                 translate ([0.000, 0.000, -1.750]) {
@@ -24017,7 +24017,7 @@ difference () {
                     rotate (a = 12.000, v = [1.000, 0.000, 0.000]) {
                       rotate (a = -21.000, v = [0.000, 0.000, 1.000]) {
                         translate ([19.000, 0.000, 0.000]) {
-                          translate ([19.000, 10.000, 0.000]) {
+                          translate ([19.000, 9.000, 0.000]) {
                             translate ([0.000, 0.000, -10.000]) {
                               translate ([9.200, 9.200, 0.000]) {
                                 translate ([3.000, 3.000, 0.000]) {
