@@ -16,6 +16,7 @@ constexpr bool kAddCaps = false;
 // print every step of the way to validate changes
 constexpr bool kCreateIntermediateArtifacts = true;
 
+
 enum class Direction { UP, DOWN, LEFT, RIGHT };
 
 void AddShapes(std::vector<Shape>* shapes, std::vector<Shape> to_add) {
@@ -24,7 +25,8 @@ void AddShapes(std::vector<Shape>* shapes, std::vector<Shape> to_add) {
   }
 }
 
-Shape ConnectMainKeys(KeyData& d);
+Shape ConnectBowlKeysInternal(KeyData& d);
+Shape ConnectBowlKeysGridToWall(KeyData& d);
 
 int main() {
   printf("generating..\n");
@@ -54,10 +56,33 @@ int main() {
 
   // Contruct the bowl
 
-  // Creating the grid
-  shapes.push_back(ConnectMainKeys(data));
-
   // adding the keys for bowl only
+
+  // left padding to bowl
+  for (Key* key : data.grid.column(0)) {
+    if (key) {
+      key->extra_width_left = 4;
+    }
+  }
+
+  // right padding to bowl
+  for (Key* key : data.grid.column(data.grid.num_columns() - 1)) {
+    if (key) {
+      key->extra_width_right = 4;
+    }
+  }
+
+  // top padding to bowl
+  for (Key* key : data.grid.row(0)) {
+    if (key) {
+      key->extra_width_top = 2;
+    }
+  }
+
+  // All changes to `data` need to be done before calling the next steps.
+  
+
+  // Create the Switch Drop Ins which takes into account the padding. 
   for (Key* key : data.bowl_keys()) {
     shapes.push_back(key->GetSwitch());
     if (kAddCaps) {
@@ -69,6 +94,22 @@ int main() {
   if (kCreateIntermediateArtifacts) {
     UnionAll(shapes).WriteToFile("validate_01_BowlKeysOnly.scad");
   }
+
+  // Creating the grid
+  shapes.push_back(ConnectBowlKeysInternal(data));
+
+  // Printing Intermediate Steps
+  if (kCreateIntermediateArtifacts) {
+    UnionAll(shapes).WriteToFile("validate_02_BowlKeysAndGrid.scad");
+  }
+
+ shapes.push_back(ConnectBowlKeysGridToWall(data));
+
+  // Printing Intermediate Steps
+  if (kCreateIntermediateArtifacts) {
+    UnionAll(shapes).WriteToFile("validate_03_BowlAndWalls.scad");
+  }
+
 
   // adding the keys for thumb cluster
   for (Key* key : data.thumb_keys()) {
@@ -94,28 +135,6 @@ int main() {
   data.key_thumb_5_2.extra_width_top = 3;
   data.key_thumb_5_2.extra_width_right = 3;
   data.key_thumb_5_2.extra_width_left = 3;
-
-  // left wall
-  for (Key* key : data.grid.column(0)) {
-    if (key) {
-      key->extra_width_left = 4;
-    }
-  }
-
-  // right wall
-  data.key_0_5.extra_width_right = 4;
-  data.key_1_5.extra_width_right = 4;
-  data.key_2_5.extra_width_right = 4;
-
-  // top wall
-  for (Key* key : data.grid.row(0)) {
-    if (key) {
-      key->extra_width_top = 2;
-    }
-  }
-
-// Last key on the right wall, closest to the thumb cluster.
- data.key_3_5.extra_width_bottom = 3;
 
 
   //
@@ -186,52 +205,7 @@ int main() {
                               data.key_3_0.GetBottomLeft(),
                           }));
 
-  // Connecting top wall to keys
-  TransformList key_0_2_top_left_wall = data.key_0_2.GetTopLeft().TranslateFront(0, 3.75, 0);
-  TransformList key_0_0_top_right_wall = data.key_0_0.GetTopRight().TranslateFront(0, 3, -3);
-  TransformList key_0_2_top_right_wall = data.key_0_2.GetTopRight().TranslateFront(0, 4, -1);
-  TransformList key_0_3_top_right_wall = data.key_0_3.GetTopRight().TranslateFront(0, 3.5, 0);
-  TransformList key_0_4_top_right_wall = data.key_0_4.GetTopRight().TranslateFront(0, 2.2, 0);
 
-  shapes.push_back(TriFan(key_0_4_top_right_wall,
-                          {
-                              data.key_0_5.GetTopRight(),
-                              data.key_0_5.GetTopLeft(),
-                              data.key_0_4.GetTopRight(),
-                              data.key_0_4.GetTopLeft(),
-                          }));
-  shapes.push_back(TriFan(key_0_3_top_right_wall,
-                          {
-                              key_0_4_top_right_wall,
-                              data.key_0_4.GetTopLeft(),
-                              data.key_0_3.GetTopRight(),
-                              data.key_0_3.GetTopLeft(),
-                              key_0_2_top_right_wall,
-                          }));
-  shapes.push_back(TriFan(key_0_2_top_right_wall,
-                          {
-                              key_0_2_top_left_wall,
-                              data.key_0_2.GetTopRight(),
-                              data.key_0_3.GetTopLeft(),
-                          }));
-  shapes.push_back(TriFan(key_0_2_top_left_wall,
-                          {
-                              data.key_0_1.GetTopRight(),
-                              data.key_0_2.GetTopLeft(),
-                              data.key_0_2.GetTopRight(),
-                          }));
-  shapes.push_back(TriFan(data.key_0_0.GetTopRight(),
-                          {
-                              data.key_0_1.GetTopLeft(),
-                              data.key_0_1.GetTopRight(),
-                              key_0_2_top_left_wall,
-                          }));
-  shapes.push_back(TriFan(key_0_0_top_right_wall,
-                          {
-                              key_0_2_top_left_wall,
-                              data.key_0_0.GetTopRight(),
-                              data.key_0_0.GetTopLeft(),
-                          }));
   //
   // Make the wall
   //
@@ -256,6 +230,17 @@ int main() {
     Direction down = Direction::DOWN;
     Direction left = Direction::LEFT;
     Direction right = Direction::RIGHT;
+
+
+    // TODO: Delete these
+
+    // Connecting top wall to keys
+    TransformList key_0_2_top_left_wall = data.key_0_2.GetTopLeft().TranslateFront(0, 3.75, 0);
+    TransformList key_0_0_top_right_wall = data.key_0_0.GetTopRight().TranslateFront(0, 3, -3);
+    TransformList key_0_2_top_right_wall = data.key_0_2.GetTopRight().TranslateFront(0, 4, -1);
+    TransformList key_0_3_top_right_wall = data.key_0_3.GetTopRight().TranslateFront(0, 3.5, 0);
+    TransformList key_0_4_top_right_wall = data.key_0_4.GetTopRight().TranslateFront(0, 2.2, 0);
+
 
     std::vector<WallPoint> wall_points = {
         // Start top left and go clockwise
@@ -455,18 +440,18 @@ int main() {
   return 0;
 }
 
-Shape ConnectMainKeys(KeyData& d) {
+Shape ConnectBowlKeysInternal(KeyData& data) {
   std::vector<Shape> shapes;
-  for (int r = 0; r < d.grid.num_rows(); ++r) {
-    for (int c = 0; c < d.grid.num_columns(); ++c) {
-      Key* key = d.grid.get_key(r, c);
+  for (int r = 0; r < data.grid.num_rows(); ++r) {
+    for (int c = 0; c < data.grid.num_columns(); ++c) {
+      Key* key = data.grid.get_key(r, c);
       if (!key) {
         // No key at this location.
         continue;
       }
-      Key* left = d.grid.get_key(r, c - 1);
-      Key* top_left = d.grid.get_key(r - 1, c - 1);
-      Key* top = d.grid.get_key(r - 1, c);
+      Key* left = data.grid.get_key(r, c - 1);
+      Key* top_left = data.grid.get_key(r - 1, c - 1);
+      Key* top = data.grid.get_key(r - 1, c);
 
       if (left) {
         shapes.push_back(ConnectHorizontal(*left, *key));
@@ -479,5 +464,57 @@ Shape ConnectMainKeys(KeyData& d) {
       }
     }
   }
+  return UnionAll(shapes);
+}
+
+Shape ConnectBowlKeysGridToWall(KeyData& data) {
+  std::vector<Shape> shapes;
+
+  // Connecting top wall to keys
+  TransformList key_0_2_top_left_wall = data.key_0_2.GetTopLeft().TranslateFront(0, 3.75, 0);
+  TransformList key_0_0_top_right_wall = data.key_0_0.GetTopRight().TranslateFront(0, 3, -3);
+  TransformList key_0_2_top_right_wall = data.key_0_2.GetTopRight().TranslateFront(0, 4, -1);
+  TransformList key_0_3_top_right_wall = data.key_0_3.GetTopRight().TranslateFront(0, 3.5, 0);
+  TransformList key_0_4_top_right_wall = data.key_0_4.GetTopRight().TranslateFront(0, 2.2, 0);
+
+  shapes.push_back(TriFan(key_0_4_top_right_wall,
+                          {
+                              data.key_0_5.GetTopRight(),
+                              data.key_0_5.GetTopLeft(),
+                              data.key_0_4.GetTopRight(),
+                              data.key_0_4.GetTopLeft(),
+                          }));
+  shapes.push_back(TriFan(key_0_3_top_right_wall,
+                          {
+                              key_0_4_top_right_wall,
+                              data.key_0_4.GetTopLeft(),
+                              data.key_0_3.GetTopRight(),
+                              data.key_0_3.GetTopLeft(),
+                              key_0_2_top_right_wall,
+                          }));
+  shapes.push_back(TriFan(key_0_2_top_right_wall,
+                          {
+                              key_0_2_top_left_wall,
+                              data.key_0_2.GetTopRight(),
+                              data.key_0_3.GetTopLeft(),
+                          }));
+  shapes.push_back(TriFan(key_0_2_top_left_wall,
+                          {
+                              data.key_0_1.GetTopRight(),
+                              data.key_0_2.GetTopLeft(),
+                              data.key_0_2.GetTopRight(),
+                          }));
+  shapes.push_back(TriFan(data.key_0_0.GetTopRight(),
+                          {
+                              data.key_0_1.GetTopLeft(),
+                              data.key_0_1.GetTopRight(),
+                              key_0_2_top_left_wall,
+                          }));
+  shapes.push_back(TriFan(key_0_0_top_right_wall,
+                          {
+                              key_0_2_top_left_wall,
+                              data.key_0_0.GetTopRight(),
+                              data.key_0_0.GetTopLeft(),
+                          }));
   return UnionAll(shapes);
 }
