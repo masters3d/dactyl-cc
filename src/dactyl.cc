@@ -461,6 +461,16 @@ Shape ConnectBowlKeysInternal(KeyData& data) {
 Shape ConnectBowlKeysGridToWall(KeyData& data) {
   std::vector<Shape> shapes;
 
+  auto columnLastIndex = data.grid.num_columns() - 1;
+  auto rowLastIndex = data.grid.num_rows() - 1;
+
+  auto key_top_left_courner = data.grid.get_key(0, 0);
+  auto key_bottom_left_courner = data.grid.get_key(rowLastIndex, 0);
+  auto key_top_right_courner = data.grid.get_key(0, columnLastIndex);
+
+  // In Dactly's this key is alway null. This is the key next to the thumb cluster.
+  auto key_bottom_right_courner = data.grid.get_key(rowLastIndex, columnLastIndex);
+
   // Connecting top wall to keys
   TransformList key_0_2_top_left_wall = data.key_0_2.GetTopLeft().TranslateFront(0, 3.75, 0);
   TransformList key_0_0_top_right_wall = data.key_0_0.GetTopRight().TranslateFront(0, 3, -3);
@@ -508,14 +518,17 @@ Shape ConnectBowlKeysGridToWall(KeyData& data) {
                               data.key_0_0.GetTopLeft(),
                           }));
 
-  // Bottom right corner where there is not courner key.
-  shapes.push_back(TriFan(data.key_3_0.GetBottomRight(),
-                          {
-                              data.key_3_1.GetBottomLeft(),
-                              data.key_4_1.GetTopLeft(),
-                              data.key_4_1.GetBottomLeft(),
-                              data.key_3_0.GetBottomLeft(),
-                          }));
+
+ if (key_bottom_left_courner == NULL) {
+    // Create a triangle if key is missing
+    shapes.push_back(TriFan(data.key_3_0.GetBottomRight(),
+                            {
+                                data.key_3_1.GetBottomLeft(),
+                                data.key_4_1.GetTopLeft(),
+                                data.key_4_1.GetBottomLeft(),
+                                data.key_3_0.GetBottomLeft(),
+                            }));  
+ }
 
   return UnionAll(shapes);
 }
