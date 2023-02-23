@@ -335,8 +335,6 @@ Shape ConnectBowlKeysGridToWall(KeyData& data) {
     if (key) {
 	  // if the previous key to it is not null
         if (key_previous) {
-
-		// connect the key to the key next to it
         shapes.push_back(TriFan(key->GetTopLeft().TranslateFront(0, 0, 0), 
                                    {
                                     key->GetTopLeft(),
@@ -351,9 +349,25 @@ Shape ConnectBowlKeysGridToWall(KeyData& data) {
   // Bottom Row in reverse order
   for (int16_t i = data.grid.num_columns() - 1; i >= 0; i--) {
         size_t lastRowIndex = data.grid.num_rows() - 1;
+
+        // get the key at the top row and the previous column
+        Key* key_previous = data.grid.get_key(lastRowIndex, i - 1);
+        // get the key at the top row and the current column
         Key* key = data.grid.get_key(lastRowIndex, i);
+        // get the key at the top row and the next column
+        Key* key_next = data.grid.get_key(lastRowIndex, i + 1);
+
+
         if (key) {
-          wall_points.push_back({key->GetBottomRight(), down});
+          // next here is the same as previously since we are going back  
+          if (key_next) {
+            shapes.push_back(TriFan(key->GetBottomRight().TranslateFront(0, 0, 0),
+                                {
+                                    key->GetBottomRight(),
+                                    key_next->GetBottomLeft(),
+                                    key_next->GetBottomRight(),
+                                }));
+          }
         }
   }
 
