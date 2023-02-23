@@ -16,8 +16,23 @@ constexpr bool kAddCaps = false;
 // print every step of the way to validate changes
 constexpr bool kCreateIntermediateArtifacts = true;
 
-
 enum class Direction { UP, DOWN, LEFT, RIGHT };
+
+struct WallPoint {
+  WallPoint(TransformList transforms,
+            Direction out_direction,
+            float extra_distance = 0,
+            float extra_width = 0)
+      : transforms(transforms),
+        out_direction(out_direction),
+        extra_distance(extra_distance),
+        extra_width(extra_width) {
+  }
+  TransformList transforms;
+  Direction out_direction;
+  float extra_distance;
+  float extra_width;
+};
 
 void AddShapes(std::vector<Shape>* shapes, std::vector<Shape> to_add) {
   for (Shape s : to_add) {
@@ -25,9 +40,11 @@ void AddShapes(std::vector<Shape>* shapes, std::vector<Shape> to_add) {
   }
 }
 
-Shape ConnectBowlKeysInternal(KeyData& d);
-Shape ConnectBowlKeysGridToWall(KeyData& d);
+Shape ConnectBowlKeysInternal(KeyData& data);
+Shape ConnectBowlKeysGridToWall(KeyData& data);
 Shape ConnectBowlKeysWallPosts(KeyData& data);
+
+std::vector<WallPoint> CreateWallPoints(KeyData& data);
 
 int main() {
   printf("generating..\n");
@@ -417,96 +434,8 @@ Shape ConnectBowlKeysWallPosts(KeyData& data) {
   // Make the wall
   //
   {
-    struct WallPoint {
-          WallPoint(TransformList transforms,
-                    Direction out_direction,
-                    float extra_distance = 0,
-                    float extra_width = 0)
-              : transforms(transforms),
-                out_direction(out_direction),
-                extra_distance(extra_distance),
-                extra_width(extra_width) {
-          }
-          TransformList transforms;
-          Direction out_direction;
-          float extra_distance;
-          float extra_width;
-    };
 
-    Direction up = Direction::UP;
-    Direction down = Direction::DOWN;
-    Direction left = Direction::LEFT;
-    Direction right = Direction::RIGHT;
-
-    // TODO: Delete these
-
-    // Connecting top wall to keys
-    TransformList key_0_2_top_left_wall = data.key_0_2.GetTopLeft().TranslateFront(0, 3.75, 0);
-    TransformList key_0_0_top_right_wall = data.key_0_0.GetTopRight().TranslateFront(0, 3, -3);
-    TransformList key_0_2_top_right_wall = data.key_0_2.GetTopRight().TranslateFront(0, 4, -1);
-    TransformList key_0_3_top_right_wall = data.key_0_3.GetTopRight().TranslateFront(0, 3.5, 0);
-    TransformList key_0_4_top_right_wall = data.key_0_4.GetTopRight().TranslateFront(0, 2.2, 0);
-
-    std::vector<WallPoint> wall_points = {
-        // Start top left and go clockwise
-        {data.key_0_0.GetTopLeft(), up},
-        {key_0_0_top_right_wall, up, 0, .3},
-
-        {key_0_2_top_left_wall, up, 0, .3},
-        {key_0_2_top_right_wall, up},
-
-        //{d.key_3.GetTopLeft(), up},
-        {key_0_3_top_right_wall, up},
-
-        // {d.key_4.GetTopLeft(), up},
-        {key_0_4_top_right_wall, up},
-        {data.key_0_5.GetTopRight(), up},
-        {data.key_0_5.GetTopRight(), right},
-        {data.key_0_5.GetBottomRight(), right},
-
-        {data.key_1_5.GetTopRight(), right},
-        {data.key_1_5.GetBottomRight(), right},
-
-        {data.key_2_5.GetTopRight(), right},
-        {data.key_2_5.GetBottomRight(), right, 1, .5},
-
-        {data.key_thumb_5_5.GetTopLeft().RotateFront(0, 0, -15), up, 1, .5},
-        {data.key_thumb_5_5.GetTopRight(), up},
-
-        {data.key_thumb_5_4.GetTopLeft(), up},
-        {data.key_thumb_5_4.GetTopRight(), up, 0, .5},
-        {data.key_thumb_5_4.GetTopRight(), right, 0, .5},
-        {data.key_thumb_5_4.GetBottomRight(), right},
-
-        {data.key_thumb_5_3.GetTopRight(), right},
-        {data.key_thumb_5_3.GetBottomRight(), right},
-
-        {data.key_thumb_5_2.GetTopRight(), right},
-        {data.key_thumb_5_2.GetBottomRight(), right, 0, .5},
-        {data.key_thumb_5_2.GetBottomRight(), down, 0, .5},
-        {data.key_thumb_5_2.GetBottomLeft(), down},
-
-        {data.key_thumb_5_0.GetBottomLeft(), down},
-
-        //{slash_bottom_right, down},
-        {data.key_4_2.GetBottomRight().TranslateFront(0, -5, -3), down},
-
-        {data.key_4_1.GetBottomRight(), down},
-        {data.key_4_1.GetBottomLeft(), down},
-
-        {data.key_3_0.GetBottomLeft(), down, 0, .75},
-        {data.key_3_0.GetBottomLeft(), left, 0, .5},
-        {data.key_3_0.GetTopLeft(), left, 0, .5},
-
-        {data.key_2_0.GetBottomLeft(), left},
-        {data.key_2_0.GetTopLeft(), left},
-
-        {data.key_1_0.GetBottomLeft(), left},
-        {data.key_1_0.GetTopLeft(), left},
-
-        {data.key_0_0.GetBottomLeft(), left},
-        {data.key_0_0.GetTopLeft(), left},
-    };
+    std::vector<WallPoint> wall_points = CreateWallPoints(data);
 
     std::vector<std::vector<Shape>> wall_slices;
     for (WallPoint point : wall_points) {
@@ -608,4 +537,64 @@ Shape ConnectBowlKeysWallPosts(KeyData& data) {
     };
   }
   return UnionAll(shapes);
+}
+
+std::vector<WallPoint> CreateWallPoints(KeyData& data) {
+
+  Direction up = Direction::UP;
+  Direction down = Direction::DOWN;
+  Direction left = Direction::LEFT;
+  Direction right = Direction::RIGHT;
+
+  std::vector<WallPoint> wall_points = {
+      // Start top left and go clockwise
+      //{data.key_0_0.GetTopLeft(), up},
+
+      // more
+      // back to top
+      //{data.key_0_0.GetBottomLeft(), left},
+      //{data.key_0_0.GetTopLeft(), left},
+  };
+
+
+   // We need to iterate left to right.
+
+   // Top Row left to right
+  for (Key* key : data.grid.row(0)) {
+    if (key) {
+          wall_points.push_back({key->GetTopLeft(), up});
+    }
+  } 
+
+  auto delete_me = 1;
+
+  // Right column, top to bottom
+
+ for (size_t i = 0; i < data.grid.num_rows() -1 - delete_me; i++) {
+    Key* key = data.grid.get_key(i, data.grid.num_columns() - 1);
+    if (key) {
+          wall_points.push_back({key->GetTopRight(), right});
+    }
+  }
+
+  // Bottom row, right to left
+
+ //for loop to iterate a column in reverse order
+
+
+  for (int16_t i = data.grid.num_columns() - 1; i >= 0; i--) {
+    Key* key = data.grid.get_key(data.grid.num_rows() - 1 - delete_me, i);
+    if (key) {
+          wall_points.push_back({key->GetBottomRight(), down});
+    }
+  }
+
+  // Left Column, bottom to top
+  for (int16_t i = data.grid.num_rows() - 1 - delete_me; i >= 0; i--) {
+    Key* key = data.grid.get_key(i, 0);
+    if (key) {
+          wall_points.push_back({key->GetBottomLeft(), left});
+    }
+  }
+  return wall_points;
 }
