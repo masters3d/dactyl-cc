@@ -27,6 +27,7 @@ void AddShapes(std::vector<Shape>* shapes, std::vector<Shape> to_add) {
 
 Shape ConnectBowlKeysInternal(KeyData& d);
 Shape ConnectBowlKeysGridToWall(KeyData& d);
+Shape ConnectBowlKeysWallPosts(KeyData& data);
 
 int main() {
   printf("generating..\n");
@@ -58,25 +59,34 @@ int main() {
 
   // adding the keys for bowl only
 
+  double default_padding = 4;
+
   // left padding to bowl
   for (Key* key : data.grid.column(0)) {
     if (key) {
-      key->extra_width_left = 4;
+      key->extra_width_left = default_padding;
     }
   }
 
   // right padding to bowl
   for (Key* key : data.grid.column(data.grid.num_columns() - 1)) {
     if (key) {
-      key->extra_width_right = 4;
+      key->extra_width_right = default_padding;
     }
   }
 
   // top padding to bowl
   for (Key* key : data.grid.row(0)) {
     if (key) {
-      key->extra_width_top = 2;
+      key->extra_width_top = default_padding;
     }
+  }
+
+  // bottom padding to bowl
+  for (Key* key : data.grid.row(data.grid.num_rows() - 1)) {
+      if (key) {
+      key->extra_width_bottom = default_padding;
+	}
   }
 
   // All changes to `data` need to be done before calling the next steps.
@@ -107,9 +117,15 @@ int main() {
 
   // Printing Intermediate Steps
   if (kCreateIntermediateArtifacts) {
-    UnionAll(shapes).WriteToFile("validate_03_BowlAndWalls.scad");
+    UnionAll(shapes).WriteToFile("validate_03_BowlAndPadding.scad");
   }
 
+  shapes.push_back(ConnectBowlKeysWallPosts(data));
+
+  // Printing Intermediate Steps
+  if (kCreateIntermediateArtifacts) {
+    UnionAll(shapes).WriteToFile("validate_04_BowlAndWalls.scad");
+  }
 
   // adding the keys for thumb cluster
   for (Key* key : data.thumb_keys()) {
@@ -197,31 +213,230 @@ int main() {
                           }));
 
 
+
+  std::vector<Shape> negative_shapes;
+  //AddShapes(&negative_shapes, screw_holes);
+  // Cut off the parts sticking up into the thumb plate.
+  negative_shapes.push_back(
+      data.key_thumb_5_0.GetTopLeft().Apply(Cube(50, 50, 6).TranslateZ(3)).Color("red"));
+
+  // Cut out hole for holder.
+  Shape holder_hole = Cube(29.0, 20.0, 12.5).TranslateZ(12 / 2);
+  glm::vec3 holder_location = data.key_0_4.GetTopLeft().Apply(kOrigin);
+  holder_location.z = -0.5;
+  holder_location.x += 17.5;
+  negative_shapes.push_back(holder_hole.Translate(holder_location));
+
+  Shape result = UnionAll(shapes);
+  // Subtracting is expensive to preview and is best to disable while testing.
+  result = result.Subtract(UnionAll(negative_shapes));
+  result.WriteToFile("product_left.scad");
+  result.MirrorX().WriteToFile("product_right.scad");
+
+  // Bottom plate
+  {
+    std::vector<Shape> bottom_plate_shapes = {result};
+    for (Key* key : data.all_keys()) {
+      bottom_plate_shapes.push_back(Hull(key->GetSwitch()));
+    }
+
+    //Shape bottom_plate = UnionAll(bottom_plate_shapes)
+    //                         .Projection()
+    //                         .LinearExtrude(1.5)
+                             //.Subtract(UnionAll(screw_holes));
+    //bottom_plate.WriteToFile("product_left_bottom.scad");
+    //bottom_plate.MirrorX().WriteToFile("product_right_bottom.scad");
+  }
+
+  return 0;
+}
+
+Shape ConnectBowlKeysInternal(KeyData& data) {
+  std::vector<Shape> shapes;
+  for (int r = 0; r < data.grid.num_rows(); ++r) {
+    for (int c = 0; c < data.grid.num_columns(); ++c) {
+      Key* key = data.grid.get_key(r, c);
+      if (!key) {
+        // No key at this location.
+        continue;
+      }
+      Key* key_on_left = data.grid.get_key(r, c - 1);
+      Key* key_on_top_left = data.grid.get_key(r - 1, c - 1);
+      Key* key_on_top = data.grid.get_key(r - 1, c);
+
+      if (key_on_left) {
+        shapes.push_back(ConnectHorizontal(*key_on_left, *key));
+      }
+      if (key_on_top) {
+        shapes.push_back(ConnectVertical(*key_on_top, *key));
+        if (key_on_left && key_on_top_left) {
+          shapes.push_back(ConnectDiagonal(*key_on_top_left, *key_on_top, *key, *key_on_left));
+        }
+      }
+    }
+  }
+  return UnionAll(shapes);
+}
+
+Shape ConnectBowlKeysGridToWall(KeyData& data) {
+  std::vector<Shape> shapes;
+
+  auto columnLastIndex = data.grid.num_columns() - 1;
+  auto rowLastIndex = data.grid.num_rows() - 1;
+
+  // top row = 0
+  size_t key_top_left_row = 0, key_top_right_row = key_top_left_row;
+  // left column = 0
+  size_t key_top_left_column = 0, key_bottom_left_column = key_top_left_column;
+  // bottom row = rowLastIndex
+  size_t key_bottom_left_row = rowLastIndex, key_bottom_right_row = key_bottom_left_row; 
+  // right column = columnLastIndex
+  size_t key_top_right_column = columnLastIndex, key_bottom_right_column = key_top_right_column;
+   
+      
+  auto key_top_left_courner = data.grid.get_key(key_top_left_row, key_top_left_column);
+  auto key_bottom_left_courner = data.grid.get_key(key_bottom_left_row, key_bottom_left_column);
+  auto key_top_right_courner = data.grid.get_key(key_top_right_row, key_top_right_column);
+  // In a Dactly this key is alway null on the left half of a keyboard. This is the key next to the thumb cluster.
+  auto key_bottom_right_courner = data.grid.get_key(key_bottom_right_row, key_bottom_right_column);
+
+//get_key_located_up
+
+  // Top Row
+
+  // for loop over all keys in the top row
+  for (size_t i = 0; i < data.grid.num_columns(); i++) {
+
+    // get the key at the top row and the previous column 
+	Key* key_previous = data.grid.get_key(key_top_left_row, i - 1);
+
+	// get the key at the top row and the current column
+	Key* key = data.grid.get_key(key_top_left_row, i);
+	// get the key at the top row and the next column
+    Key* key_next = data.grid.get_key(key_top_left_row, i + 1);
+    
+	// if the key is not null
+    if (key) {
+	  // if the key next to it is not null
+        if (key_next) {
+
+        float default_y_translate = 4;
+
+        std::vector<TransformList> array_of_transformations = {
+            key_next->GetTopLeft(),
+            key_next->GetTopRight(),
+            key->GetTopLeft(),
+            key->GetTopRight(),
+        };
+
+        if (false) {
+          array_of_transformations.push_back(
+              key_previous->GetTopRight().TranslateFront(0, default_y_translate, 0));
+        }
+
+		// connect the key to the key next to it
+        shapes.push_back(TriFan(key->GetTopRight().TranslateFront(0, default_y_translate, -2), 
+            array_of_transformations
+                       ));
+
+		///shapes.push_back(ConnectHorizontal(*key, *key_next));
+	  }
+	}
+  }
+
+  // Bottom Row
+    
+
+  //// Connecting top wall to keys
+  //TransformList key_0_2_top_left_wall = data.key_0_2.GetTopLeft().TranslateFront(0, 3.75, 0);
+  //TransformList key_0_0_top_right_wall = data.key_0_0.GetTopRight().TranslateFront(0, 3, -3);
+  //TransformList key_0_2_top_right_wall = data.key_0_2.GetTopRight().TranslateFront(0, 4, -1);
+  //TransformList key_0_3_top_right_wall = data.key_0_3.GetTopRight().TranslateFront(0, 3.5, 0);
+  //TransformList key_0_4_top_right_wall = data.key_0_4.GetTopRight().TranslateFront(0, 2.2, 0);
+
+  //shapes.push_back(TriFan(key_0_4_top_right_wall,
+  //                        {
+  //                            data.key_0_5.GetTopRight(),
+  //                            data.key_0_5.GetTopLeft(),
+  //                            data.key_0_4.GetTopRight(),
+  //                            data.key_0_4.GetTopLeft(),
+  //                        }));
+  //shapes.push_back(TriFan(key_0_3_top_right_wall,
+  //                        {
+  //                            key_0_4_top_right_wall,
+  //                            data.key_0_4.GetTopLeft(),
+  //                            data.key_0_3.GetTopRight(),
+  //                            data.key_0_3.GetTopLeft(),
+  //                            key_0_2_top_right_wall,
+  //                        }));
+  //shapes.push_back(TriFan(key_0_2_top_right_wall,
+  //                        {
+  //                            key_0_2_top_left_wall,
+  //                            data.key_0_2.GetTopRight(),
+  //                            data.key_0_3.GetTopLeft(),
+  //                        }));
+  //shapes.push_back(TriFan(key_0_2_top_left_wall,
+  //                        {
+  //                            data.key_0_1.GetTopRight(),
+  //                            data.key_0_2.GetTopLeft(),
+  //                            data.key_0_2.GetTopRight(),
+  //                        }));
+  //shapes.push_back(TriFan(data.key_0_0.GetTopRight(),
+  //                        {
+  //                            data.key_0_1.GetTopLeft(),
+  //                            data.key_0_1.GetTopRight(),
+  //                            key_0_2_top_left_wall,
+  //                        }));
+  //shapes.push_back(TriFan(key_0_0_top_right_wall,
+  //                        {
+  //                            key_0_2_top_left_wall,
+  //                            data.key_0_0.GetTopRight(),
+  //                            data.key_0_0.GetTopLeft(),
+  //                        }));
+
+
+ if (key_bottom_left_courner == NULL) {
+    // Create a triangle if key is missing
+    shapes.push_back(TriFan(data.key_3_0.GetBottomRight(),
+                            {
+                                data.key_3_1.GetBottomLeft(),
+                                data.key_4_1.GetTopLeft(),
+                                data.key_4_1.GetBottomLeft(),
+                                data.key_3_0.GetBottomLeft(),
+                            }));  
+ }
+
+  return UnionAll(shapes);
+}
+
+Shape ConnectBowlKeysWallPosts(KeyData& data) {
+
+  std::vector<Shape> shapes;
+
   //
   // Make the wall
   //
   {
     struct WallPoint {
-      WallPoint(TransformList transforms,
-                Direction out_direction,
-                float extra_distance = 0,
-                float extra_width = 0)
-          : transforms(transforms),
-            out_direction(out_direction),
-            extra_distance(extra_distance),
-            extra_width(extra_width) {
-      }
-      TransformList transforms;
-      Direction out_direction;
-      float extra_distance;
-      float extra_width;
+          WallPoint(TransformList transforms,
+                    Direction out_direction,
+                    float extra_distance = 0,
+                    float extra_width = 0)
+              : transforms(transforms),
+                out_direction(out_direction),
+                extra_distance(extra_distance),
+                extra_width(extra_width) {
+          }
+          TransformList transforms;
+          Direction out_direction;
+          float extra_distance;
+          float extra_width;
     };
 
     Direction up = Direction::UP;
     Direction down = Direction::DOWN;
     Direction left = Direction::LEFT;
     Direction right = Direction::RIGHT;
-
 
     // TODO: Delete these
 
@@ -231,7 +446,6 @@ int main() {
     TransformList key_0_2_top_right_wall = data.key_0_2.GetTopRight().TranslateFront(0, 4, -1);
     TransformList key_0_3_top_right_wall = data.key_0_3.GetTopRight().TranslateFront(0, 3.5, 0);
     TransformList key_0_4_top_right_wall = data.key_0_4.GetTopRight().TranslateFront(0, 2.2, 0);
-
 
     std::vector<WallPoint> wall_points = {
         // Start top left and go clockwise
@@ -274,7 +488,8 @@ int main() {
 
         {data.key_thumb_5_0.GetBottomLeft(), down},
 
-        {slash_bottom_right, down},
+        //{slash_bottom_right, down},
+        {data.key_4_2.GetBottomRight().TranslateFront(0, -5, -3), down},
 
         {data.key_4_1.GetBottomRight(), down},
         {data.key_4_1.GetBottomLeft(), down},
@@ -295,12 +510,12 @@ int main() {
 
     std::vector<std::vector<Shape>> wall_slices;
     for (WallPoint point : wall_points) {
-      Shape s1 = point.transforms.Apply(GetPostConnector());
+          Shape s1 = point.transforms.Apply(GetPostConnector());
 
-      TransformList t = point.transforms;
-      glm::vec3 out_dir;
-      float distance = 4.8 + point.extra_distance;
-      switch (point.out_direction) {
+          TransformList t = point.transforms;
+          glm::vec3 out_dir;
+          float distance = 4.8 + point.extra_distance;
+          switch (point.out_direction) {
         case Direction::UP:
           t.AppendFront(TransformList().Translate(0, distance, 0).RotateX(-20));
           break;
@@ -313,40 +528,39 @@ int main() {
         case Direction::RIGHT:
           t.AppendFront(TransformList().Translate(distance, 0, 0).RotateY(20));
           break;
-      }
+          }
 
-      // Make sure the section extruded to the bottom is thick enough. With certain angles the
-      // projection is very small if you just use the post connector from the transform. Compute
-      // an explicit shape.
-      const glm::vec3 post_offset(0, 0, -4);
-      const glm::vec3 p = point.transforms.Apply(post_offset);
-      const glm::vec3 p2 = t.Apply(post_offset);
+          // Make sure the section extruded to the bottom is thick enough. With certain angles the
+          // projection is very small if you just use the post connector from the transform. Compute
+          // an explicit shape.
+          const glm::vec3 post_offset(0, 0, -4);
+          const glm::vec3 p = point.transforms.Apply(post_offset);
+          const glm::vec3 p2 = t.Apply(post_offset);
 
-      glm::vec3 out_v = p2 - p;
-      out_v.z = 0;
-      const glm::vec3 in_v = -1.f * glm::normalize(out_v);
+          glm::vec3 out_v = p2 - p;
+          out_v.z = 0;
+          const glm::vec3 in_v = -1.f * glm::normalize(out_v);
 
-      float width = 3.3 + point.extra_width;
-      Shape s2 = Hull(Cube(.1).Translate(p2), Cube(.1).Translate(p2 + (width * in_v)));
+          float width = 3.3 + point.extra_width;
+          Shape s2 = Hull(Cube(.1).Translate(p2), Cube(.1).Translate(p2 + (width * in_v)));
 
-      std::vector<Shape> slice;
-      slice.push_back(Hull(s1, s2));
-      slice.push_back(Hull(s2, s2.Projection().LinearExtrude(.1).TranslateZ(.05)));
+          std::vector<Shape> slice;
+          slice.push_back(Hull(s1, s2));
+          slice.push_back(Hull(s2, s2.Projection().LinearExtrude(.1).TranslateZ(.05)));
 
-      wall_slices.push_back(slice);
+          wall_slices.push_back(slice);
     }
 
     for (size_t i = 0; i < wall_slices.size(); ++i) {
-      auto& slice = wall_slices[i];
-      auto& next_slice = wall_slices[(i + 1) % wall_slices.size()];
-      for (size_t j = 0; j < slice.size(); ++j) {
+          auto& slice = wall_slices[i];
+          auto& next_slice = wall_slices[(i + 1) % wall_slices.size()];
+          for (size_t j = 0; j < slice.size(); ++j) {
         shapes.push_back(Hull(slice[j], next_slice[j]));
         // Uncomment for testing. Much faster and easier to visualize.
         // shapes.push_back(slice[j]);
-      }
+          }
     }
   }
-
 
   // Add all the screw inserts.
   std::vector<Shape> screw_holes;
@@ -393,142 +607,5 @@ int main() {
         screw_hole.Translate(screw_left_bottom),
     };
   }
-
-  std::vector<Shape> negative_shapes;
-  AddShapes(&negative_shapes, screw_holes);
-  // Cut off the parts sticking up into the thumb plate.
-  negative_shapes.push_back(
-      data.key_thumb_5_0.GetTopLeft().Apply(Cube(50, 50, 6).TranslateZ(3)).Color("red"));
-
-  // Cut out hole for holder.
-  Shape holder_hole = Cube(29.0, 20.0, 12.5).TranslateZ(12 / 2);
-  glm::vec3 holder_location = data.key_0_4.GetTopLeft().Apply(kOrigin);
-  holder_location.z = -0.5;
-  holder_location.x += 17.5;
-  negative_shapes.push_back(holder_hole.Translate(holder_location));
-
-  Shape result = UnionAll(shapes);
-  // Subtracting is expensive to preview and is best to disable while testing.
-  result = result.Subtract(UnionAll(negative_shapes));
-  result.WriteToFile("product_left.scad");
-  result.MirrorX().WriteToFile("product_right.scad");
-
-  // Bottom plate
-  {
-    std::vector<Shape> bottom_plate_shapes = {result};
-    for (Key* key : data.all_keys()) {
-      bottom_plate_shapes.push_back(Hull(key->GetSwitch()));
-    }
-
-    Shape bottom_plate = UnionAll(bottom_plate_shapes)
-                             .Projection()
-                             .LinearExtrude(1.5)
-                             .Subtract(UnionAll(screw_holes));
-    bottom_plate.WriteToFile("product_left_bottom.scad");
-    bottom_plate.MirrorX().WriteToFile("product_right_bottom.scad");
-  }
-
-  return 0;
-}
-
-Shape ConnectBowlKeysInternal(KeyData& data) {
-  std::vector<Shape> shapes;
-  for (int r = 0; r < data.grid.num_rows(); ++r) {
-    for (int c = 0; c < data.grid.num_columns(); ++c) {
-      Key* key = data.grid.get_key(r, c);
-      if (!key) {
-        // No key at this location.
-        continue;
-      }
-      Key* key_on_left = data.grid.get_key(r, c - 1);
-      Key* key_on_top_left = data.grid.get_key(r - 1, c - 1);
-      Key* key_on_top = data.grid.get_key(r - 1, c);
-
-      if (key_on_left) {
-        shapes.push_back(ConnectHorizontal(*key_on_left, *key));
-      }
-      if (key_on_top) {
-        shapes.push_back(ConnectVertical(*key_on_top, *key));
-        if (key_on_left && key_on_top_left) {
-          shapes.push_back(ConnectDiagonal(*key_on_top_left, *key_on_top, *key, *key_on_left));
-        }
-      }
-    }
-  }
-  return UnionAll(shapes);
-}
-
-Shape ConnectBowlKeysGridToWall(KeyData& data) {
-  std::vector<Shape> shapes;
-
-  auto columnLastIndex = data.grid.num_columns() - 1;
-  auto rowLastIndex = data.grid.num_rows() - 1;
-
-  auto key_top_left_courner = data.grid.get_key(0, 0);
-  auto key_bottom_left_courner = data.grid.get_key(rowLastIndex, 0);
-  auto key_top_right_courner = data.grid.get_key(0, columnLastIndex);
-
-  // In Dactly's this key is alway null. This is the key next to the thumb cluster.
-  auto key_bottom_right_courner = data.grid.get_key(rowLastIndex, columnLastIndex);
-
-  // Connecting top wall to keys
-  TransformList key_0_2_top_left_wall = data.key_0_2.GetTopLeft().TranslateFront(0, 3.75, 0);
-  TransformList key_0_0_top_right_wall = data.key_0_0.GetTopRight().TranslateFront(0, 3, -3);
-  TransformList key_0_2_top_right_wall = data.key_0_2.GetTopRight().TranslateFront(0, 4, -1);
-  TransformList key_0_3_top_right_wall = data.key_0_3.GetTopRight().TranslateFront(0, 3.5, 0);
-  TransformList key_0_4_top_right_wall = data.key_0_4.GetTopRight().TranslateFront(0, 2.2, 0);
-
-  shapes.push_back(TriFan(key_0_4_top_right_wall,
-                          {
-                              data.key_0_5.GetTopRight(),
-                              data.key_0_5.GetTopLeft(),
-                              data.key_0_4.GetTopRight(),
-                              data.key_0_4.GetTopLeft(),
-                          }));
-  shapes.push_back(TriFan(key_0_3_top_right_wall,
-                          {
-                              key_0_4_top_right_wall,
-                              data.key_0_4.GetTopLeft(),
-                              data.key_0_3.GetTopRight(),
-                              data.key_0_3.GetTopLeft(),
-                              key_0_2_top_right_wall,
-                          }));
-  shapes.push_back(TriFan(key_0_2_top_right_wall,
-                          {
-                              key_0_2_top_left_wall,
-                              data.key_0_2.GetTopRight(),
-                              data.key_0_3.GetTopLeft(),
-                          }));
-  shapes.push_back(TriFan(key_0_2_top_left_wall,
-                          {
-                              data.key_0_1.GetTopRight(),
-                              data.key_0_2.GetTopLeft(),
-                              data.key_0_2.GetTopRight(),
-                          }));
-  shapes.push_back(TriFan(data.key_0_0.GetTopRight(),
-                          {
-                              data.key_0_1.GetTopLeft(),
-                              data.key_0_1.GetTopRight(),
-                              key_0_2_top_left_wall,
-                          }));
-  shapes.push_back(TriFan(key_0_0_top_right_wall,
-                          {
-                              key_0_2_top_left_wall,
-                              data.key_0_0.GetTopRight(),
-                              data.key_0_0.GetTopLeft(),
-                          }));
-
-
- if (key_bottom_left_courner == NULL) {
-    // Create a triangle if key is missing
-    shapes.push_back(TriFan(data.key_3_0.GetBottomRight(),
-                            {
-                                data.key_3_1.GetBottomLeft(),
-                                data.key_4_1.GetTopLeft(),
-                                data.key_4_1.GetBottomLeft(),
-                                data.key_3_0.GetBottomLeft(),
-                            }));  
- }
-
   return UnionAll(shapes);
 }

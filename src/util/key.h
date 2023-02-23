@@ -156,6 +156,22 @@ struct KeyGrid {
     return r[column];
   }
 
+  Key* get_key_located_up(int row, int column) {
+    return get_key(row, column + 1);
+  }
+
+  Key* get_key_located_down(int row, int column) {
+    return get_key(row, column - 1);
+  }
+
+  Key* get_key_located_left(int row, int column) {
+    return get_key(row - 1, column);
+  }
+
+  Key* get_key_located_right(int row, int column) {
+    return get_key(row + 1, column);
+  }
+
   std::vector<Key*> keys() {
     std::vector<Key*> result;
     for (auto& row : data) {
