@@ -298,21 +298,44 @@ Shape ConnectBowlKeysInternal(KeyData& data) {
 
 Shape ConnectBowlCornerKeys(KeyData& data, GridCorner corner) {
     std::vector<Shape> shapes;
-   
+
+    auto row = corner.index_row;
+    auto col = corner.index_column;
+
     if (corner.key == NULL)
     {
+    auto key_left = data.grid.get_key_located_left(row, col);
+    auto key_right = data.grid.get_key_located_right(row, col); 
+    auto key_up = data.grid.get_key_located_up(row, col); 
+    auto key_down = data.grid.get_key_located_down(row, col); 
+
+    auto key_diagonal_top_left = data.grid.get_key_located_diagonal_top_left(row, col);
+    auto key_diagonal_top_right = data.grid.get_key_located_diagonal_top_right(row, col);
+    auto key_diagonal_bottom_right = data.grid.get_key_located_diagonal_bottom_right(row, col);
+    auto key_diagonal_bottom_left = data.grid.get_key_located_diagonal_bottom_left(row, col);
+
+
       // Create a triangle if key is missing
 
       // switch statement over corner.location 
 
     switch (corner.location) {
       case CornerLocation::BOTTOM_LEFT:
-        shapes.push_back(TriFan(data.key_3_0.GetBottomRight(),
+        shapes.push_back(TriFan(key_up->GetBottomRight(),
                                 {
-                                    data.key_3_1.GetBottomLeft(),
-                                    data.key_4_1.GetTopLeft(),
-                                    data.key_4_1.GetBottomLeft(),
-                                    data.key_3_0.GetBottomLeft(),
+                                    key_diagonal_top_right->GetBottomLeft(),
+                                    key_right->GetTopLeft(),
+                                    key_right->GetBottomLeft(),
+                                    key_up->GetBottomLeft(),
+                                }));
+        break;
+      case CornerLocation::BOTTOM_RIGHT:
+        shapes.push_back(TriFan(key_up->GetBottomLeft(),
+                                {
+                                    key_diagonal_top_left->GetBottomRight(),
+                                    key_left->GetTopRight(),
+                                    key_left->GetBottomRight(),
+                                    key_up->GetBottomRight(),
                                 }));
         break;
     }
@@ -326,9 +349,9 @@ Shape ConnectBowlKeysGridToWall(KeyData& data) {
 
   auto corners = data.grid.get_key_corners();
 
-   // TODO: Process all the cornes first.
+  // TODO: Process all the cornes first.
+  shapes.push_back(ConnectBowlCornerKeys(data, corners[2]));
   shapes.push_back(ConnectBowlCornerKeys(data, corners[3]));
-
 
   // Top Row
   for (size_t i = 0; i < data.grid.num_columns(); i++) {

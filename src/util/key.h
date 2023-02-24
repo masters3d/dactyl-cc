@@ -175,6 +175,22 @@ struct KeyGrid {
     return r[column];
   }
 
+  Key* get_key_located_diagonal_top_right(int row, int column) {
+    return get_key(row -1, column + 1);
+  }
+
+  Key* get_key_located_diagonal_top_left(int row, int column) {
+    return get_key(row - 1, column - 1);
+  }
+
+  Key* get_key_located_diagonal_bottom_left(int row, int column) {
+    return get_key(row + 1, column - 1);
+  }
+
+  Key* get_key_located_diagonal_bottom_right(int row, int column) {
+    return get_key(row + 1, column + 1);
+  }
+
   Key* get_key_located_up(int row, int column) {
     return get_key(row - 1, column);
   }
