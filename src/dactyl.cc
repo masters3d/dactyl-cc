@@ -555,6 +555,26 @@ std::vector<WallPoint> CreateWallPoints(KeyData& data) {
     }
   }
 
+  // corner_bottom_right handleling
+  if (corner_bottom_right.key == NULL) {
+    auto row = corner_bottom_right.index_x;
+    auto col = corner_bottom_right.index_y;
+    auto key_to_the_top = data.grid.get_key_located_up(row, col);
+    auto key_to_the_left = data.grid.get_key_located_left(row, col);
+
+    wall_points.push_back(
+        {key_to_the_top->GetBottomRight(), direction_right_column_is_right, 0, .75});
+    wall_points.push_back(
+        {key_to_the_top->GetBottomRight(), direction_bottom_row_is_down, 0, .5});
+    wall_points.push_back({key_to_the_left->GetBottomRight(), direction_bottom_row_is_down, 0, .5});
+  }
+
+  if (corner_bottom_right.key) {
+    auto currentKey = corner_bottom_right.key;
+    // removing the sharp corner
+    wall_points.push_back({currentKey->GetBottomRight(), direction_right_column_is_right, 0, .5});
+    wall_points.push_back({currentKey->GetBottomRight(), direction_bottom_row_is_down, 0, .5});
+  }
 
 
  // Bottom row, right to left. iterate a column in reverse order
