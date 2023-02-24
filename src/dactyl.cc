@@ -326,7 +326,9 @@ Shape ConnectBowlKeysGridToWall(KeyData& data) {
 
   auto corners = data.grid.get_key_corners();
 
-  // TODO: Process all the cornes first.
+   // TODO: Process all the cornes first.
+  shapes.push_back(ConnectBowlCornerKeys(data, corners[3]));
+
 
   // Top Row
   for (size_t i = 0; i < data.grid.num_columns(); i++) {
@@ -548,10 +550,13 @@ std::vector<WallPoint> CreateWallPoints(KeyData& data) {
     auto row = corner_bottom_left.index_x;
     auto col = corner_bottom_left.index_y;
     auto key_to_the_top = data.grid.get_key_located_up(row, col);
+    auto key_to_the_right = data.grid.get_key_located_right(row, col);
 
-    wall_points.push_back({key_to_the_top->GetBottomLeft(), direction_bottom_row_is_down, 0, .75});
+    wall_points.push_back(
+        {key_to_the_right->GetBottomLeft(), direction_bottom_row_is_down, 0, .75});
+    wall_points.push_back(
+        {key_to_the_right->GetBottomLeft(), direction_left_column_is_left, 0, .5});
     wall_points.push_back({key_to_the_top->GetBottomLeft(), direction_left_column_is_left, 0, .5});
-    wall_points.push_back({key_to_the_top->GetTopLeft(), direction_left_column_is_left, 0, .5});
   }
 
   // Left Column, bottom to top

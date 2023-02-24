@@ -176,19 +176,19 @@ struct KeyGrid {
   }
 
   Key* get_key_located_up(int row, int column) {
-    return get_key(row, column + 1);
-  }
-
-  Key* get_key_located_down(int row, int column) {
-    return get_key(row, column - 1);
-  }
-
-  Key* get_key_located_left(int row, int column) {
     return get_key(row - 1, column);
   }
 
-  Key* get_key_located_right(int row, int column) {
+  Key* get_key_located_down(int row, int column) {
     return get_key(row + 1, column);
+  }
+
+  Key* get_key_located_left(int row, int column) {
+    return get_key(row, column - 1);
+  }
+
+  Key* get_key_located_right(int row, int column) {
+    return get_key(row, column + 1);
   }
 
   // returns keys at the cornes going clockwise starting at top left
