@@ -320,22 +320,13 @@ Shape ConnectBowlCornerKeys(KeyData& data, GridCorner corner) {
       // switch statement over corner.location 
 
     switch (corner.location) {
-      case CornerLocation::BOTTOM_LEFT:
-        shapes.push_back(TriFan(key_top->GetBottomRight(),
+      case CornerLocation::TOP_LEFT:
+        shapes.push_back(TriFan(key_bottom->GetTopRight(),
                                 {
-                                    key_diagonal_top_right->GetBottomLeft(),
-                                    key_right->GetTopLeft(),
+                                    key_diagonal_bottom_right->GetTopLeft(),
                                     key_right->GetBottomLeft(),
-                                    key_top->GetBottomLeft(),
-                                }));
-        break;
-      case CornerLocation::BOTTOM_RIGHT:
-        shapes.push_back(TriFan(key_top->GetBottomLeft(),
-                                {
-                                    key_diagonal_top_left->GetBottomRight(),
-                                    key_left->GetTopRight(),
-                                    key_left->GetBottomRight(),
-                                    key_top->GetBottomRight(),
+                                    key_right->GetTopLeft(),
+                                    key_bottom->GetTopLeft(),
                                 }));
         break;
       case CornerLocation::TOP_RIGHT:
@@ -347,13 +338,22 @@ Shape ConnectBowlCornerKeys(KeyData& data, GridCorner corner) {
                                     key_bottom->GetTopRight(),
                                 }));
         break;
-      case CornerLocation::TOP_LEFT:
-        shapes.push_back(TriFan(key_bottom->GetTopRight(),
+      case CornerLocation::BOTTOM_RIGHT:
+        shapes.push_back(TriFan(key_top->GetBottomLeft(),
                                 {
-                                    key_diagonal_bottom_right->GetTopLeft(),
-                                    key_right->GetBottomLeft(),
+                                    key_diagonal_top_left->GetBottomRight(),
+                                    key_left->GetTopRight(),
+                                    key_left->GetBottomRight(),
+                                    key_top->GetBottomRight(),
+                                }));
+        break;
+      case CornerLocation::BOTTOM_LEFT:
+        shapes.push_back(TriFan(key_top->GetBottomRight(),
+                                {
+                                    key_diagonal_top_right->GetBottomLeft(),
                                     key_right->GetTopLeft(),
-                                    key_bottom->GetTopLeft(),
+                                    key_right->GetBottomLeft(),
+                                    key_top->GetBottomLeft(),
                                 }));
         break;
     }
