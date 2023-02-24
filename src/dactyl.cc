@@ -543,9 +543,7 @@ std::vector<WallPoint> CreateWallPoints(KeyData& data) {
     }
   }
 
-// {d.key_shift.GetBottomLeft(), down, 0, .75}, 
-// {d.key_shift.GetBottomLeft(), left, 0, .5},
-// {d.key_shift.GetTopLeft(), left, 0, .5},
+ // Corner Handleling
   if (corner_bottom_left.key == NULL) {
     auto row = corner_bottom_left.index_x;
     auto col = corner_bottom_left.index_y;
@@ -558,6 +556,13 @@ std::vector<WallPoint> CreateWallPoints(KeyData& data) {
         {key_to_the_right->GetBottomLeft(), direction_left_column_is_left, 0, .5});
     wall_points.push_back({key_to_the_top->GetBottomLeft(), direction_left_column_is_left, 0, .5});
   }
+  if (corner_bottom_left.key)
+  {
+    auto currentKey = corner_bottom_left.key;
+    // removing the sharp corner
+    wall_points.push_back({currentKey->GetBottomLeft(), direction_bottom_row_is_down, 0, .5});
+    wall_points.push_back({currentKey->GetBottomLeft(), direction_left_column_is_left, 0, .5});
+  }
 
   // Left Column, bottom to top
   for (int16_t i = data.grid.num_rows() - 1; i >= 0; i--) {
@@ -566,5 +571,28 @@ std::vector<WallPoint> CreateWallPoints(KeyData& data) {
           wall_points.push_back({key->GetBottomLeft(), direction_left_column_is_left});
     }
   }
+
+   // corner_top_left handleling
+  if (corner_top_left.key == NULL) {
+    auto row = corner_top_left.index_x;
+    auto col = corner_top_left.index_y;
+    auto key_to_the_bottom = data.grid.get_key_located_down(row, col);
+    auto key_to_the_right = data.grid.get_key_located_right(row, col);
+
+    wall_points.push_back({key_to_the_bottom->GetTopLeft(), direction_left_column_is_left, 0, .75});
+    wall_points.push_back({key_to_the_bottom->GetTopLeft(), direction_top_row_is_up, 0, .5});
+    wall_points.push_back({key_to_the_right->GetTopLeft(), direction_top_row_is_up, 0, .5});
+  } 
+  
+  if (corner_top_left.key)
+  {
+    auto currentKey = corner_top_left.key;
+    // removing the sharp corner
+    wall_points.push_back({currentKey->GetTopLeft(), direction_left_column_is_left, 0, .5});
+    wall_points.push_back({currentKey->GetTopLeft(), direction_top_row_is_up, 0, .5});
+  }
+
+
+
   return wall_points;
 }
