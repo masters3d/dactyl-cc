@@ -134,16 +134,16 @@ struct Key {
 
 struct GridCorner {
  public:
-  GridCorner(Key* key, CornerLocation location, size_t index_x, size_t index_y)
-      : key(key), location(location), index_y(index_y), index_x(index_x) {
+  GridCorner(Key* key, CornerLocation location, size_t index_row, size_t index_column)
+      : key(key), location(location), index_column(index_column), index_row(index_row) {
   }
   Key* key = nullptr;
   CornerLocation location;
-  size_t index_x;
-  size_t index_y;
+  size_t index_row;
+  size_t index_column;
 
-  bool isSame(size_t index_x, size_t index_y) {
-    return index_x == this->index_x && index_y == this->index_y;
+  bool isSame(size_t index_row, size_t index_column) {
+    return index_row == this->index_row && index_column == this->index_column;
   }
 };
 

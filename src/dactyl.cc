@@ -529,8 +529,8 @@ std::vector<WallPoint> CreateWallPoints(KeyData& data) {
 
   // corner_top_right handleling
   if (corner_top_right.key == NULL) {
-    auto row = corner_top_right.index_x;
-    auto col = corner_top_right.index_y;
+    auto row = corner_top_right.index_row;
+    auto col = corner_top_right.index_column;
     auto key_to_the_bottom = data.grid.get_key_located_down(row, col);
     auto key_to_the_left = data.grid.get_key_located_left(row, col);
 
@@ -557,8 +557,8 @@ std::vector<WallPoint> CreateWallPoints(KeyData& data) {
 
   // corner_bottom_right handleling
   if (corner_bottom_right.key == NULL) {
-    auto row = corner_bottom_right.index_x;
-    auto col = corner_bottom_right.index_y;
+    auto row = corner_bottom_right.index_row;
+    auto col = corner_bottom_right.index_column;
     auto key_to_the_top = data.grid.get_key_located_up(row, col);
     auto key_to_the_left = data.grid.get_key_located_left(row, col);
 
@@ -587,8 +587,8 @@ std::vector<WallPoint> CreateWallPoints(KeyData& data) {
 
  //corner_bottom_left handleling
   if (corner_bottom_left.key == NULL) {
-    auto row = corner_bottom_left.index_x;
-    auto col = corner_bottom_left.index_y;
+    auto row = corner_bottom_left.index_row;
+    auto col = corner_bottom_left.index_column;
     auto key_to_the_top = data.grid.get_key_located_up(row, col);
     auto key_to_the_right = data.grid.get_key_located_right(row, col);
 
@@ -616,8 +616,8 @@ std::vector<WallPoint> CreateWallPoints(KeyData& data) {
 
    // corner_top_left handleling
   if (corner_top_left.key == NULL) {
-    auto row = corner_top_left.index_x;
-    auto col = corner_top_left.index_y;
+    auto row = corner_top_left.index_row;
+    auto col = corner_top_left.index_column;
     auto key_to_the_bottom = data.grid.get_key_located_down(row, col);
     auto key_to_the_right = data.grid.get_key_located_right(row, col);
 
@@ -633,8 +633,6 @@ std::vector<WallPoint> CreateWallPoints(KeyData& data) {
     wall_points.push_back({currentKey->GetTopLeft(), direction_left_column_is_left, 0, .5});
     wall_points.push_back({currentKey->GetTopLeft(), direction_top_row_is_up, 0, .5});
   }
-
-
 
   return wall_points;
 }
