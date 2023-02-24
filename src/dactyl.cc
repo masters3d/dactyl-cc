@@ -497,10 +497,19 @@ Shape ConnectBowlKeysWallPosts(KeyData& data) {
 
 std::vector<WallPoint> CreateWallPoints(KeyData& data) {
 
-  Direction up = Direction::UP;
-  Direction down = Direction::DOWN;
-  Direction left = Direction::LEFT;
-  Direction right = Direction::RIGHT;
+  Direction direction_top_row_is_up = Direction::UP;
+  Direction direction_bottom_row_is_down = Direction::DOWN;
+  Direction direction_left_column_is_left = Direction::LEFT;
+  Direction direction_right_column_is_right = Direction::RIGHT;
+
+  auto corners = data.grid.get_key_corners();
+
+  // Clock Wise
+  GridCorner corner_top_left = corners[0];
+  GridCorner corner_top_right = corners[1];
+  GridCorner corner_bottom_right = corners[2];
+  GridCorner corner_bottom_left = corners[3];
+
 
   // Start top left and go clockwise.
   // Top Row: Left to Right
@@ -512,7 +521,7 @@ std::vector<WallPoint> CreateWallPoints(KeyData& data) {
   // Top Row left to right
   for (Key* key : data.grid.row(0)) {
     if (key) {
-          wall_points.push_back({key->GetTopLeft(), up});
+          wall_points.push_back({key->GetTopLeft(), direction_top_row_is_up});
     }
   } 
 
@@ -520,7 +529,7 @@ std::vector<WallPoint> CreateWallPoints(KeyData& data) {
  for (size_t i = 0; i < data.grid.num_rows() -1; i++) {
     Key* key = data.grid.get_key(i, data.grid.num_columns() - 1);
     if (key) {
-          wall_points.push_back({key->GetTopRight(), right});
+          wall_points.push_back({key->GetTopRight(), direction_right_column_is_right});
     }
   }
 
@@ -528,20 +537,28 @@ std::vector<WallPoint> CreateWallPoints(KeyData& data) {
  for (int16_t i = data.grid.num_columns() - 1; i >= 0; i--) {
     Key* key = data.grid.get_key(data.grid.num_rows() - 1, i);
     if (key) {
-          wall_points.push_back({key->GetBottomRight(), down});
+          wall_points.push_back({key->GetBottomRight(), direction_bottom_row_is_down});
     }
   }
 
 // {d.key_shift.GetBottomLeft(), down, 0, .75}, 
 // {d.key_shift.GetBottomLeft(), left, 0, .5},
 // {d.key_shift.GetTopLeft(), left, 0, .5},
+  if (corner_bottom_left.key == NULL) {
+    auto row = corner_bottom_left.index_x;
+    auto col = corner_bottom_left.index_y;
+    auto key_to_the_top = data.grid.get_key_located_up(row, col);
 
+    wall_points.push_back({key_to_the_top->GetBottomLeft(), direction_bottom_row_is_down, 0, .75});
+    wall_points.push_back({key_to_the_top->GetBottomLeft(), direction_left_column_is_left, 0, .5});
+    wall_points.push_back({key_to_the_top->GetTopLeft(), direction_left_column_is_left, 0, .5});
+  }
 
   // Left Column, bottom to top
   for (int16_t i = data.grid.num_rows() - 1; i >= 0; i--) {
     Key* key = data.grid.get_key(i, 0);
     if (key) {
-          wall_points.push_back({key->GetBottomLeft(), left});
+          wall_points.push_back({key->GetBottomLeft(), direction_left_column_is_left});
     }
   }
   return wall_points;
