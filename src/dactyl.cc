@@ -152,6 +152,11 @@ int main() {
     }
   }
 
+  // Printing Intermediate Steps
+  if (kCreateIntermediateArtifacts) {
+    UnionAll(shapes).WriteToFile("validate_05_thumbkeys.scad");
+  }
+
   // Set all of the widths here. This must be done before calling any of GetTopLeft etc.
 
   data.key_thumb_5_0.extra_width_bottom = 11;
@@ -295,7 +300,6 @@ Shape ConnectBowlKeysInternal(KeyData& data) {
   return UnionAll(shapes);
 }
 
-
 Shape ConnectBowlCornerKeys(KeyData& data, GridCorner corner) {
     std::vector<Shape> shapes;
 
@@ -365,11 +369,10 @@ Shape ConnectBowlCornerKeys(KeyData& data, GridCorner corner) {
 Shape ConnectBowlKeysGridToWall(KeyData& data) {
   std::vector<Shape> shapes;
 
-  auto corners = data.grid.get_key_corners();
-
-  // TODO: Process all the cornes first.
-  shapes.push_back(ConnectBowlCornerKeys(data, corners[2]));
-  shapes.push_back(ConnectBowlCornerKeys(data, corners[3]));
+  // process all corners
+  for (auto& each : data.grid.get_key_corners()) {
+    shapes.push_back(ConnectBowlCornerKeys(data, each));
+  }
 
   // Top Row
   for (size_t i = 0; i < data.grid.num_columns(); i++) {
