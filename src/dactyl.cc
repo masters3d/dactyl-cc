@@ -527,6 +527,26 @@ std::vector<WallPoint> CreateWallPoints(KeyData& data) {
     }
   } 
 
+  // corner_top_right handleling
+  if (corner_top_right.key == NULL) {
+    auto row = corner_top_right.index_x;
+    auto col = corner_top_right.index_y;
+    auto key_to_the_bottom = data.grid.get_key_located_down(row, col);
+    auto key_to_the_left = data.grid.get_key_located_left(row, col);
+
+    wall_points.push_back({key_to_the_left->GetTopRight(), direction_top_row_is_up, 0, .75});
+    wall_points.push_back({key_to_the_left->GetTopRight(), direction_right_column_is_right, 0, .5});
+    wall_points.push_back(
+        {key_to_the_bottom->GetTopRight(), direction_right_column_is_right, 0, .5});
+  }
+
+  if (corner_top_right.key) {
+    auto currentKey = corner_top_right.key;
+    // removing the sharp corner
+    wall_points.push_back({currentKey->GetTopRight(), direction_top_row_is_up, 0, .5});
+    wall_points.push_back({currentKey->GetTopRight(), direction_right_column_is_right, 0, .5});
+  }
+
  // Right column, top to bottom
  for (size_t i = 0; i < data.grid.num_rows() -1; i++) {
     Key* key = data.grid.get_key(i, data.grid.num_columns() - 1);
@@ -534,6 +554,8 @@ std::vector<WallPoint> CreateWallPoints(KeyData& data) {
           wall_points.push_back({key->GetTopRight(), direction_right_column_is_right});
     }
   }
+
+
 
  // Bottom row, right to left. iterate a column in reverse order
  for (int16_t i = data.grid.num_columns() - 1; i >= 0; i--) {
@@ -543,7 +565,7 @@ std::vector<WallPoint> CreateWallPoints(KeyData& data) {
     }
   }
 
- // Corner Handleling
+ //corner_bottom_left handleling
   if (corner_bottom_left.key == NULL) {
     auto row = corner_bottom_left.index_x;
     auto col = corner_bottom_left.index_y;
