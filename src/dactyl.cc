@@ -295,41 +295,48 @@ Shape ConnectBowlKeysInternal(KeyData& data) {
   return UnionAll(shapes);
 }
 
+
+Shape ConnectBowlCornerKeys(KeyData& data, GridCorner corner) {
+    std::vector<Shape> shapes;
+   
+    if (corner.key == NULL)
+    {
+      // Create a triangle if key is missing
+
+      // switch statement over corner.location 
+
+    switch (corner.location) {
+      case CornerLocation::BOTTOM_LEFT:
+        shapes.push_back(TriFan(data.key_3_0.GetBottomRight(),
+                                {
+                                    data.key_3_1.GetBottomLeft(),
+                                    data.key_4_1.GetTopLeft(),
+                                    data.key_4_1.GetBottomLeft(),
+                                    data.key_3_0.GetBottomLeft(),
+                                }));
+        break;
+    }
+
+    }
+      return UnionAll(shapes);
+}
+
 Shape ConnectBowlKeysGridToWall(KeyData& data) {
   std::vector<Shape> shapes;
 
-  auto columnLastIndex = data.grid.num_columns() - 1;
-  auto rowLastIndex = data.grid.num_rows() - 1;
+  auto corners = data.grid.get_key_corners();
 
-  // top row = 0
-  size_t key_top_left_row = 0, key_top_right_row = key_top_left_row;
-  // left column = 0
-  size_t key_top_left_column = 0, key_bottom_left_column = key_top_left_column;
-  // bottom row = rowLastIndex
-  size_t key_bottom_left_row = rowLastIndex, key_bottom_right_row = key_bottom_left_row; 
-  // right column = columnLastIndex
-  size_t key_top_right_column = columnLastIndex, key_bottom_right_column = key_top_right_column;
-   
-      
-  auto key_top_left_courner = data.grid.get_key(key_top_left_row, key_top_left_column);
-  auto key_bottom_left_courner = data.grid.get_key(key_bottom_left_row, key_bottom_left_column);
-  auto key_top_right_courner = data.grid.get_key(key_top_right_row, key_top_right_column);
-  // In a Dactly this key is alway null on the left half of a keyboard. This is the key next to the thumb cluster.
-  auto key_bottom_right_courner = data.grid.get_key(key_bottom_right_row, key_bottom_right_column);
-
-//get_key_located_up
+  // TODO: Process all the cornes first.
 
   // Top Row
-
-  // for loop over all keys in the top row
   for (size_t i = 0; i < data.grid.num_columns(); i++) {
 
     // get the key at the top row and the previous column 
-	Key* key_previous = data.grid.get_key(key_top_left_row, i - 1);
+	Key* key_previous = data.grid.get_key(0, i - 1);
 	// get the key at the top row and the current column
-	Key* key = data.grid.get_key(key_top_left_row, i);
+	Key* key = data.grid.get_key(0, i);
 	// get the key at the top row and the next column
-    Key* key_next = data.grid.get_key(key_top_left_row, i + 1);
+    Key* key_next = data.grid.get_key(0, i + 1);
     
 	// if the key is not null
     if (key) {
@@ -371,20 +378,6 @@ Shape ConnectBowlKeysGridToWall(KeyData& data) {
         }
   }
 
-
-  // Bottom Row
-    
-
- if (key_bottom_left_courner == NULL) {
-    // Create a triangle if key is missing
-    shapes.push_back(TriFan(data.key_3_0.GetBottomRight(),
-                            {
-                                data.key_3_1.GetBottomLeft(),
-                                data.key_4_1.GetTopLeft(),
-                                data.key_4_1.GetBottomLeft(),
-                                data.key_3_0.GetBottomLeft(),
-                            }));  
- }
 
   return UnionAll(shapes);
 }
@@ -509,28 +502,21 @@ std::vector<WallPoint> CreateWallPoints(KeyData& data) {
   Direction left = Direction::LEFT;
   Direction right = Direction::RIGHT;
 
-  std::vector<WallPoint> wall_points = {
-      // Start top left and go clockwise
-      //{data.key_0_0.GetTopLeft(), up},
+  // Start top left and go clockwise.
+  // Top Row: Left to Right
+  // Right Column: Top to Bottom
+  // Bottom Row: Right to Left
+  // Left Column: Bottom to Top
+  std::vector<WallPoint> wall_points = {};
 
-      // more
-      // back to top
-      //{data.key_0_0.GetBottomLeft(), left},
-      //{data.key_0_0.GetTopLeft(), left},
-  };
-
-
-   // We need to iterate left to right.
-
-   // Top Row left to right
+  // Top Row left to right
   for (Key* key : data.grid.row(0)) {
     if (key) {
           wall_points.push_back({key->GetTopLeft(), up});
     }
   } 
 
-  // Right column, top to bottom
-
+ // Right column, top to bottom
  for (size_t i = 0; i < data.grid.num_rows() -1; i++) {
     Key* key = data.grid.get_key(i, data.grid.num_columns() - 1);
     if (key) {
@@ -538,13 +524,18 @@ std::vector<WallPoint> CreateWallPoints(KeyData& data) {
     }
   }
 
-  // Bottom row, right to left. iterate a column in reverse order
-  for (int16_t i = data.grid.num_columns() - 1; i >= 0; i--) {
+ // Bottom row, right to left. iterate a column in reverse order
+ for (int16_t i = data.grid.num_columns() - 1; i >= 0; i--) {
     Key* key = data.grid.get_key(data.grid.num_rows() - 1, i);
     if (key) {
           wall_points.push_back({key->GetBottomRight(), down});
     }
   }
+
+// {d.key_shift.GetBottomLeft(), down, 0, .75}, 
+// {d.key_shift.GetBottomLeft(), left, 0, .5},
+// {d.key_shift.GetTopLeft(), left, 0, .5},
+
 
   // Left Column, bottom to top
   for (int16_t i = data.grid.num_rows() - 1; i >= 0; i--) {

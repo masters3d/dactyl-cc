@@ -34,6 +34,8 @@ const double kSwitchHorizontalOffset = kSwitchWidth / 2 + kWallWidth;
 // This is the distance between the top of the switch plate and the tip of the switch stem.
 const double kSwitchTipOffset = 10;
 
+enum class CornerLocation { TOP_LEFT, TOP_RIGHT, BOTTOM_RIGHT, BOTTOM_LEFT };
+
 enum class KeyType {
   DSA,
   SA,            // Row 3
@@ -129,6 +131,23 @@ struct Key {
   TransformList GetBottomLeftInternal() const;
 };
 
+
+struct GridCorner {
+ public:
+  GridCorner(Key* key, CornerLocation location, size_t index_x, size_t index_y)
+      : key(key), location(location), index_y(index_y), index_x(index_x) {
+  }
+  Key* key = nullptr;
+  CornerLocation location;
+  size_t index_x;
+  size_t index_y;
+
+  bool isSame(size_t index_x, size_t index_y) {
+    return index_x == this->index_x && index_y == this->index_y;
+  }
+};
+
+
 struct KeyGrid {
   explicit KeyGrid(std::vector<std::vector<Key*>> data) : data(std::move(data)) {
   }
@@ -170,6 +189,38 @@ struct KeyGrid {
 
   Key* get_key_located_right(int row, int column) {
     return get_key(row + 1, column);
+  }
+
+  // returns keys at the cornes going clockwise starting at top left
+  std::vector<GridCorner> get_key_corners() {
+    std::vector<GridCorner> result;
+
+    auto columnLastIndex = num_columns() - 1;
+    auto rowLastIndex = num_rows() - 1;
+
+    // top row = 0
+    size_t key_top_left_row = 0, key_top_right_row = key_top_left_row;
+    // left column = 0
+    size_t key_top_left_column = 0, key_bottom_left_column = key_top_left_column;
+    // bottom row = rowLastIndex
+    size_t key_bottom_left_row = rowLastIndex, key_bottom_right_row = key_bottom_left_row;
+    // right column = columnLastIndex
+    size_t key_top_right_column = columnLastIndex, key_bottom_right_column = key_top_right_column;
+
+    auto key_top_left_corner = get_key(key_top_left_row, key_top_left_column);
+    auto key_bottom_left_corner = get_key(key_bottom_left_row, key_bottom_left_column);
+    auto key_top_right_corner = get_key(key_top_right_row, key_top_right_column);
+    // In a Dactly this key is alway null on the left half of a keyboard. This is the key next to
+    // the thumb cluster.
+    auto key_bottom_right_corner =
+        get_key(key_bottom_right_row, key_bottom_right_column);
+
+    result.push_back( GridCorner( key_top_left_corner, CornerLocation::TOP_LEFT, key_top_left_row, key_top_left_column)); 
+    result.push_back( GridCorner( key_top_right_corner, CornerLocation::TOP_RIGHT, key_top_right_row, key_top_right_column)); 
+    result.push_back( GridCorner( key_bottom_right_corner, CornerLocation::BOTTOM_RIGHT, key_bottom_right_row, key_bottom_right_column)); 
+    result.push_back( GridCorner( key_bottom_left_corner, CornerLocation::BOTTOM_LEFT, key_bottom_left_row, key_bottom_left_column)); 
+
+    return result;  
   }
 
   std::vector<Key*> keys() {
