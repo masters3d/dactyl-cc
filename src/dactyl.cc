@@ -44,6 +44,7 @@ Shape ConnectBowlKeysInternal(KeyData& data);
 Shape ConnectBowlKeysGridToWall(KeyData& data);
 Shape ConnectBowlKeysWallPosts(KeyData& data);
 Shape ConnectThumbClusterStandard(KeyData& data);
+Shape ConnectCreateWalls(std::vector<WallPoint> wall_points);
 
 std::vector<WallPoint> CreateWallPoints(KeyData& data);
 
@@ -160,6 +161,53 @@ int main() {
             data.key_thumb_5_0.GetTopLeft().Apply(Cube(50, 50, 6).TranslateZ(3)).Color("green"))
         .WriteToFile("validate_06_substrack_thumb_preview.scad");
   }
+
+    // Add all the screw inserts.
+  std::vector<Shape> screw_holes;
+  {
+    double screw_height = 5;
+    double screw_radius = 4.4 / 2.0;
+    Shape screw_hole = Cylinder(screw_height + 2, screw_radius, 30);
+    Shape screw_insert =
+        Cylinder(screw_height, screw_radius + 1.65, 30).TranslateZ(screw_height / 2);
+
+    glm::vec3 screw_left_bottom = data.key_3_0.GetBottomLeft().Apply(kOrigin);
+    screw_left_bottom.z = 0;
+    screw_left_bottom.x += 3.2;
+
+    glm::vec3 screw_left_top = data.key_0_0.GetTopLeft().Apply(kOrigin);
+    screw_left_top.z = 0;
+    screw_left_top.x += 2.8;
+    screw_left_top.y += -.5;
+
+    glm::vec3 screw_right_top = data.key_0_5.GetTopRight().Apply(kOrigin);
+    screw_right_top.z = 0;
+    screw_right_top.x += 4;
+    screw_right_top.y += -15.5;
+
+    glm::vec3 screw_right_bottom = data.key_thumb_5_2.GetBottomLeft().Apply(kOrigin);
+    screw_right_bottom.z = 0;
+    screw_right_bottom.y += 3.5;
+    screw_right_bottom.x += 1.5;
+
+    glm::vec3 screw_right_mid = data.key_thumb_5_5.GetTopLeft().Apply(kOrigin);
+    screw_right_mid.z = 0;
+    screw_right_mid.y += -.9;
+
+    shapes.push_back(Union(screw_insert.Translate(screw_left_top),
+                           screw_insert.Translate(screw_right_top),
+                           screw_insert.Translate(screw_right_mid),
+                           screw_insert.Translate(screw_right_bottom),
+                           screw_insert.Translate(screw_left_bottom)));
+    screw_holes = {
+        screw_hole.Translate(screw_left_top),
+        screw_hole.Translate(screw_right_top),
+        screw_hole.Translate(screw_right_mid),
+        screw_hole.Translate(screw_right_bottom),
+        screw_hole.Translate(screw_left_bottom),
+    };
+  }
+
 
   std::vector<Shape> negative_shapes;
   //AddShapes(&negative_shapes, screw_holes);
@@ -454,35 +502,32 @@ Shape ConnectBowlKeysGridToWall(KeyData& data) {
   return UnionAll(shapes);
 }
 
-Shape ConnectBowlKeysWallPosts(KeyData& data) {
+Shape ConnectCreateWalls(std::vector<WallPoint> wall_points) {
 
-  std::vector<Shape> shapes;
+   std::vector<Shape> shapes;
 
   //
   // Make the wall
   //
   {
-
-    std::vector<WallPoint> wall_points = CreateWallPoints(data);
-
-    std::vector<std::vector<Shape>> wall_slices;
-    for (WallPoint point : wall_points) {
+        std::vector<std::vector<Shape>> wall_slices;
+        for (WallPoint point : wall_points) {
           Shape s1 = point.transforms.Apply(GetPostConnector());
 
           TransformList t = point.transforms;
           glm::vec3 out_dir;
           float distance = 4.8 + point.extra_distance;
           switch (point.out_direction) {
-        case Direction::UP:
+            case Direction::UP:
           t.AppendFront(TransformList().Translate(0, distance, 0).RotateX(-20));
           break;
-        case Direction::DOWN:
+            case Direction::DOWN:
           t.AppendFront(TransformList().Translate(0, -1 * distance, 0).RotateX(20));
           break;
-        case Direction::LEFT:
+            case Direction::LEFT:
           t.AppendFront(TransformList().Translate(-1 * distance, 0, 0).RotateY(-20));
           break;
-        case Direction::RIGHT:
+            case Direction::RIGHT:
           t.AppendFront(TransformList().Translate(distance, 0, 0).RotateY(20));
           break;
           }
@@ -506,64 +551,29 @@ Shape ConnectBowlKeysWallPosts(KeyData& data) {
           slice.push_back(Hull(s2, s2.Projection().LinearExtrude(.1).TranslateZ(.05)));
 
           wall_slices.push_back(slice);
-    }
+        }
 
-    for (size_t i = 0; i < wall_slices.size(); ++i) {
+        for (size_t i = 0; i < wall_slices.size(); ++i) {
           auto& slice = wall_slices[i];
           auto& next_slice = wall_slices[(i + 1) % wall_slices.size()];
           for (size_t j = 0; j < slice.size(); ++j) {
-        shapes.push_back(Hull(slice[j], next_slice[j]));
-        // Uncomment for testing. Much faster and easier to visualize.
-        // shapes.push_back(slice[j]);
+            shapes.push_back(Hull(slice[j], next_slice[j]));
+            // Uncomment for testing. Much faster and easier to visualize.
+            // shapes.push_back(slice[j]);
           }
-    }
+        }
   }
+  return UnionAll(shapes);
+}
 
-  // Add all the screw inserts.
-  std::vector<Shape> screw_holes;
-  {
-    double screw_height = 5;
-    double screw_radius = 4.4 / 2.0;
-    Shape screw_hole = Cylinder(screw_height + 2, screw_radius, 30);
-    Shape screw_insert =
-        Cylinder(screw_height, screw_radius + 1.65, 30).TranslateZ(screw_height / 2);
+Shape ConnectBowlKeysWallPosts(KeyData& data) {
 
-    glm::vec3 screw_left_bottom = data.key_3_0.GetBottomLeft().Apply(kOrigin);
-    screw_left_bottom.z = 0;
-    screw_left_bottom.x += 3.2;
+   std::vector<Shape> shapes;
 
-    glm::vec3 screw_left_top = data.key_0_0.GetTopLeft().Apply(kOrigin);
-    screw_left_top.z = 0;
-    screw_left_top.x += 2.8;
-    screw_left_top.y += -.5;
+   std::vector<WallPoint> wall_points = CreateWallPoints(data);
 
-    glm::vec3 screw_right_top = data.key_0_5.GetTopRight().Apply(kOrigin);
-    screw_right_top.z = 0;
-    screw_right_top.x += 4;
-    screw_right_top.y += -15.5;
+   shapes.push_back(ConnectCreateWalls(wall_points));
 
-    glm::vec3 screw_right_bottom = data.key_thumb_5_2.GetBottomLeft().Apply(kOrigin);
-    screw_right_bottom.z = 0;
-    screw_right_bottom.y += 3.5;
-    screw_right_bottom.x += 1.5;
-
-    glm::vec3 screw_right_mid = data.key_thumb_5_5.GetTopLeft().Apply(kOrigin);
-    screw_right_mid.z = 0;
-    screw_right_mid.y += -.9;
-
-    shapes.push_back(Union(screw_insert.Translate(screw_left_top),
-                           screw_insert.Translate(screw_right_top),
-                           screw_insert.Translate(screw_right_mid),
-                           screw_insert.Translate(screw_right_bottom),
-                           screw_insert.Translate(screw_left_bottom)));
-    screw_holes = {
-        screw_hole.Translate(screw_left_top),
-        screw_hole.Translate(screw_right_top),
-        screw_hole.Translate(screw_right_mid),
-        screw_hole.Translate(screw_right_bottom),
-        screw_hole.Translate(screw_left_bottom),
-    };
-  }
   return UnionAll(shapes);
 }
 
