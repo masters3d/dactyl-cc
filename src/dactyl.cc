@@ -175,6 +175,13 @@ int main() {
   data.key_thumb_5_2.extra_width_left = 3;
 
 
+  if (kCreateIntermediateArtifacts) {
+    // Doing a substract only for preview
+    UnionAll(shapes).Subtract(
+        data.key_thumb_5_0.GetTopLeft().Apply(Cube(50, 50, 6).TranslateZ(3)).Color("green"))
+        .WriteToFile("validate_06_thumbkeys_sub.scad");
+  }
+
   //
   // Thumb plate
   //
@@ -654,7 +661,8 @@ std::vector<WallPoint> CreateWallPoints(KeyData& data) {
   for (int16_t i = data.grid.num_rows() - 1; i >= 0; i--) {
     Key* key = data.grid.get_key(i, 0);
     if (key) {
-          wall_points.push_back({key->GetBottomLeft(), direction_left_column_is_left});
+          wall_points.push_back(
+              {key->GetBottomLeft(), direction_left_column_is_left});
     }
   }
 
