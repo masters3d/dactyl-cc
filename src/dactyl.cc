@@ -43,6 +43,7 @@ void AddShapes(std::vector<Shape>* shapes, std::vector<Shape> to_add) {
 Shape ConnectBowlKeysInternal(KeyData& data);
 Shape ConnectBowlKeysGridToWall(KeyData& data);
 Shape ConnectBowlKeysWallPosts(KeyData& data);
+Shape ConnectThumbClusterStandard(KeyData& data);
 
 std::vector<WallPoint> CreateWallPoints(KeyData& data);
 
@@ -144,21 +145,64 @@ int main() {
     UnionAll(shapes).WriteToFile("validate_04_BowlAndWalls.scad");
   }
 
-  // adding the keys for thumb cluster
-  for (Key* key : data.thumb_keys()) {
-    shapes.push_back(key->GetSwitch());
-    if (kAddCaps) {
-      shapes.push_back(key->GetCap().Color("red"));
-    }
+  // Thumb Cluster
+  shapes.push_back(ConnectThumbClusterStandard(data));
+
+    // Printing Intermediate Steps
+  if (kCreateIntermediateArtifacts) {
+    UnionAll(shapes).WriteToFile("validate_05_thumbcluster.scad");
   }
 
-  // Printing Intermediate Steps
   if (kCreateIntermediateArtifacts) {
-    UnionAll(shapes).WriteToFile("validate_05_thumbkeys.scad");
+    // Doing a substract only for preview
+    UnionAll(shapes)
+        .Subtract(
+            data.key_thumb_5_0.GetTopLeft().Apply(Cube(50, 50, 6).TranslateZ(3)).Color("green"))
+        .WriteToFile("validate_06_substrack_thumb_preview.scad");
   }
+
+  std::vector<Shape> negative_shapes;
+  //AddShapes(&negative_shapes, screw_holes);
+  // Cut off the parts sticking up into the thumb plate.
+  negative_shapes.push_back(
+      data.key_thumb_5_0.GetTopLeft().Apply(Cube(50, 50, 6).TranslateZ(3)).Color("red"));
+
+  // Cut out hole for holder.
+  Shape holder_hole = Cube(29.0, 20.0, 12.5).TranslateZ(12 / 2);
+  glm::vec3 holder_location = data.key_0_4.GetTopLeft().Apply(kOrigin);
+  holder_location.z = -0.5;
+  holder_location.x += 17.5;
+  negative_shapes.push_back(holder_hole.Translate(holder_location));
+
+  Shape result = UnionAll(shapes);
+  // Subtracting is expensive to preview and is best to disable while testing.
+  result = result.Subtract(UnionAll(negative_shapes));
+  result.WriteToFile("product_left.scad");
+  result.MirrorX().WriteToFile("product_right.scad");
+
+  // Bottom plate
+  {
+    std::vector<Shape> bottom_plate_shapes = {result};
+    for (Key* key : data.all_keys()) {
+      bottom_plate_shapes.push_back(Hull(key->GetSwitch()));
+    }
+
+    //Shape bottom_plate = UnionAll(bottom_plate_shapes)
+    //                         .Projection()
+    //                         .LinearExtrude(1.5)
+                             //.Subtract(UnionAll(screw_holes));
+    //bottom_plate.WriteToFile("product_left_bottom.scad");
+    //bottom_plate.MirrorX().WriteToFile("product_right_bottom.scad");
+  }
+
+  return 0;
+}
+
+Shape ConnectThumbClusterStandard(KeyData& data) {
+
+  std::vector<Shape> shapes;
 
   // Set all of the widths here. This must be done before calling any of GetTopLeft etc.
-
   data.key_thumb_5_0.extra_width_bottom = 11;
   data.key_thumb_5_0.extra_width_left = 3;
   data.key_thumb_5_1.extra_width_bottom = 11;
@@ -174,13 +218,19 @@ int main() {
   data.key_thumb_5_2.extra_width_right = 3;
   data.key_thumb_5_2.extra_width_left = 3;
 
-
-  if (kCreateIntermediateArtifacts) {
-    // Doing a substract only for preview
-    UnionAll(shapes).Subtract(
-        data.key_thumb_5_0.GetTopLeft().Apply(Cube(50, 50, 6).TranslateZ(3)).Color("green"))
-        .WriteToFile("validate_06_thumbkeys_sub.scad");
+  // adding the keys for thumb cluster
+  for (Key* key : data.thumb_keys()) {
+    shapes.push_back(key->GetSwitch());
+    if (kAddCaps) {
+      shapes.push_back(key->GetCap().Color("red"));
+    }
   }
+
+  // Printing Intermediate Steps
+  if (kCreateIntermediateArtifacts) {
+    UnionAll(shapes).WriteToFile("validate_thumbcluster_01_only_keys.scad");
+  }
+
 
   //
   // Thumb plate
@@ -241,43 +291,12 @@ int main() {
                               data.key_3_4.GetBottomRight(),
                           }));
 
-
-
-  std::vector<Shape> negative_shapes;
-  //AddShapes(&negative_shapes, screw_holes);
-  // Cut off the parts sticking up into the thumb plate.
-  negative_shapes.push_back(
-      data.key_thumb_5_0.GetTopLeft().Apply(Cube(50, 50, 6).TranslateZ(3)).Color("red"));
-
-  // Cut out hole for holder.
-  Shape holder_hole = Cube(29.0, 20.0, 12.5).TranslateZ(12 / 2);
-  glm::vec3 holder_location = data.key_0_4.GetTopLeft().Apply(kOrigin);
-  holder_location.z = -0.5;
-  holder_location.x += 17.5;
-  negative_shapes.push_back(holder_hole.Translate(holder_location));
-
-  Shape result = UnionAll(shapes);
-  // Subtracting is expensive to preview and is best to disable while testing.
-  result = result.Subtract(UnionAll(negative_shapes));
-  result.WriteToFile("product_left.scad");
-  result.MirrorX().WriteToFile("product_right.scad");
-
-  // Bottom plate
-  {
-    std::vector<Shape> bottom_plate_shapes = {result};
-    for (Key* key : data.all_keys()) {
-      bottom_plate_shapes.push_back(Hull(key->GetSwitch()));
-    }
-
-    //Shape bottom_plate = UnionAll(bottom_plate_shapes)
-    //                         .Projection()
-    //                         .LinearExtrude(1.5)
-                             //.Subtract(UnionAll(screw_holes));
-    //bottom_plate.WriteToFile("product_left_bottom.scad");
-    //bottom_plate.MirrorX().WriteToFile("product_right_bottom.scad");
+    // Printing Intermediate Steps
+  if (kCreateIntermediateArtifacts) {
+    UnionAll(shapes).WriteToFile("validate_thumbcluster_02_top_connectors.scad");
   }
 
-  return 0;
+  return UnionAll(shapes);
 }
 
 Shape ConnectBowlKeysInternal(KeyData& data) {
