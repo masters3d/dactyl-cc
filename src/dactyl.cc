@@ -249,6 +249,88 @@ Shape ConnectThumbClusterStandard(KeyData& data) {
 
   std::vector<Shape> shapes;
 
+  bool isDefaultDactlyThumbCluster = true;
+
+  constexpr double kDefaultKeySpacing = 19;
+  constexpr double kDefaultKeyHalfSpacing = 9;
+
+
+    if (isDefaultDactlyThumbCluster) {
+    // Second thumb key.
+    data.key_thumb_5_1.Configure([&](Key& k) {
+      k.name = "key_delete";
+      k.SetParent(data.key_thumb_5_0);
+      k.SetPosition(kDefaultKeySpacing, 0, 0);
+    });
+
+    // Bottom side key.
+    data.key_thumb_5_2.Configure([&](Key& k) {
+      k.name = "key_end";
+      k.SetParent(data.key_thumb_5_1);
+      k.SetPosition(kDefaultKeySpacing, kDefaultKeyHalfSpacing * -1, 0);
+    });
+
+    // Middle side key.
+    data.key_thumb_5_3.Configure([&](Key& k) {
+      k.name = "key_home";
+      k.SetParent(data.key_thumb_5_1);
+      k.SetPosition(kDefaultKeySpacing, kDefaultKeyHalfSpacing, 0);
+    });
+
+    // Top side key;
+    data.key_thumb_5_4.Configure([&](Key& k) {
+      k.name = "key_alt";
+      k.SetParent(data.key_thumb_5_1);
+      k.SetPosition(kDefaultKeySpacing, kDefaultKeyHalfSpacing + kDefaultKeySpacing, 0);
+    });
+
+    // Top left key.
+    data.key_thumb_5_5.Configure([&](Key& k) {
+      k.name = "key_ctrl";
+      k.SetParent(data.key_thumb_5_1);
+      k.SetPosition(0, 10 + kDefaultKeySpacing - 1, 0);
+    });
+
+  } else {
+    // This cluster will mirror more or less the maniform.
+
+    // Second thumb key.
+    data.key_thumb_5_1.Configure([&](Key& k) {
+      k.name = "key_delete";
+      k.SetParent(data.key_thumb_5_0);
+      k.SetPosition(kDefaultKeySpacing, kDefaultKeyHalfSpacing * -1, 0);
+    });
+
+    // Bottom side key.
+    data.key_thumb_5_2.Configure([&](Key& k) {
+      k.name = "key_end";
+      k.SetParent(data.key_thumb_5_1);
+      k.SetPosition(kDefaultKeySpacing, kDefaultKeyHalfSpacing * -1, 0);
+    });
+
+    // Middle side key.
+    data.key_thumb_5_3.Configure([&](Key& k) {
+      k.name = "key_home";
+      k.SetParent(data.key_thumb_5_2);
+      k.SetPosition(kDefaultKeyHalfSpacing, kDefaultKeySpacing, 0);
+    });
+
+    // Top side key;
+    data.key_thumb_5_4.Configure([&](Key& k) {
+      k.name = "key_alt";
+      k.SetParent(data.key_thumb_5_3);
+      k.SetPosition(kDefaultKeySpacing * -1, kDefaultKeyHalfSpacing, 0);
+    });
+
+    // Top left key.
+    data.key_thumb_5_5.Configure([&](Key& k) {
+      k.name = "key_ctrl";
+      k.SetParent(data.key_thumb_5_4);
+      k.SetPosition(kDefaultKeySpacing * -1, kDefaultKeyHalfSpacing, 0);
+    });
+  }
+
+
   // Set all of the widths here. This must be done before calling any of GetTopLeft etc.
   data.key_thumb_5_0.extra_width_bottom = 11;
   data.key_thumb_5_0.extra_width_left = 3;
@@ -290,14 +372,12 @@ Shape ConnectThumbClusterStandard(KeyData& data) {
                              data.key_thumb_5_1.GetBottomRight(),
                              data.key_thumb_5_0.GetBottomLeft())));
 
-  //shapes.push_back(TriFan(data.key_thumb_5_5.GetTopLeft(),
-  //                        {
-  //                            data.key_3_5.GetBottomRight(),
-  //                            data.key_3_5.GetTopRight(),
-  //                            data.key_2_5.GetBottomRight(),
-  //                        })
-
-  //);
+  shapes.push_back(TriFan(data.key_thumb_5_1.GetTopLeft(),
+                          {
+                              data.key_thumb_5_0.GetTopRight(),
+                              data.key_thumb_5_0.GetTopLeft(),
+                              data.key_thumb_5_5.GetTopLeft(),
+                          }));
 
   // These transforms with TranslateFront are moving the connectors down in the z direction to
   // reduce the vertical jumps.
@@ -342,6 +422,12 @@ Shape ConnectThumbClusterStandard(KeyData& data) {
   if (kCreateIntermediateArtifacts) {
     UnionAll(shapes).WriteToFile("validate_thumbcluster_02_top_connectors.scad");
   }
+
+  // Add the walls
+
+
+
+
 
   return UnionAll(shapes);
 }

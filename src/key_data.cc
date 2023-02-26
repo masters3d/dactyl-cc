@@ -8,10 +8,6 @@
 namespace scad {
 namespace {
 
-bool isDefaultDactlyThumbCluster = true;
-
-constexpr double kDefaultKeySpacing = 19;
-constexpr double kDefaultKeyHalfSpacing = 9;
 // The direct distance between switch tops in the bowl.
 constexpr double kBowlKeySpacing = 18;
 
@@ -102,89 +98,6 @@ KeyData::KeyData(TransformList key_origin) {
     k.t().rx = anchor_thumb_rotate_y;
     k.t().ry = anchor_thumb_rotate_z;
   });
-
-  if (isDefaultDactlyThumbCluster) 
-  {
-  
-      
-  // Second thumb key.
-    key_thumb_5_1.Configure([&](Key& k) {
-      k.name = "key_delete";
-      k.SetParent(key_thumb_5_0);
-      k.SetPosition(kDefaultKeySpacing, 0, 0);
-    });
-
-    // Bottom side key.
-    key_thumb_5_2.Configure([&](Key& k) {
-      k.name = "key_end";
-      k.SetParent(key_thumb_5_1);
-      k.SetPosition(kDefaultKeySpacing, kDefaultKeyHalfSpacing * -1, 0);
-    });
-
-    // Middle side key.
-    key_thumb_5_3.Configure([&](Key& k) {
-      k.name = "key_home";
-      k.SetParent(key_thumb_5_1);
-      k.SetPosition(kDefaultKeySpacing, kDefaultKeyHalfSpacing, 0);
-    });
-
-    // Top side key;
-    key_thumb_5_4.Configure([&](Key& k) {
-      k.name = "key_alt";
-      k.SetParent(key_thumb_5_1);
-      k.SetPosition(kDefaultKeySpacing, kDefaultKeyHalfSpacing + kDefaultKeySpacing, 0);
-    });
-
-    // Top left key.
-    key_thumb_5_5.Configure([&](Key& k) {
-      k.name = "key_ctrl";
-      k.SetParent(key_thumb_5_1);
-      k.SetPosition(0, 10 + kDefaultKeySpacing - 1, 0);
-    });
-  
-  }
-  else
-  {
-    // This cluster will mirror more or less the maniform. 
-
-    // Second thumb key.
-    key_thumb_5_1.Configure([&](Key& k) {
-      k.name = "key_delete";
-      k.SetParent(key_thumb_5_0);
-      k.SetPosition(kDefaultKeySpacing, kDefaultKeyHalfSpacing * -1, 0);
-    });
-
-    // Bottom side key.
-    key_thumb_5_2.Configure([&](Key& k) {
-      k.name = "key_end";
-      k.SetParent(key_thumb_5_1);
-      k.SetPosition(kDefaultKeySpacing, kDefaultKeyHalfSpacing * -1, 0);
-    });
-
-    // Middle side key.
-    key_thumb_5_3.Configure([&](Key& k) {
-      k.name = "key_home";
-      k.SetParent(key_thumb_5_2);
-      k.SetPosition(kDefaultKeyHalfSpacing, kDefaultKeySpacing, 0);
-    });
-
-    // Top side key;
-    key_thumb_5_4.Configure([&](Key& k) {
-      k.name = "key_alt";
-      k.SetParent(key_thumb_5_3);
-      k.SetPosition(kDefaultKeySpacing * -1, kDefaultKeyHalfSpacing, 0);
-    });
-
-    // Top left key.
-    key_thumb_5_5.Configure([&](Key& k) {
-      k.name = "key_ctrl";
-      k.SetParent(key_thumb_5_4);
-      k.SetPosition(kDefaultKeySpacing * -1, kDefaultKeyHalfSpacing, 0);
-    });
-  }
-
-
-
 
   //
   // Main bowl keys
