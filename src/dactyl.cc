@@ -16,6 +16,12 @@ constexpr bool kAddCaps = false;
 // print every step of the way to validate changes
 constexpr bool kCreateIntermediateArtifacts = true;
 
+// TODO: Move this to a better place
+std::string connect_point_1_source_bowl = "NOT_SET";
+std::string connect_point_1_destination_thumb = "NOT_SET";
+std::string connect_point_2_source_thumb = "NOT_SET";
+std::string connect_point_2_destination_bowl = "NOT_SET";
+
 enum class Direction { UP, DOWN, LEFT, RIGHT };
 
 struct WallPoint {
@@ -46,8 +52,9 @@ void AddShapes(std::vector<Shape>* shapes, std::vector<Shape> to_add) {
 
 Shape ConnectBowlKeysInternal(KeyData& data);
 Shape ConnectBowlKeysGridToWall(KeyData& data);
-Shape ConnectBowlKeysWallPosts(KeyData& data);
-Shape ConnectThumbClusterStandard(KeyData& data);
+Shape ConnectBowlKeysAndThumbClusterWallPosts(KeyData& data,
+                                              bool isDefaultDactlyThumbCluster = true);
+Shape ConnectThumbCluster(KeyData& data);
 Shape ConnectCreateWalls(std::vector<WallPoint> wall_points);
 std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data);
 std::vector<WallPoint> CreateWallPointsForBowlThumbCluster(KeyData& data,
@@ -144,19 +151,12 @@ int main() {
     UnionAll(shapes).WriteToFile("validate_03_BowlAndPadding.scad");
   }
 
-  shapes.push_back(ConnectBowlKeysWallPosts(data));
-
-  // Printing Intermediate Steps
-  if (kCreateIntermediateArtifacts) {
-    UnionAll(shapes).WriteToFile("validate_04_BowlAndWalls.scad");
-  }
-
   // Thumb Cluster
-  shapes.push_back(ConnectThumbClusterStandard(data));
+  shapes.push_back(ConnectThumbCluster(data));
 
     // Printing Intermediate Steps
   if (kCreateIntermediateArtifacts) {
-    UnionAll(shapes).WriteToFile("validate_05_thumbcluster.scad");
+    UnionAll(shapes).WriteToFile("validate_04_thumbcluster.scad");
   }
 
   if (kCreateIntermediateArtifacts) {
@@ -164,8 +164,16 @@ int main() {
     UnionAll(shapes)
         .Subtract(
             data.key_thumb_0_0.GetTopLeft().Apply(Cube(50, 50, 6).TranslateZ(3)).Color("green"))
-        .WriteToFile("validate_06_substrack_thumb_preview.scad");
+        .WriteToFile("validate_05_substrack_thumb_preview.scad");
   }
+
+  shapes.push_back(ConnectBowlKeysAndThumbClusterWallPosts(data));
+
+  // Printing Intermediate Steps
+  if (kCreateIntermediateArtifacts) {
+    UnionAll(shapes).WriteToFile("validate_06_BowlAndWalls.scad");
+  }
+
 
     // Add all the screw inserts.
   std::vector<Shape> screw_holes;
@@ -251,7 +259,7 @@ int main() {
   return 0;
 }
 
-Shape ConnectThumbClusterStandard(KeyData& data) {
+Shape ConnectThumbCluster(KeyData& data) {
 
   std::vector<Shape> shapes;
 
@@ -429,17 +437,6 @@ data.key_thumb_0_5.Configure([&](Key& k) {
       UnionAll(shapes).WriteToFile("validate_thumbcluster_02_top_connectors.scad");
   }
 
-  // Add the walls
-
-  auto wall_points = CreateWallPointsForBowlThumbCluster(data, isDefaultDactlyThumbCluster);
-
-  shapes.push_back(ConnectCreateWalls(wall_points));
-
-  // Printing Intermediate Steps
-  if (kCreateIntermediateArtifacts) {
-      UnionAll(shapes).WriteToFile("validate_thumbcluster_03_walls.scad");
-  }
-
   return UnionAll(shapes);
 }
 
@@ -452,12 +449,30 @@ std::vector<WallPoint> CreateWallPointsForBowlThumbCluster(
   // Left Column: Bottom to Top
   std::vector<WallPoint> wall_points = {};
 
+
+
   if (isDefaultDactlyThumbCluster) {
-      wall_points.push_back({data.key_thumb_0_5.GetTopLeft(), Direction::UP});
-      wall_points.push_back({data.key_thumb_0_4.GetTopRight(), Direction::RIGHT});
-      wall_points.push_back({data.key_thumb_0_2.GetBottomRight(), Direction::DOWN});
-      wall_points.push_back({data.key_thumb_0_0.GetBottomLeft(), Direction::UP});
-      wall_points.push_back({data.key_thumb_0_0.GetTopLeft(), Direction::UP});
+
+      std::string corner_key_top_left_point_top_left = data.key_thumb_0_5.name + "_top_left";
+      std::string corner_key_bottom_left_point_bottom_left =
+          data.key_thumb_0_0.name + "_bottom_left";
+      std::string corner_key_bottom_left_point_top_left =
+          data.key_thumb_0_0.name + "_top_left";
+
+
+      wall_points.push_back(
+          {data.key_thumb_0_5.GetTopLeft(), Direction::UP, 0, 0, corner_key_top_left_point_top_left});
+      wall_points.push_back(
+          {data.key_thumb_0_4.GetTopRight(), Direction::RIGHT, 0, 0, data.key_thumb_0_4.name});
+      wall_points.push_back(
+          {data.key_thumb_0_2.GetBottomRight(), Direction::DOWN, 0, 0, data.key_thumb_0_2.name});
+      wall_points.push_back(
+          {data.key_thumb_0_0.GetBottomLeft(), Direction::UP, 0, 0, corner_key_bottom_left_point_bottom_left});
+      wall_points.push_back(
+          {data.key_thumb_0_0.GetTopLeft(), Direction::UP, 0, 0, corner_key_bottom_left_point_top_left});
+
+      connect_point_1_destination_thumb = corner_key_top_left_point_top_left;
+      connect_point_2_source_thumb = corner_key_bottom_left_point_bottom_left;
 
   }
   else
@@ -687,13 +702,52 @@ Shape ConnectCreateWalls(std::vector<WallPoint> wall_points) {
   return UnionAll(shapes);
 }
 
-Shape ConnectBowlKeysWallPosts(KeyData& data) {
+Shape ConnectBowlKeysAndThumbClusterWallPosts(KeyData& data, bool isDefaultDactlyThumbCluster) {
 
    std::vector<Shape> shapes;
 
    std::vector<WallPoint> wall_points_for_bowl = CreateWallPointsForBowlKeys(data);
 
-   shapes.push_back(ConnectCreateWalls(wall_points_for_bowl));
+   std::vector<WallPoint> wall_points_for_thumb_cluster =
+       CreateWallPointsForBowlThumbCluster(data, isDefaultDactlyThumbCluster);
+
+   std::vector<WallPoint> combined_wall_points;
+
+   // Iternating the first part of the bowl points
+   for (auto& each : wall_points_for_bowl) {
+        combined_wall_points.push_back(each);
+        if (each.unique_id == connect_point_1_source_bowl) {
+          break;
+        }
+   }
+
+   // Iterating the thumb cluster.
+   auto is_included_wall_points_for_thumb_cluster = false;
+   for (auto& each : wall_points_for_thumb_cluster) {
+        if (each.unique_id == connect_point_1_destination_thumb) {
+          is_included_wall_points_for_thumb_cluster = true;
+        }
+        if (is_included_wall_points_for_thumb_cluster) {
+          combined_wall_points.push_back(each);
+        }
+
+        if (each.unique_id == connect_point_2_source_thumb) {
+          is_included_wall_points_for_thumb_cluster = false;
+        }
+   }
+
+   // Iternating the last part of the bowl
+    auto is_included_bowl = false;
+    for (auto& each : wall_points_for_bowl) {
+        if (each.unique_id == connect_point_2_destination_bowl) {
+          is_included_bowl = true;
+        }
+        if (is_included_bowl) {
+            combined_wall_points.push_back(each);
+        }
+    }
+
+   shapes.push_back(ConnectCreateWalls(combined_wall_points));
 
   return UnionAll(shapes);
 }
@@ -713,6 +767,15 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
   GridCorner corner_bottom_right = corners[2];
   GridCorner corner_bottom_left = corners[3];
 
+
+  // Setting Up Connections Points for the thumb cluster
+  connect_point_1_source_bowl = data.grid
+      .get_key_located_up(corner_bottom_right.index_row, corner_bottom_right.index_column)
+      ->name;
+
+  connect_point_2_destination_bowl =
+      data.grid.get_key_located_left(corner_bottom_right.index_row, corner_bottom_right.index_column)
+          ->name;
 
   // Start top left and go clockwise.
   // Top Row: Left to Right
