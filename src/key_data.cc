@@ -139,7 +139,7 @@ KeyData::KeyData(TransformList key_origin) {
     key_thumb_5_5.Configure([&](Key& k) {
       k.name = "key_ctrl";
       k.SetParent(key_thumb_5_1);
-      k.SetPosition(0, 10 + kDefaultKeySpacing, 0);
+      k.SetPosition(0, 10 + kDefaultKeySpacing - 1, 0);
     });
   
   }

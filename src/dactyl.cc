@@ -45,8 +45,7 @@ Shape ConnectBowlKeysGridToWall(KeyData& data);
 Shape ConnectBowlKeysWallPosts(KeyData& data);
 Shape ConnectThumbClusterStandard(KeyData& data);
 Shape ConnectCreateWalls(std::vector<WallPoint> wall_points);
-
-std::vector<WallPoint> CreateWallPoints(KeyData& data);
+std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data);
 
 int main() {
   printf("generating..\n");
@@ -291,53 +290,53 @@ Shape ConnectThumbClusterStandard(KeyData& data) {
                              data.key_thumb_5_1.GetBottomRight(),
                              data.key_thumb_5_0.GetBottomLeft())));
 
-  shapes.push_back(TriFan(data.key_thumb_5_5.GetTopLeft(),
-                          {
-                              data.key_3_5.GetBottomRight(),
-                              data.key_3_5.GetTopRight(),
-                              data.key_2_5.GetBottomRight(),
-                          })
+  //shapes.push_back(TriFan(data.key_thumb_5_5.GetTopLeft(),
+  //                        {
+  //                            data.key_3_5.GetBottomRight(),
+  //                            data.key_3_5.GetTopRight(),
+  //                            data.key_2_5.GetBottomRight(),
+  //                        })
 
-  );
+  //);
 
   // These transforms with TranslateFront are moving the connectors down in the z direction to
   // reduce the vertical jumps.
-  TransformList slash_bottom_right = data.key_4_2.GetBottomRight().TranslateFront(0, -5, -3);
+  //TransformList slash_bottom_right = data.key_4_2.GetBottomRight().TranslateFront(0, -5, -3);
 
-  shapes.push_back(TriFan(slash_bottom_right,
-                          {
-                              data.key_4_3.GetBottomRight().TranslateFront(0, 0, -1),
-                              data.key_4_3.GetBottomLeft(),
-                              data.key_4_2.GetBottomRight().TranslateFront(0, 0, -1),
-                          }));
-  shapes.push_back(TriFan(data.key_thumb_5_0.GetBottomLeft(),
-                          {
-                              slash_bottom_right,
-                              data.key_4_3.GetBottomRight().TranslateFront(0, 0, -1),
-                              data.key_4_4.GetBottomLeft().TranslateFront(0, 0, -1),
-                              data.key_4_4.GetBottomRight(),
-                          }));
-  shapes.push_back(TriFan(data.key_4_1.GetBottomRight(),
-                          {
-                              data.key_4_2.GetBottomLeft(),
-                              data.key_4_2.GetBottomRight().TranslateFront(0, 0, -1),
-                              slash_bottom_right,
-                          }));
-  shapes.push_back(TriFan(data.key_thumb_5_1.GetTopLeft(),
-                          {
-                              data.key_thumb_5_5.GetTopLeft(),
-                              data.key_3_5.GetBottomRight(),
-                              data.key_thumb_5_0.GetTopLeft(),
-                          }));
-  shapes.push_back(TriFan(data.key_3_5.GetBottomLeft(),
-                          {
-                              data.key_3_5.GetBottomRight(),
-                              data.key_thumb_5_0.GetTopLeft(),
-                              data.key_thumb_5_0.GetTopLeft(),
-                              data.key_4_4.GetBottomRight(),
-                              data.key_4_4.GetTopRight(),
-                              data.key_3_4.GetBottomRight(),
-                          }));
+  //shapes.push_back(TriFan(slash_bottom_right,
+  //                        {
+  //                            data.key_4_3.GetBottomRight().TranslateFront(0, 0, -1),
+  //                            data.key_4_3.GetBottomLeft(),
+  //                            data.key_4_2.GetBottomRight().TranslateFront(0, 0, -1),
+  //                        }));
+  //shapes.push_back(TriFan(data.key_thumb_5_0.GetBottomLeft(),
+  //                        {
+  //                            slash_bottom_right,
+  //                            data.key_4_3.GetBottomRight().TranslateFront(0, 0, -1),
+  //                            data.key_4_4.GetBottomLeft().TranslateFront(0, 0, -1),
+  //                            data.key_4_4.GetBottomRight(),
+  //                        }));
+  //shapes.push_back(TriFan(data.key_4_1.GetBottomRight(),
+  //                        {
+  //                            data.key_4_2.GetBottomLeft(),
+  //                            data.key_4_2.GetBottomRight().TranslateFront(0, 0, -1),
+  //                            slash_bottom_right,
+  //                        }));
+  //shapes.push_back(TriFan(data.key_thumb_5_1.GetTopLeft(),
+  //                        {
+  //                            data.key_thumb_5_5.GetTopLeft(),
+  //                            data.key_3_5.GetBottomRight(),
+  //                            data.key_thumb_5_0.GetTopLeft(),
+  //                        }));
+  //shapes.push_back(TriFan(data.key_3_5.GetBottomLeft(),
+  //                        {
+  //                            data.key_3_5.GetBottomRight(),
+  //                            data.key_thumb_5_0.GetTopLeft(),
+  //                            data.key_thumb_5_0.GetTopLeft(),
+  //                            data.key_4_4.GetBottomRight(),
+  //                            data.key_4_4.GetTopRight(),
+  //                            data.key_3_4.GetBottomRight(),
+  //                        }));
 
     // Printing Intermediate Steps
   if (kCreateIntermediateArtifacts) {
@@ -570,14 +569,14 @@ Shape ConnectBowlKeysWallPosts(KeyData& data) {
 
    std::vector<Shape> shapes;
 
-   std::vector<WallPoint> wall_points = CreateWallPoints(data);
+   std::vector<WallPoint> wall_points = CreateWallPointsForBowlKeys(data);
 
    shapes.push_back(ConnectCreateWalls(wall_points));
 
   return UnionAll(shapes);
 }
 
-std::vector<WallPoint> CreateWallPoints(KeyData& data) {
+std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
 
   Direction direction_top_row_is_up = Direction::UP;
   Direction direction_bottom_row_is_down = Direction::DOWN;
