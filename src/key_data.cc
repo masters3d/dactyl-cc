@@ -315,6 +315,12 @@ KeyData::KeyData(TransformList key_origin) {
     k.SetParent(key_2_0);
   });
 
+  key_4_0 = GetXAxisRotatedKey(kColumn0Radius, rotationDirectionDown);
+  key_4_0.Configure([&](Key& k) {
+    k.name = NAMEOF(key_4_0);
+    k.SetParent(key_3_0);
+  });
+
   // Keys are measured from the tip of the switch and by default keys are measured from the
   // tip of the cap. Adjust the keys position so that the origin is at the switch top.
   double switch_top_z_offset = 10;
