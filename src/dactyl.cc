@@ -22,16 +22,23 @@ struct WallPoint {
   WallPoint(TransformList transforms,
             Direction out_direction,
             float extra_distance = 0,
-            float extra_width = 0)
+            float extra_width = 0, 
+            std::string unique_id = "",
+            std::string connect_to_id = ""
+      )
       : transforms(transforms),
         out_direction(out_direction),
         extra_distance(extra_distance),
-        extra_width(extra_width) {
+        extra_width(extra_width), 
+        unique_id(unique_id), 
+        connect_to_id(connect_to_id){
   }
   TransformList transforms;
   Direction out_direction;
   float extra_distance;
   float extra_width;
+  std::string unique_id;
+  std::string connect_to_id;
 };
 
 void AddShapes(std::vector<Shape>* shapes, std::vector<Shape> to_add) {
@@ -426,8 +433,26 @@ Shape ConnectThumbClusterStandard(KeyData& data) {
   // Add the walls
 
 
+  // Start top left and go clockwise.
+  // Top Row: Left to Right
+  // Right Column: Top to Bottom
+  // Bottom Row: Right to Left
+  // Left Column: Bottom to Top
+  std::vector<WallPoint> wall_points = {};
+
+  wall_points.push_back({data.key_thumb_5_5.GetTopLeft(), Direction::UP });
+  wall_points.push_back({data.key_thumb_5_4.GetTopRight(), Direction::RIGHT});
+  wall_points.push_back({data.key_thumb_5_2.GetBottomRight(), Direction::DOWN});
+  wall_points.push_back({data.key_thumb_5_0.GetBottomLeft(), Direction::UP});
+  wall_points.push_back({data.key_thumb_5_0.GetTopLeft(), Direction::UP});
 
 
+  shapes.push_back(ConnectCreateWalls(wall_points));
+ 
+  // Printing Intermediate Steps
+  if (kCreateIntermediateArtifacts) {
+    UnionAll(shapes).WriteToFile("validate_thumbcluster_03_walls.scad");
+  }
 
   return UnionAll(shapes);
 }
