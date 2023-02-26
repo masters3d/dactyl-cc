@@ -42,12 +42,12 @@ struct KeyData {
   Key key_4_3;
   Key key_4_4;
 
-  Key key_thumb_5_0;
-  Key key_thumb_5_1;
-  Key key_thumb_5_2;
-  Key key_thumb_5_3;
-  Key key_thumb_5_4;
-  Key key_thumb_5_5;
+  Key key_thumb_0_0;
+  Key key_thumb_0_1;
+  Key key_thumb_0_2;
+  Key key_thumb_0_3;
+  Key key_thumb_0_4;
+  Key key_thumb_0_5;
 
   KeyGrid grid {{
     { &key_0_0,  &key_0_1,  &key_0_2,  &key_0_3,  &key_0_4,  &key_0_5},
@@ -58,7 +58,7 @@ struct KeyData {
   }};
 
   std::vector<Key*> thumb_keys() {
-    return {&key_thumb_5_1, &key_thumb_5_0, &key_thumb_5_5, &key_thumb_5_4, &key_thumb_5_3, &key_thumb_5_2};
+    return {&key_thumb_0_1, &key_thumb_0_0, &key_thumb_0_5, &key_thumb_0_4, &key_thumb_0_3, &key_thumb_0_2};
   }
 
   std::vector<Key*> bowl_keys() {

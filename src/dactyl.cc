@@ -164,7 +164,7 @@ int main() {
     // Doing a substract only for preview
     UnionAll(shapes)
         .Subtract(
-            data.key_thumb_5_0.GetTopLeft().Apply(Cube(50, 50, 6).TranslateZ(3)).Color("green"))
+            data.key_thumb_0_0.GetTopLeft().Apply(Cube(50, 50, 6).TranslateZ(3)).Color("green"))
         .WriteToFile("validate_06_substrack_thumb_preview.scad");
   }
 
@@ -191,12 +191,12 @@ int main() {
     screw_right_top.x += 4;
     screw_right_top.y += -15.5;
 
-    glm::vec3 screw_right_bottom = data.key_thumb_5_2.GetBottomLeft().Apply(kOrigin);
+    glm::vec3 screw_right_bottom = data.key_thumb_0_2.GetBottomLeft().Apply(kOrigin);
     screw_right_bottom.z = 0;
     screw_right_bottom.y += 3.5;
     screw_right_bottom.x += 1.5;
 
-    glm::vec3 screw_right_mid = data.key_thumb_5_5.GetTopLeft().Apply(kOrigin);
+    glm::vec3 screw_right_mid = data.key_thumb_0_5.GetTopLeft().Apply(kOrigin);
     screw_right_mid.z = 0;
     screw_right_mid.y += -.9;
 
@@ -219,7 +219,7 @@ int main() {
   //AddShapes(&negative_shapes, screw_holes);
   // Cut off the parts sticking up into the thumb plate.
   negative_shapes.push_back(
-      data.key_thumb_5_0.GetTopLeft().Apply(Cube(50, 50, 6).TranslateZ(3)).Color("red"));
+      data.key_thumb_0_0.GetTopLeft().Apply(Cube(50, 50, 6).TranslateZ(3)).Color("red"));
 
   // Cut out hole for holder.
   Shape holder_hole = Cube(29.0, 20.0, 12.5).TranslateZ(12 / 2);
@@ -264,37 +264,37 @@ Shape ConnectThumbClusterStandard(KeyData& data) {
 
     if (isDefaultDactlyThumbCluster) {
     // Second thumb key.
-    data.key_thumb_5_1.Configure([&](Key& k) {
+    data.key_thumb_0_1.Configure([&](Key& k) {
       k.name = "key_delete";
-      k.SetParent(data.key_thumb_5_0);
+      k.SetParent(data.key_thumb_0_0);
       k.SetPosition(kDefaultKeySpacing, 0, 0);
     });
 
     // Bottom side key.
-    data.key_thumb_5_2.Configure([&](Key& k) {
+    data.key_thumb_0_2.Configure([&](Key& k) {
       k.name = "key_end";
-      k.SetParent(data.key_thumb_5_1);
+      k.SetParent(data.key_thumb_0_1);
       k.SetPosition(kDefaultKeySpacing, kDefaultKeyHalfSpacing * -1, 0);
     });
 
     // Middle side key.
-    data.key_thumb_5_3.Configure([&](Key& k) {
+    data.key_thumb_0_3.Configure([&](Key& k) {
       k.name = "key_home";
-      k.SetParent(data.key_thumb_5_1);
+      k.SetParent(data.key_thumb_0_1);
       k.SetPosition(kDefaultKeySpacing, kDefaultKeyHalfSpacing, 0);
     });
 
     // Top side key;
-    data.key_thumb_5_4.Configure([&](Key& k) {
+    data.key_thumb_0_4.Configure([&](Key& k) {
       k.name = "key_alt";
-      k.SetParent(data.key_thumb_5_1);
+      k.SetParent(data.key_thumb_0_1);
       k.SetPosition(kDefaultKeySpacing, kDefaultKeyHalfSpacing + kDefaultKeySpacing, 0);
     });
 
     // Top left key.
-    data.key_thumb_5_5.Configure([&](Key& k) {
+    data.key_thumb_0_5.Configure([&](Key& k) {
       k.name = "key_ctrl";
-      k.SetParent(data.key_thumb_5_1);
+      k.SetParent(data.key_thumb_0_1);
       k.SetPosition(0, 10 + kDefaultKeySpacing - 1, 0);
     });
 
@@ -302,57 +302,57 @@ Shape ConnectThumbClusterStandard(KeyData& data) {
     // This cluster will mirror more or less the maniform.
 
     // Second thumb key.
-    data.key_thumb_5_1.Configure([&](Key& k) {
+    data.key_thumb_0_1.Configure([&](Key& k) {
       k.name = "key_delete";
-      k.SetParent(data.key_thumb_5_0);
+      k.SetParent(data.key_thumb_0_0);
       k.SetPosition(kDefaultKeySpacing, kDefaultKeyHalfSpacing * -1, 0);
     });
 
     // Bottom side key.
-    data.key_thumb_5_2.Configure([&](Key& k) {
+    data.key_thumb_0_2.Configure([&](Key& k) {
       k.name = "key_end";
-      k.SetParent(data.key_thumb_5_1);
+      k.SetParent(data.key_thumb_0_1);
       k.SetPosition(kDefaultKeySpacing, kDefaultKeyHalfSpacing * -1, 0);
     });
 
     // Middle side key.
-    data.key_thumb_5_3.Configure([&](Key& k) {
+    data.key_thumb_0_3.Configure([&](Key& k) {
       k.name = "key_home";
-      k.SetParent(data.key_thumb_5_2);
+      k.SetParent(data.key_thumb_0_2);
       k.SetPosition(kDefaultKeyHalfSpacing, kDefaultKeySpacing, 0);
     });
 
     // Top side key;
-    data.key_thumb_5_4.Configure([&](Key& k) {
+    data.key_thumb_0_4.Configure([&](Key& k) {
       k.name = "key_alt";
-      k.SetParent(data.key_thumb_5_3);
+      k.SetParent(data.key_thumb_0_3);
       k.SetPosition(kDefaultKeySpacing * -1, kDefaultKeyHalfSpacing, 0);
     });
 
     // Top left key.
-    data.key_thumb_5_5.Configure([&](Key& k) {
+    data.key_thumb_0_5.Configure([&](Key& k) {
       k.name = "key_ctrl";
-      k.SetParent(data.key_thumb_5_4);
+      k.SetParent(data.key_thumb_0_4);
       k.SetPosition(kDefaultKeySpacing * -1, kDefaultKeyHalfSpacing, 0);
     });
   }
 
 
   // Set all of the widths here. This must be done before calling any of GetTopLeft etc.
-  data.key_thumb_5_0.extra_width_bottom = 11;
-  data.key_thumb_5_0.extra_width_left = 3;
-  data.key_thumb_5_1.extra_width_bottom = 11;
-  data.key_thumb_5_2.extra_width_bottom = 3;
-  data.key_thumb_5_5.extra_width_top = 3;
-  data.key_thumb_5_4.extra_width_top = 3;
-  data.key_thumb_5_4.extra_width_right = 3;
-  data.key_thumb_5_4.extra_width_left = 3;
-  data.key_thumb_5_3.extra_width_right = 3;
-  data.key_thumb_5_3.extra_width_left = 3;
-  data.key_thumb_5_3.extra_width_top = 3;
-  data.key_thumb_5_2.extra_width_top = 3;
-  data.key_thumb_5_2.extra_width_right = 3;
-  data.key_thumb_5_2.extra_width_left = 3;
+  data.key_thumb_0_0.extra_width_bottom = 11;
+  data.key_thumb_0_0.extra_width_left = 3;
+  data.key_thumb_0_1.extra_width_bottom = 11;
+  data.key_thumb_0_2.extra_width_bottom = 3;
+  data.key_thumb_0_5.extra_width_top = 3;
+  data.key_thumb_0_4.extra_width_top = 3;
+  data.key_thumb_0_4.extra_width_right = 3;
+  data.key_thumb_0_4.extra_width_left = 3;
+  data.key_thumb_0_3.extra_width_right = 3;
+  data.key_thumb_0_3.extra_width_left = 3;
+  data.key_thumb_0_3.extra_width_top = 3;
+  data.key_thumb_0_2.extra_width_top = 3;
+  data.key_thumb_0_2.extra_width_right = 3;
+  data.key_thumb_0_2.extra_width_left = 3;
 
   // adding the keys for thumb cluster
   for (Key* key : data.thumb_keys()) {
@@ -372,18 +372,18 @@ Shape ConnectThumbClusterStandard(KeyData& data) {
   // Thumb plate
   //
 
-  shapes.push_back(Union(ConnectHorizontal(data.key_thumb_5_5, data.key_thumb_5_4),
-                         ConnectHorizontal(data.key_thumb_5_0, data.key_thumb_5_1),
-                         ConnectVertical(data.key_thumb_5_5, data.key_thumb_5_1),
-                         Tri(data.key_thumb_5_2.GetBottomLeft(),
-                             data.key_thumb_5_1.GetBottomRight(),
-                             data.key_thumb_5_0.GetBottomLeft())));
+  shapes.push_back(Union(ConnectHorizontal(data.key_thumb_0_5, data.key_thumb_0_4),
+                         ConnectHorizontal(data.key_thumb_0_0, data.key_thumb_0_1),
+                         ConnectVertical(data.key_thumb_0_5, data.key_thumb_0_1),
+                         Tri(data.key_thumb_0_2.GetBottomLeft(),
+                             data.key_thumb_0_1.GetBottomRight(),
+                             data.key_thumb_0_0.GetBottomLeft())));
 
-  shapes.push_back(TriFan(data.key_thumb_5_1.GetTopLeft(),
+  shapes.push_back(TriFan(data.key_thumb_0_1.GetTopLeft(),
                           {
-                              data.key_thumb_5_0.GetTopRight(),
-                              data.key_thumb_5_0.GetTopLeft(),
-                              data.key_thumb_5_5.GetTopLeft(),
+                              data.key_thumb_0_0.GetTopRight(),
+                              data.key_thumb_0_0.GetTopLeft(),
+                              data.key_thumb_0_5.GetTopLeft(),
                           }));
 
   // These transforms with TranslateFront are moving the connectors down in the z direction to
@@ -440,11 +440,11 @@ Shape ConnectThumbClusterStandard(KeyData& data) {
   // Left Column: Bottom to Top
   std::vector<WallPoint> wall_points = {};
 
-  wall_points.push_back({data.key_thumb_5_5.GetTopLeft(), Direction::UP });
-  wall_points.push_back({data.key_thumb_5_4.GetTopRight(), Direction::RIGHT});
-  wall_points.push_back({data.key_thumb_5_2.GetBottomRight(), Direction::DOWN});
-  wall_points.push_back({data.key_thumb_5_0.GetBottomLeft(), Direction::UP});
-  wall_points.push_back({data.key_thumb_5_0.GetTopLeft(), Direction::UP});
+  wall_points.push_back({data.key_thumb_0_5.GetTopLeft(), Direction::UP });
+  wall_points.push_back({data.key_thumb_0_4.GetTopRight(), Direction::RIGHT});
+  wall_points.push_back({data.key_thumb_0_2.GetBottomRight(), Direction::DOWN});
+  wall_points.push_back({data.key_thumb_0_0.GetBottomLeft(), Direction::UP});
+  wall_points.push_back({data.key_thumb_0_0.GetTopLeft(), Direction::UP});
 
 
   shapes.push_back(ConnectCreateWalls(wall_points));

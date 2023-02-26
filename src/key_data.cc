@@ -93,7 +93,7 @@ KeyData::KeyData(TransformList key_origin) {
   // Thumb keys
   //
 
-  key_thumb_5_0.Configure([&](Key& k) {
+  key_thumb_0_0.Configure([&](Key& k) {
     k.name = "key_thumb_5_0";
     k.SetParent(key_origin);
     k.SetPosition(anchor_thumb_x, anchor_thumb_y, anchor_thumb_z);
