@@ -270,6 +270,32 @@ Shape ConnectThumbCluster(KeyData& data) {
 
 
     if (isDefaultDactlyThumbCluster) {
+
+     // Thumb cluster is indepenently position from bowl keys.
+    double anchor_thumb_x = 60;
+    double anchor_thumb_y = -9.18;
+    double anchor_thumb_z = 32.83; // original (42.83) -10 since we are not adding this offset for the keycaps
+    double anchor_thumb_rotate_x = -21;
+    double anchor_thumb_rotate_y = 12;
+    double anchor_thumb_rotate_z = -4.5;
+
+    //
+    // Thumb keys
+    //
+
+    data.key_thumb_0_0.Configure([&](Key& k) {
+      k.name = "key_thumb_0_0";
+      k.SetParent(data.origin_for_bowl);
+      k.SetPosition(anchor_thumb_x, anchor_thumb_y, anchor_thumb_z);
+      k.t().rz = anchor_thumb_rotate_x;
+      k.t().rx = anchor_thumb_rotate_y;
+      k.t().ry = anchor_thumb_rotate_z;
+    });
+
+
+
+
+
     // Second thumb key.
     data.key_thumb_0_1.Configure([&](Key& k) {
       k.name = "key_thumb_0_1";

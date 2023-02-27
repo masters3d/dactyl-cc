@@ -75,32 +75,15 @@ Key GetXAxisRotatedKey(double radius, RotationDirection rotationDirection) {
 }  // namespace
 
 KeyData::KeyData(TransformList key_origin) {
+
+// captuting this origing so we can reference to it later. 
+  origin_for_bowl = key_origin;
+
   double anchor_x = 26.40;
   double anchor_y = 50.32;
   double anchor_z = 17.87;
   // This cotrolls the tilting of the whole bowl
   double anchor_rotate_y = -15;
-
-  // Thumb cluster is indepenently position from bowl keys.
-  double anchor_thumb_x = 60;
-  double anchor_thumb_y = -9.18;
-  double anchor_thumb_z = 42.83;
-  double anchor_thumb_rotate_x = -21;
-  double anchor_thumb_rotate_y = 12;
-  double anchor_thumb_rotate_z = -4.5;
-
-  //
-  // Thumb keys
-  //
-
-  key_thumb_0_0.Configure([&](Key& k) {
-    k.name = "key_thumb_5_0";
-    k.SetParent(key_origin);
-    k.SetPosition(anchor_thumb_x, anchor_thumb_y, anchor_thumb_z);
-    k.t().rz = anchor_thumb_rotate_x;
-    k.t().rx = anchor_thumb_rotate_y;
-    k.t().ry = anchor_thumb_rotate_z;
-  });
 
   //
   // Main bowl keys
@@ -324,11 +307,19 @@ KeyData::KeyData(TransformList key_origin) {
   // Keys are measured from the tip of the switch and by default keys are measured from the
   // tip of the cap. Adjust the keys position so that the origin is at the switch top.
   double switch_top_z_offset = 10;
-  for (Key* key : all_keys()) {
+
+  // Only relevant to Bowl Keys. Thumb Keys use a different.
+  for (Key* key : bowl_keys()) {
     key->AddTransform();
     key->disable_switch_z_offset = true;
     key->t().z -= switch_top_z_offset;
   }
+
+  // Thumb Keys. Not sure if this is needed but just adding
+  for (Key* key : thumb_keys()) {
+    key->disable_switch_z_offset = true;
+  }
+
 }
 
 }  // namespace scad

@@ -7,7 +7,9 @@ namespace scad {
 
 // Key positioning data and description of layout and grouping of keys.
 struct KeyData {
-  KeyData(TransformList origin);
+  KeyData(TransformList key_origin);
+
+  TransformList origin_for_bowl;
 
   Key key_0_0;
   Key key_0_1;
