@@ -78,6 +78,7 @@ KeyData::KeyData(TransformList key_origin) {
 
 // captuting this origing so we can reference to it later. 
   origin_for_bowl = key_origin;
+  origin_key = &key_2_3;
 
   double anchor_x = 26.40;
   double anchor_y = 50.32;

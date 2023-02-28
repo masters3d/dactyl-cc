@@ -186,7 +186,7 @@ struct KeyGrid {
   Key* get_key_located_diagonal_bottom_left(int row, int column) {
     return get_key(row + 1, column - 1);
   }
-
+  
   Key* get_key_located_diagonal_bottom_right(int row, int column) {
     return get_key(row + 1, column + 1);
   }
@@ -198,7 +198,7 @@ struct KeyGrid {
   Key* get_key_located_down(int row, int column) {
     return get_key(row + 1, column);
   }
-
+ 
   Key* get_key_located_left(int row, int column) {
     return get_key(row, column - 1);
   }
@@ -207,7 +207,7 @@ struct KeyGrid {
     return get_key(row, column + 1);
   }
 
-  // returns keys at the cornes going clockwise starting at top left
+  // returns keys at the cornes going clockwise starting at top left. Will have size 4
   std::vector<GridCorner> get_key_corners() {
     std::vector<GridCorner> result;
 
@@ -237,6 +237,58 @@ struct KeyGrid {
     result.push_back( GridCorner( key_bottom_left_corner, CornerLocation::BOTTOM_LEFT, key_bottom_left_row, key_bottom_left_column)); 
 
     return result;  
+  }
+
+  Key* get_key_located_diagonal_top_right(GridCorner corner) {
+    return get_key_located_diagonal_top_right(corner.index_row, corner.index_column);
+  }
+
+  Key* get_key_located_diagonal_top_left(GridCorner corner) {
+    return get_key_located_diagonal_top_left(corner.index_row, corner.index_column);
+  }
+
+  Key* get_key_located_diagonal_bottom_left(GridCorner corner) {
+    return get_key_located_diagonal_bottom_left(corner.index_row, corner.index_column);
+  }
+
+  Key* get_key_located_diagonal_bottom_right(GridCorner corner) {
+    return get_key_located_diagonal_bottom_right(corner.index_row, corner.index_column);
+  }
+
+  Key* get_key_located_up(GridCorner corner) {
+    return get_key_located_up(corner.index_row, corner.index_column);
+  }
+
+  Key* get_key_located_down(GridCorner corner) {
+    return get_key_located_down(corner.index_row, corner.index_column);
+  }
+
+  Key* get_key_located_left(GridCorner corner) {
+    return get_key_located_left(corner.index_row, corner.index_column);
+  }
+
+  Key* get_key_located_right(GridCorner corner) {
+    return get_key_located_right(corner.index_row, corner.index_column);
+  }
+
+  GridCorner get_key_corner_top_left() {
+    auto corners = get_key_corners();
+    return corners[0];
+  }
+
+  GridCorner get_key_corner_top_right() {
+    auto corners = get_key_corners();
+    return corners[1];
+  }
+
+  GridCorner get_key_corner_bottom_right() {
+    auto corners = get_key_corners();
+    return corners[2];
+  }
+
+  GridCorner get_key_corner_bottom_left() {
+    auto corners = get_key_corners();
+    return corners[3];
   }
 
   std::vector<Key*> keys() {

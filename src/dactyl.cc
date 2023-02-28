@@ -113,11 +113,20 @@ int main() {
     }
   }
 
+
   // bottom padding to bowl
   for (Key* key : data.grid.row(data.grid.num_rows() - 1)) {
       if (key) {
       key->extra_width_bottom = default_padding;
 	}
+  }
+
+// removing the extra padding from the key left of the bottom right corner.
+  auto key_left_of_corner_bottom_right =
+      data.grid.get_key_located_left(data.grid.get_key_corner_bottom_right());
+  
+  if (key_left_of_corner_bottom_right) {
+        key_left_of_corner_bottom_right->extra_width_bottom = 0;
   }
 
   // All changes to `data` need to be done before calling the next steps.
@@ -268,6 +277,34 @@ Shape ConnectThumbCluster(KeyData& data) {
   constexpr double kDefaultKeySpacing = 19;
   constexpr double kDefaultKeyHalfSpacing = 9;
 
+  auto key_bowl_edge_up = data.grid.get_key_located_up(data.grid.get_key_corner_bottom_right());
+  auto key_bowl_edge_left = data.grid.get_key_located_left(data.grid.get_key_corner_bottom_right());
+
+
+  if (false){
+    // Experiment to see if we can match a thumb cluster that is attached to the same origina as the bowl
+    int moveDiagonalAmount = 65;
+    int moveZAmount = 20;
+
+   
+    shapes.push_back(data.origin_key->GetMiddle()
+                         .Apply(Cube(70, 70, 6).RotateZ(45).Translate(
+                             moveDiagonalAmount, -moveDiagonalAmount, moveZAmount))
+                         .Color("red")
+    
+    );
+    shapes.push_back(data.origin_key->GetMiddle()
+                         .Apply(Cube(70, 70, 6).Rotate(10,10,45).Translate(
+                             moveDiagonalAmount, -moveDiagonalAmount, 10))
+                         .Color("green")
+       );
+    shapes.push_back(data.origin_for_bowl
+                         .Apply(Cube(70, 70, 6)
+                                    .Rotate(10, 10, 45)
+                                    .Translate(moveDiagonalAmount, -moveDiagonalAmount, 10))
+                         .Color("blue")
+    );
+  }
 
     if (isDefaultDactlyThumbCluster) {
 
@@ -291,9 +328,6 @@ Shape ConnectThumbCluster(KeyData& data) {
       k.t().rx = anchor_thumb_rotate_y;
       k.t().ry = anchor_thumb_rotate_z;
     });
-
-
-
 
 
     // Second thumb key.
@@ -333,7 +367,7 @@ Shape ConnectThumbCluster(KeyData& data) {
 
   // Set all of the widths here. This must be done before calling any of GetTopLeft etc.
     data.key_thumb_0_0.extra_width_bottom = 11;
-    data.key_thumb_0_0.extra_width_left = 3;
+    data.key_thumb_0_0.extra_width_left = 1; // original 3
     data.key_thumb_0_1.extra_width_bottom = 11;
     data.key_thumb_0_2.extra_width_bottom = 3;
     data.key_thumb_0_5.extra_width_top = 3;
@@ -346,6 +380,22 @@ Shape ConnectThumbCluster(KeyData& data) {
     data.key_thumb_0_2.extra_width_top = 3;
     data.key_thumb_0_2.extra_width_right = 3;
     data.key_thumb_0_2.extra_width_left = 3;
+
+    shapes.push_back(Union(ConnectHorizontal(data.key_thumb_0_5, data.key_thumb_0_4),
+                           ConnectHorizontal(data.key_thumb_0_0, data.key_thumb_0_1),
+                           ConnectVertical(data.key_thumb_0_5, data.key_thumb_0_1),
+                           Tri(data.key_thumb_0_2.GetBottomLeft(),
+                               data.key_thumb_0_1.GetBottomRight(),
+                               data.key_thumb_0_0.GetBottomLeft())));
+
+    shapes.push_back(TriFan(data.key_thumb_0_1.GetTopLeft(),
+                            {
+                                data.key_thumb_0_0.GetTopRight(),
+                                data.key_thumb_0_0.GetTopLeft(),
+                                data.key_thumb_0_5.GetTopLeft(),
+                            }));
+
+
 
   } else {
     // This cluster will mirror more or less the maniform.
@@ -405,19 +455,26 @@ data.key_thumb_0_5.Configure([&](Key& k) {
   // Thumb plate
   //
 
-  shapes.push_back(Union(ConnectHorizontal(data.key_thumb_0_5, data.key_thumb_0_4),
-      ConnectHorizontal(data.key_thumb_0_0, data.key_thumb_0_1),
-      ConnectVertical(data.key_thumb_0_5, data.key_thumb_0_1),
-      Tri(data.key_thumb_0_2.GetBottomLeft(),
-          data.key_thumb_0_1.GetBottomRight(),
-          data.key_thumb_0_0.GetBottomLeft())));
+      shapes.push_back(TriFan(data.key_thumb_0_0.GetBottomLeft(),
+                          {
+                              key_bowl_edge_left->GetBottomLeft(),
+                              key_bowl_edge_left->GetBottomRight(),
+                              data.key_thumb_0_0.GetTopLeft(),
+                          }));
+      shapes.push_back(TriFan(data.key_thumb_0_0.GetTopLeft(),
+                          {
+                              key_bowl_edge_left->GetBottomRight(),
+                              key_bowl_edge_left->GetTopRight(),
+                              key_bowl_edge_up->GetBottomLeft(),
+                              key_bowl_edge_up->GetBottomRight(),
+                              }));
+      shapes.push_back(TriFan(data.key_thumb_0_0.GetTopRight(),
+                              {
+                                  key_bowl_edge_up->GetBottomRight(),
+                                  key_bowl_edge_up->GetBottomLeft(),
+                                  key_bowl_edge_left->GetBottomRight(),
+                              }));
 
-  shapes.push_back(TriFan(data.key_thumb_0_1.GetTopLeft(),
-      {
-          data.key_thumb_0_0.GetTopRight(),
-          data.key_thumb_0_0.GetTopLeft(),
-          data.key_thumb_0_5.GetTopLeft(),
-      }));
 
   // These transforms with TranslateFront are moving the connectors down in the z direction to
   // reduce the vertical jumps.

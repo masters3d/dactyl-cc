@@ -11,6 +11,9 @@ struct KeyData {
 
   TransformList origin_for_bowl;
 
+  // This is the key that every other key is relative to.
+  Key* origin_key;
+
   Key key_0_0;
   Key key_0_1;
   Key key_0_2;
