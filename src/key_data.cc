@@ -83,7 +83,8 @@ KeyData::KeyData(TransformList key_origin) {
   double anchor_x = 26.40;
   double anchor_y = 50.32;
   double anchor_z = 17.87;
-  // This cotrolls the tilting of the whole bowl
+  // This cotrolls the tilting of the whole bowl. Currently only affects the bowl keys. 
+  // The thumb keys are affected by the rotation of the origin ( Along with the bowl keys ).
   double anchor_rotate_y = -15;
 
   //
@@ -101,10 +102,6 @@ KeyData::KeyData(TransformList key_origin) {
 
   key_2_4.Configure([&](Key& k) {
     k.name = NAMEOF(key_2_4);
-
-    // Absolute:
-    // k.SetPosition(44.3, 49.37, 28.1);
-    // k.t().ry = -20;
 
     k.SetParent(key_2_3);
     k.SetPosition(19.938, -0.950, 5.249);

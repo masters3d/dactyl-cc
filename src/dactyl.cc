@@ -63,7 +63,10 @@ std::vector<WallPoint> CreateWallPointsForBowlThumbCluster(KeyData& data,
 int main() {
   printf("generating..\n");
   TransformList key_origin;
-  key_origin.Translate(-20, -40, 3);
+  // RotateY(15) makes the bowl anchor key to have zero ration but it causes the thumb cluster to gain the angle
+  // A RotateY(5) has an effective angle of -10 (5 - 15)  
+  // Depending on the y rotation you may need to adjust the starting heigh
+  key_origin.Translate(-20, -40, 3).RotateY(10);
 
   // This is where all of the logic to position the keys is done. Everything below is cosmetic
   // trying to build the case.
@@ -109,7 +112,7 @@ int main() {
   // top padding to bowl
   for (Key* key : data.grid.row(0)) {
     if (key) {
-      key->extra_width_top = default_padding;
+      key->extra_width_top = default_padding + 1;
     }
   }
 
@@ -117,7 +120,7 @@ int main() {
   // bottom padding to bowl
   for (Key* key : data.grid.row(data.grid.num_rows() - 1)) {
       if (key) {
-      key->extra_width_bottom = default_padding;
+      key->extra_width_bottom = default_padding + 1;
 	}
   }
 
@@ -492,8 +495,6 @@ std::vector<WallPoint> CreateWallPointsForBowlThumbCluster(
   // Left Column: Bottom to Top
   std::vector<WallPoint> wall_points = {};
 
-
-
   if (isDefaultDactlyThumbCluster) {
 
       std::string corner_key_top_left_point_top_left = data.key_thumb_0_5.name + "_top_left";
@@ -706,6 +707,8 @@ Shape ConnectCreateWalls(std::vector<WallPoint> wall_points) {
 
    std::vector<Shape> shapes;
 
+   bool is_only_post_enabled = false;
+
   //
   // Make the wall
   //
@@ -757,9 +760,17 @@ Shape ConnectCreateWalls(std::vector<WallPoint> wall_points) {
           auto& slice = wall_slices[i];
           auto& next_slice = wall_slices[(i + 1) % wall_slices.size()];
           for (size_t j = 0; j < slice.size(); ++j) {
-            shapes.push_back(Hull(slice[j], next_slice[j]));
-            // Uncomment for testing. Much faster and easier to visualize.
-            // shapes.push_back(slice[j]);
+
+              if (is_only_post_enabled)
+              {
+                 // Much faster and easier to visualize.
+                 // This will add the columns so you can see where the walls are connecting.
+                 shapes.push_back(slice[j]);
+              }
+              else
+              {
+                   shapes.push_back(Hull(slice[j], next_slice[j]));
+              }
           }
         }
   }
@@ -860,13 +871,12 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
     if (key) {
           auto top_right_id = key->name + connect_point_subfix_top_right;
           auto top_left_id = key->name + connect_point_subfix_top_left;
-          wall_points.push_back({key->GetTopRight(),
-                                   direction_top_row_is_up,
-                                   0,
-                                   0,
-                                   top_right_id});
+
+          wall_points.push_back({key->GetTopLeft(), direction_top_row_is_up, 0, 0, top_left_id});          
+
           if (is_double_post_enabled) {
-            wall_points.push_back({key->GetTopLeft(), direction_top_row_is_up, 0, 0, top_left_id});          
+              wall_points.push_back(
+                  {key->GetTopRight(), direction_top_row_is_up, 0, 0, top_right_id});
           }
     }
   } 
