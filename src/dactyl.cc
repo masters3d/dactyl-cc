@@ -44,6 +44,9 @@ struct WallPoint {
   std::string unique_id;
 };
 
+std::vector<WallPoint> plate_screw_locations;
+
+
 void AddShapes(std::vector<Shape>* shapes, std::vector<Shape> to_add) {
   for (Shape s : to_add) {
     shapes->push_back(s);
@@ -129,7 +132,7 @@ int main() {
       data.grid.get_key_located_left(data.grid.get_key_corner_bottom_right());
   
   if (key_left_of_corner_bottom_right) {
-        key_left_of_corner_bottom_right->extra_width_bottom = 0;
+        key_left_of_corner_bottom_right->extra_width_bottom = 2;
   }
 
   // All changes to `data` need to be done before calling the next steps.
@@ -191,58 +194,36 @@ int main() {
   std::vector<Shape> screw_holes;
   {
     double screw_height = 5;
-    double screw_radius = 4.4 / 2.0;
+    double screw_radius = 1.5;  // Original 4.4 / 2.0;
     Shape screw_hole = Cylinder(screw_height + 2, screw_radius, 30);
     Shape screw_insert =
         Cylinder(screw_height, screw_radius + 1.65, 30).TranslateZ(screw_height / 2);
 
-    glm::vec3 screw_left_bottom = data.key_3_0.GetBottomLeft().Apply(kOrigin);
-    screw_left_bottom.z = 0;
-    screw_left_bottom.x += 3.2;
 
-    glm::vec3 screw_left_top = data.key_0_0.GetTopLeft().Apply(kOrigin);
-    screw_left_top.z = 0;
-    screw_left_top.x += 2.8;
-    screw_left_top.y += -.5;
-
-    glm::vec3 screw_right_top = data.key_0_5.GetTopRight().Apply(kOrigin);
-    screw_right_top.z = 0;
-    screw_right_top.x += 4;
-    screw_right_top.y += -15.5;
-
-    glm::vec3 screw_right_bottom = data.key_thumb_0_2.GetBottomLeft().Apply(kOrigin);
-    screw_right_bottom.z = 0;
-    screw_right_bottom.y += 3.5;
-    screw_right_bottom.x += 1.5;
-
-    glm::vec3 screw_right_mid = data.key_thumb_0_5.GetTopLeft().Apply(kOrigin);
-    screw_right_mid.z = 0;
-    screw_right_mid.y += -.9;
-
-    shapes.push_back(Union(screw_insert.Translate(screw_left_top),
-                           screw_insert.Translate(screw_right_top),
-                           screw_insert.Translate(screw_right_mid),
-                           screw_insert.Translate(screw_right_bottom),
-                           screw_insert.Translate(screw_left_bottom)));
-    screw_holes = {
-        screw_hole.Translate(screw_left_top),
-        screw_hole.Translate(screw_right_top),
-        screw_hole.Translate(screw_right_mid),
-        screw_hole.Translate(screw_right_bottom),
-        screw_hole.Translate(screw_left_bottom),
-    };
+    for (WallPoint wall_point : plate_screw_locations){
+      glm::vec3 each = wall_point.transforms.Apply(kOrigin);
+      each.z = 0;
+	  screw_holes.push_back(screw_hole.Translate(each));
+	  shapes.push_back(screw_insert.Translate(each));
+	}
   }
 
+   // Printing Intermediate Steps
+  if (kCreateIntermediateArtifacts) {
+        UnionAll(shapes).WriteToFile("validate_07_KeebAndPlateScrews.scad");
+  }
 
   std::vector<Shape> negative_shapes;
   //AddShapes(&negative_shapes, screw_holes);
   // Cut off the parts sticking up into the thumb plate.
   negative_shapes.push_back(
-      data.key_thumb_0_0.GetTopLeft().Apply(Cube(50, 50, 6).TranslateZ(3)).Color("red"));
+      data.key_thumb_0_0.GetTopLeft().Apply(Cube(70, 70, 6).TranslateZ(3)).Color("red"));
 
   // Cut out hole for holder.
   Shape holder_hole = Cube(29.0, 20.0, 12.5).TranslateZ(12 / 2);
-  glm::vec3 holder_location = data.key_0_4.GetTopLeft().Apply(kOrigin);
+  glm::vec3 holder_location = data.grid.get_key_located_left(
+            data.grid.get_key_corner_top_right()
+                          )->GetTopLeft().Apply(kOrigin);
   holder_location.z = -0.5;
   holder_location.x += 17.5;
   negative_shapes.push_back(holder_hole.Translate(holder_location));
@@ -260,13 +241,13 @@ int main() {
       bottom_plate_shapes.push_back(Hull(key->GetSwitch()));
     }
 
-    //Shape bottom_plate = UnionAll(bottom_plate_shapes)
-    //                         .Projection()
-    //                         .LinearExtrude(1.5)
-                             //.Subtract(UnionAll(screw_holes));
-    //bottom_plate.WriteToFile("product_left_bottom.scad");
-    //bottom_plate.MirrorX().WriteToFile("product_right_bottom.scad");
+    Shape bottom_plate = UnionAll(bottom_plate_shapes).Projection().LinearExtrude(1.5);
+                            // .Subtract(UnionAll(screw_holes));
+    bottom_plate.WriteToFile("product_left_bottom.scad");
+    bottom_plate.MirrorX().WriteToFile("product_right_bottom.scad");
   }
+
+    printf("done generating\n");
 
   return 0;
 }
@@ -498,11 +479,11 @@ std::vector<WallPoint> CreateWallPointsForBowlThumbCluster(
   if (isDefaultDactlyThumbCluster) {
 
       std::string corner_key_top_left_point_top_left = data.key_thumb_0_5.name + "_top_left";
+
       std::string corner_key_bottom_left_point_bottom_left =
           data.key_thumb_0_0.name + "_bottom_left";
       std::string corner_key_bottom_left_point_top_left =
           data.key_thumb_0_0.name + "_top_left";
-
 
       wall_points.push_back(
           {data.key_thumb_0_5.GetTopLeft(), Direction::UP, 0, 0, corner_key_top_left_point_top_left});
@@ -511,11 +492,12 @@ std::vector<WallPoint> CreateWallPointsForBowlThumbCluster(
           {data.key_thumb_0_5.GetTopRight(), Direction::UP, 0, 0, data.key_thumb_0_5.name});
       wall_points.push_back(
           {data.key_thumb_0_4.GetTopRight(), Direction::UP, 0, .75, data.key_thumb_0_4.name});
-      wall_points.push_back({data.key_thumb_0_4.GetTopRight(),
-                             Direction::RIGHT,
-                             0,
-                             0,
-                             data.key_thumb_0_4.name});
+      WallPoint top_right_corner = {
+          data.key_thumb_0_4.GetTopRight(), Direction::RIGHT, 0, 0, data.key_thumb_0_4.name};
+
+      plate_screw_locations.push_back(top_right_corner);
+
+      wall_points.push_back(top_right_corner);
       wall_points.push_back({data.key_thumb_0_4.GetBottomRight(),
                              Direction::RIGHT,
                              0,
@@ -523,11 +505,13 @@ std::vector<WallPoint> CreateWallPointsForBowlThumbCluster(
                              data.key_thumb_0_4.name});
       wall_points.push_back(
           {data.key_thumb_0_2.GetBottomRight(), Direction::RIGHT, 0, .75, data.key_thumb_0_2.name});
-      wall_points.push_back({data.key_thumb_0_2.GetBottomRight(),
-                             Direction::DOWN,
-                             0,
-                             0,
-                             data.key_thumb_0_2.name});
+      
+      WallPoint bottom_right_corner = {
+          data.key_thumb_0_2.GetBottomRight(), Direction::DOWN, 0, 0, data.key_thumb_0_2.name};
+
+      plate_screw_locations.push_back(bottom_right_corner);
+
+      wall_points.push_back(bottom_right_corner);
       wall_points.push_back({data.key_thumb_0_0.GetBottomLeft(),
                              Direction::UP,
                              0,
@@ -801,6 +785,8 @@ Shape ConnectBowlKeysAndThumbClusterWallPosts(KeyData& data, bool isDefaultDactl
    for (auto& each : wall_points_for_thumb_cluster) {
         if (each.unique_id == connect_point_1_destination_thumb) {
           is_included_wall_points_for_thumb_cluster = true;
+          // Adding plate screw location
+          plate_screw_locations.push_back(each);
         }
         if (is_included_wall_points_for_thumb_cluster) {
           combined_wall_points.push_back(each);
@@ -816,6 +802,8 @@ Shape ConnectBowlKeysAndThumbClusterWallPosts(KeyData& data, bool isDefaultDactl
     for (auto& each : wall_points_for_bowl) {
         if (each.unique_id == connect_point_2_destination_bowl) {
           is_included_bowl = true;
+          // Adding plate screw location
+          plate_screw_locations.push_back(each);
         }
         if (is_included_bowl) {
             combined_wall_points.push_back(each);
@@ -856,12 +844,10 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
 
   // Setting Up Connections Points for the thumb cluster
   connect_point_1_source_bowl = data.grid
-      .get_key_located_up(corner_bottom_right.index_row, corner_bottom_right.index_column)
-          ->name +
-      connect_point_subfix_middle_right;
+      .get_key_located_up(corner_bottom_right)->name + connect_point_subfix_bottom_right;
 
   connect_point_2_destination_bowl =
-      data.grid.get_key_located_left(corner_bottom_right.index_row, corner_bottom_right.index_column)
+      data.grid.get_key_located_left(corner_bottom_right)
           ->name + connect_point_subfix_bottom_left;
 
   // Start top left and go clockwise.
@@ -900,8 +886,14 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
   if (corner_top_right.key) {
     auto currentKey = corner_top_right.key;
     // removing the sharp corner
-    wall_points.push_back({currentKey->GetTopRight(), direction_top_row_is_up, 0, .5});
+    WallPoint corner_top_right_wall_point = {
+        currentKey->GetTopRight(), direction_top_row_is_up, 0, .5};
+    wall_points.push_back(
+        corner_top_right_wall_point);
     wall_points.push_back({currentKey->GetTopRight(), direction_right_column_is_right, 0, .5});
+
+    plate_screw_locations.push_back(corner_top_right_wall_point);
+
   }
 
  // Right column, top to bottom
@@ -962,18 +954,17 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
           auto bottom_left_id = key->name + connect_point_subfix_bottom_left;
           wall_points.push_back({key->GetBottomRight(), direction_bottom_row_is_down, 0,0, key->name + connect_point_subfix_bottom_right});
           
-          if (bottom_left_id == connect_point_2_destination_bowl) {
-            wall_points.push_back(
-                {key->GetBottomLeft(), direction_bottom_row_is_down, 0, 0, bottom_left_id});
-          }
-          if (is_double_post_enabled)
-          {
+          if (is_double_post_enabled) {
             wall_points.push_back({key->GetMiddleBottom(),
                                    direction_bottom_row_is_down,
                                    0,
                                    0,
                                    key->name + connect_point_subfix_middle_bottom});
+          }
 
+          if (bottom_left_id == connect_point_2_destination_bowl) {
+            wall_points.push_back(
+                {key->GetBottomLeft(), direction_bottom_row_is_down, 0, 0, bottom_left_id});
           }
     }
   }
@@ -995,8 +986,12 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
   {
     auto currentKey = corner_bottom_left.key;
     // removing the sharp corner
-    wall_points.push_back({currentKey->GetBottomLeft(), direction_bottom_row_is_down, 0, .5});
+    WallPoint corner_bottom_left_wall_point = {
+        currentKey->GetBottomLeft(), direction_bottom_row_is_down, 0, .5};
+    wall_points.push_back(corner_bottom_left_wall_point);
     wall_points.push_back({currentKey->GetBottomLeft(), direction_left_column_is_left, 0, .5});
+
+    plate_screw_locations.push_back(corner_bottom_left_wall_point);
   }
 
   // Left Column, bottom to top
@@ -1032,8 +1027,12 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
   {
     auto currentKey = corner_top_left.key;
     // removing the sharp corner
-    wall_points.push_back({currentKey->GetTopLeft(), direction_left_column_is_left, 0, .5});
+    WallPoint corner_top_left_wall_point = {
+        currentKey->GetTopLeft(), direction_left_column_is_left, 0, .5};
+    wall_points.push_back(corner_top_left_wall_point);
     wall_points.push_back({currentKey->GetTopLeft(), direction_top_row_is_up, 0, .5});
+
+    plate_screw_locations.push_back(corner_top_left_wall_point);
   }
 
   return wall_points;
