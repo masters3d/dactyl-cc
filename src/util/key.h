@@ -120,6 +120,11 @@ struct Key {
   // middle point.
   TransformList GetMiddle() const;
 
+  TransformList GetMiddleBottom() const;
+  TransformList GetMiddleTop() const;
+  TransformList GetMiddleLeft() const;
+  TransformList GetMiddleRight() const;
+
   // Corners clockwise starting at top left. Will have size 4.
   std::vector<TransformList> GetCorners(double offset = 0) const;
 
@@ -129,6 +134,11 @@ struct Key {
   TransformList GetTopLeftInternal() const;
   TransformList GetBottomRightInternal() const;
   TransformList GetBottomLeftInternal() const;
+
+  TransformList GetMiddleBottomInternal() const;
+  TransformList GetMiddleTopInternal() const;
+  TransformList GetMiddleLeftInternal() const;
+  TransformList GetMiddleRightInternal() const;
 };
 
 

@@ -322,6 +322,49 @@ TransformList Key::GetMiddle() const {
   return GetSwitchTransforms();
 }
 
+TransformList Key::GetMiddleBottom() const {
+  TransformList transforms;
+  transforms.AddTransform(
+      {0,-1 * extra_width_bottom, 0});
+  return transforms.Append(GetMiddleBottomInternal());
+}
+TransformList Key::GetMiddleTop() const {
+  TransformList transforms;
+  transforms.AddTransform({0, extra_width_top, 0});
+  return transforms.Append(GetMiddleTopInternal());
+}
+TransformList Key::GetMiddleLeft() const {
+  TransformList transforms;
+  transforms.AddTransform({-1* extra_width_left, 0, 0});
+  return transforms.Append(GetMiddleLeftInternal());
+}
+TransformList Key::GetMiddleRight() const {
+  TransformList transforms;
+  transforms.AddTransform({extra_width_right, 0, 0});
+  return transforms.Append(GetMiddleRightInternal());
+}
+
+TransformList Key::GetMiddleBottomInternal() const {
+  TransformList transforms;
+  transforms.AddTransform({0, -1 * kSwitchHorizontalOffset, 0});
+  return transforms.Append(GetSwitchTransforms());
+}
+TransformList Key::GetMiddleTopInternal() const {
+  TransformList transforms;
+  transforms.AddTransform({0, kSwitchHorizontalOffset, 0});
+  return transforms.Append(GetSwitchTransforms());
+}
+TransformList Key::GetMiddleLeftInternal() const {
+  TransformList transforms;
+  transforms.AddTransform({-1 * kSwitchHorizontalOffset, 0, 0});
+  return transforms.Append(GetSwitchTransforms());
+}
+TransformList Key::GetMiddleRightInternal() const {
+  TransformList transforms;
+  transforms.AddTransform({kSwitchHorizontalOffset, 0, 0});
+  return transforms.Append(GetSwitchTransforms());
+}
+
 std::vector<TransformList> Key::GetCorners(double offset) const {
   return {GetTopLeft(offset), GetTopRight(offset), GetBottomRight(offset), GetBottomLeft(offset)};
 }

@@ -842,18 +842,23 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
   GridCorner corner_bottom_right = corners[2];
   GridCorner corner_bottom_left = corners[3];
 
-  bool is_double_post_enabled = false;
+  bool is_double_post_enabled = true;
 
   auto connect_point_subfix_top_right = "_top_right";
   auto connect_point_subfix_bottom_right = "_bottom_right";
   auto connect_point_subfix_top_left = "_top_left";
   auto connect_point_subfix_bottom_left = "_bottom_left";
 
+  auto connect_point_subfix_middle_top = "_middle_top";
+  auto connect_point_subfix_middle_bottom = "_middle_bottom";
+  auto connect_point_subfix_middle_left = "_middle_left";
+  auto connect_point_subfix_middle_right = "_middle_right";
+
   // Setting Up Connections Points for the thumb cluster
   connect_point_1_source_bowl = data.grid
       .get_key_located_up(corner_bottom_right.index_row, corner_bottom_right.index_column)
           ->name +
-      connect_point_subfix_bottom_right;
+      connect_point_subfix_middle_right;
 
   connect_point_2_destination_bowl =
       data.grid.get_key_located_left(corner_bottom_right.index_row, corner_bottom_right.index_column)
@@ -869,14 +874,12 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
   // Top Row left to right
   for (Key* key : data.grid.row(0)) {
     if (key) {
-          auto top_right_id = key->name + connect_point_subfix_top_right;
           auto top_left_id = key->name + connect_point_subfix_top_left;
 
           wall_points.push_back({key->GetTopLeft(), direction_top_row_is_up, 0, 0, top_left_id});          
 
           if (is_double_post_enabled) {
-              wall_points.push_back(
-                  {key->GetTopRight(), direction_top_row_is_up, 0, 0, top_right_id});
+              wall_points.push_back({key->GetMiddleTop(), direction_top_row_is_up, 0, 0,  key->name + connect_point_subfix_middle_top});
           }
     }
   } 
@@ -911,14 +914,22 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
           wall_points.push_back(
               {key->GetTopRight(), direction_right_column_is_right, 0, 0, wall_point_id_top_right});
 
-          if (is_double_post_enabled ||
-              (wall_point_id_bottom_right == connect_point_1_source_bowl)) {
+          if (is_double_post_enabled) {
+              wall_points.push_back({key->GetMiddleRight(),
+                                     direction_right_column_is_right,
+                                     0,
+                                     0,
+                                     key->name + connect_point_subfix_middle_right});
+          }
+          
+          if (wall_point_id_bottom_right == connect_point_1_source_bowl) {
             wall_points.push_back({key->GetBottomRight(),
                                    direction_right_column_is_right,
                                    0,
                                    0,
                                    wall_point_id_bottom_right});     
           }
+          
     }
   }
 
@@ -951,9 +962,18 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
           auto bottom_left_id = key->name + connect_point_subfix_bottom_left;
           wall_points.push_back({key->GetBottomRight(), direction_bottom_row_is_down, 0,0, key->name + connect_point_subfix_bottom_right});
           
-          if (is_double_post_enabled || (bottom_left_id == connect_point_2_destination_bowl)) {
+          if (bottom_left_id == connect_point_2_destination_bowl) {
             wall_points.push_back(
                 {key->GetBottomLeft(), direction_bottom_row_is_down, 0, 0, bottom_left_id});
+          }
+          if (is_double_post_enabled)
+          {
+            wall_points.push_back({key->GetMiddleBottom(),
+                                   direction_bottom_row_is_down,
+                                   0,
+                                   0,
+                                   key->name + connect_point_subfix_middle_bottom});
+
           }
     }
   }
@@ -987,11 +1007,11 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
               {key->GetBottomLeft(), direction_left_column_is_left, 0,0, key->name + connect_point_subfix_bottom_left});
           
           if (is_double_post_enabled) {
-            wall_points.push_back({key->GetTopLeft(),
+            wall_points.push_back({key->GetMiddleLeft(),
                                    direction_left_column_is_left,
                                    0,
                                    0,
-                                   key->name + connect_point_subfix_top_left});          
+                                   key->name + connect_point_subfix_middle_left});          
           }
     }
   }
