@@ -504,33 +504,33 @@ std::vector<WallPoint> CreateWallPointsForBowlThumbCluster(
 
 
       wall_points.push_back(
-          {data.key_thumb_0_5.GetTopLeft(), Direction::UP, 0, .5, corner_key_top_left_point_top_left});
+          {data.key_thumb_0_5.GetTopLeft(), Direction::UP, 0, 0, corner_key_top_left_point_top_left});
      
       wall_points.push_back(
-          {data.key_thumb_0_5.GetTopRight(), Direction::UP, 0, .5, data.key_thumb_0_5.name});
+          {data.key_thumb_0_5.GetTopRight(), Direction::UP, 0, 0, data.key_thumb_0_5.name});
       wall_points.push_back(
-          {data.key_thumb_0_4.GetTopRight(), Direction::UP, 0, 2, data.key_thumb_0_4.name});
+          {data.key_thumb_0_4.GetTopRight(), Direction::UP, 0, .75, data.key_thumb_0_4.name});
       wall_points.push_back({data.key_thumb_0_4.GetTopRight(),
                              Direction::RIGHT,
                              0,
-                             .5,
+                             0,
                              data.key_thumb_0_4.name});
       wall_points.push_back({data.key_thumb_0_4.GetBottomRight(),
                              Direction::RIGHT,
                              0,
-                             .5,
+                             0,
                              data.key_thumb_0_4.name});
       wall_points.push_back(
-          {data.key_thumb_0_2.GetBottomRight(), Direction::RIGHT, 0, 2, data.key_thumb_0_2.name});
+          {data.key_thumb_0_2.GetBottomRight(), Direction::RIGHT, 0, .75, data.key_thumb_0_2.name});
       wall_points.push_back({data.key_thumb_0_2.GetBottomRight(),
                              Direction::DOWN,
                              0,
-                             .5,
+                             0,
                              data.key_thumb_0_2.name});
       wall_points.push_back({data.key_thumb_0_0.GetBottomLeft(),
                              Direction::UP,
                              0,
-                             .5,
+                             0,
                              corner_key_bottom_left_point_bottom_left});
       wall_points.push_back(
           {data.key_thumb_0_0.GetTopLeft(), Direction::UP, 0, 0, corner_key_bottom_left_point_top_left});
