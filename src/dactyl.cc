@@ -850,6 +850,8 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
   GridCorner corner_bottom_right = corners[2];
   GridCorner corner_bottom_left = corners[3];
 
+  bool is_double_post_enabled = false;
+
   auto connect_point_subfix_top_right = "_top_right";
   auto connect_point_subfix_bottom_right = "_bottom_right";
   auto connect_point_subfix_top_left = "_top_left";
@@ -875,19 +877,16 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
   // Top Row left to right
   for (Key* key : data.grid.row(0)) {
     if (key) {
+          auto top_right_id = key->name + connect_point_subfix_top_right;
+          auto top_left_id = key->name + connect_point_subfix_top_left;
           wall_points.push_back({key->GetTopRight(),
                                    direction_top_row_is_up,
                                    0,
                                    0,
-                                   key->name + connect_point_subfix_top_right});
-
-          // This order gives an interesting look
-            wall_points.push_back({key->GetTopLeft(),
-                                   direction_top_row_is_up,
-                                   0,
-                                   0,
-                                   key->name + connect_point_subfix_top_left});
-
+                                   top_right_id});
+          if (is_double_post_enabled) {
+            wall_points.push_back({key->GetTopLeft(), direction_top_row_is_up, 0, 0, top_left_id});          
+          }
     }
   } 
 
@@ -920,11 +919,15 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
 
           wall_points.push_back(
               {key->GetTopRight(), direction_right_column_is_right, 0, 0, wall_point_id_top_right});
-          wall_points.push_back({key->GetBottomRight(),
-                                 direction_right_column_is_right,
-                                 0,
-                                 0,
-                                 wall_point_id_bottom_right});
+
+          if (is_double_post_enabled ||
+              (wall_point_id_bottom_right == connect_point_1_source_bowl)) {
+            wall_points.push_back({key->GetBottomRight(),
+                                   direction_right_column_is_right,
+                                   0,
+                                   0,
+                                   wall_point_id_bottom_right});     
+          }
     }
   }
 
@@ -954,13 +957,13 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
  for (int16_t i = data.grid.num_columns() - 1; i >= 0; i--) {
     Key* key = data.grid.get_key(data.grid.num_rows() - 1, i);
     if (key) {
+          auto bottom_left_id = key->name + connect_point_subfix_bottom_left;
           wall_points.push_back({key->GetBottomRight(), direction_bottom_row_is_down, 0,0, key->name + connect_point_subfix_bottom_right});
-          wall_points.push_back({key->GetBottomLeft(),
-                                 direction_bottom_row_is_down,
-                                 0,
-                                 0,
-                                 key->name + connect_point_subfix_bottom_left});
-
+          
+          if (is_double_post_enabled || (bottom_left_id == connect_point_2_destination_bowl)) {
+            wall_points.push_back(
+                {key->GetBottomLeft(), direction_bottom_row_is_down, 0, 0, bottom_left_id});
+          }
     }
   }
 
@@ -991,11 +994,14 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
     if (key) {
           wall_points.push_back(
               {key->GetBottomLeft(), direction_left_column_is_left, 0,0, key->name + connect_point_subfix_bottom_left});
-          wall_points.push_back({key->GetTopLeft(),
-                                 direction_left_column_is_left,
-                                 0,
-                                 0,
-                                 key->name + connect_point_subfix_top_left});
+          
+          if (is_double_post_enabled) {
+            wall_points.push_back({key->GetTopLeft(),
+                                   direction_left_column_is_left,
+                                   0,
+                                   0,
+                                   key->name + connect_point_subfix_top_left});          
+          }
     }
   }
 
