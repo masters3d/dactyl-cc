@@ -103,6 +103,9 @@ struct Transform {
 // place, the transform you add needs to be applied first and you must use a "front" method.
 class TransformList {
  public:
+
+  TransformList() {
+  }
   Shape Apply(const Shape& shape) const;
   glm::vec3 Apply(const glm::vec3& p) const;
 
@@ -192,9 +195,18 @@ class TransformList {
     }
   }
 
+  TransformList* TransformList::clone() const {
+    TransformList* p = new TransformList(transforms_);
+    return p;
+  }
 
  private:
   std::vector<Transform> transforms_;
+
+  TransformList::TransformList(std::vector<Transform> transforms_incoming) {
+    std::vector<Transform> copy_incoming(transforms_incoming);
+    this->transforms_ = copy_incoming;
+  }
 };
 
 }  // namespace scad

@@ -194,7 +194,7 @@ int main() {
   std::vector<Shape> screw_holes;
   {
     double screw_height = 5;
-    double screw_radius = 1.5;  // Original 4.4 / 2.0;
+    double screw_radius = 4.4 / 2.0;
     Shape screw_hole = Cylinder(screw_height + 2, screw_radius, 30);
     Shape screw_insert =
         Cylinder(screw_height, screw_radius + 1.65, 30).TranslateZ(screw_height / 2);
@@ -492,12 +492,14 @@ std::vector<WallPoint> CreateWallPointsForBowlThumbCluster(
           {data.key_thumb_0_5.GetTopRight(), Direction::UP, 0, 0, data.key_thumb_0_5.name});
       wall_points.push_back(
           {data.key_thumb_0_4.GetTopRight(), Direction::UP, 0, .75, data.key_thumb_0_4.name});
-      WallPoint top_right_corner = {
+      WallPoint thumb_top_right_corner = {
           data.key_thumb_0_4.GetTopRight(), Direction::RIGHT, 0, 0, data.key_thumb_0_4.name};
 
-      plate_screw_locations.push_back(top_right_corner);
+      wall_points.push_back(thumb_top_right_corner);
 
-      wall_points.push_back(top_right_corner);
+      thumb_top_right_corner.transforms.TranslateX(-4).TranslateY(-2);
+      plate_screw_locations.push_back(thumb_top_right_corner);
+
       wall_points.push_back({data.key_thumb_0_4.GetBottomRight(),
                              Direction::RIGHT,
                              0,
@@ -509,9 +511,12 @@ std::vector<WallPoint> CreateWallPointsForBowlThumbCluster(
       WallPoint bottom_right_corner = {
           data.key_thumb_0_2.GetBottomRight(), Direction::DOWN, 0, 0, data.key_thumb_0_2.name};
 
+      wall_points.push_back(bottom_right_corner);
+
+      // Adjusting so screw holes are inside the wall
+      bottom_right_corner.transforms.TranslateX(-3).TranslateY(3);
       plate_screw_locations.push_back(bottom_right_corner);
 
-      wall_points.push_back(bottom_right_corner);
       wall_points.push_back({data.key_thumb_0_0.GetBottomLeft(),
                              Direction::UP,
                              0,
@@ -786,7 +791,12 @@ Shape ConnectBowlKeysAndThumbClusterWallPosts(KeyData& data, bool isDefaultDactl
         if (each.unique_id == connect_point_1_destination_thumb) {
           is_included_wall_points_for_thumb_cluster = true;
           // Adding plate screw location
-          plate_screw_locations.push_back(each);
+          auto copy_tranform = each.transforms.clone();
+          plate_screw_locations.push_back({copy_tranform->TranslateX(-3).TranslateY(-2),
+                                           each.out_direction,
+                                           each.extra_width,
+                                           each.extra_distance,
+                                           connect_point_1_destination_thumb});
         }
         if (is_included_wall_points_for_thumb_cluster) {
           combined_wall_points.push_back(each);
@@ -991,6 +1001,8 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
     wall_points.push_back(corner_bottom_left_wall_point);
     wall_points.push_back({currentKey->GetBottomLeft(), direction_left_column_is_left, 0, .5});
 
+    // Adjusting to screw plate locations
+    corner_bottom_left_wall_point.transforms.TranslateX(1);
     plate_screw_locations.push_back(corner_bottom_left_wall_point);
   }
 
@@ -1032,6 +1044,7 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
     wall_points.push_back(corner_top_left_wall_point);
     wall_points.push_back({currentKey->GetTopLeft(), direction_top_row_is_up, 0, .5});
 
+    corner_top_left_wall_point.transforms.TranslateX(1);
     plate_screw_locations.push_back(corner_top_left_wall_point);
   }
 
