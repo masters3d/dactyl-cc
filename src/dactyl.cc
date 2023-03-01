@@ -852,6 +852,8 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
 
   auto connect_point_subfix_top_right = "_top_right";
   auto connect_point_subfix_bottom_right = "_bottom_right";
+  auto connect_point_subfix_top_left = "_top_left";
+  auto connect_point_subfix_bottom_left = "_bottom_left";
 
   // Setting Up Connections Points for the thumb cluster
   connect_point_1_source_bowl = data.grid
@@ -861,7 +863,7 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
 
   connect_point_2_destination_bowl =
       data.grid.get_key_located_left(corner_bottom_right.index_row, corner_bottom_right.index_column)
-          ->name;
+          ->name + connect_point_subfix_bottom_left;
 
   // Start top left and go clockwise.
   // Top Row: Left to Right
@@ -873,7 +875,19 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
   // Top Row left to right
   for (Key* key : data.grid.row(0)) {
     if (key) {
-          wall_points.push_back({key->GetTopLeft(), direction_top_row_is_up, 0, 0, key->name});
+          wall_points.push_back({key->GetTopRight(),
+                                   direction_top_row_is_up,
+                                   0,
+                                   0,
+                                   key->name + connect_point_subfix_top_right});
+
+          // This order gives an interesting look
+            wall_points.push_back({key->GetTopLeft(),
+                                   direction_top_row_is_up,
+                                   0,
+                                   0,
+                                   key->name + connect_point_subfix_top_left});
+
     }
   } 
 
@@ -940,7 +954,13 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
  for (int16_t i = data.grid.num_columns() - 1; i >= 0; i--) {
     Key* key = data.grid.get_key(data.grid.num_rows() - 1, i);
     if (key) {
-          wall_points.push_back({key->GetBottomRight(), direction_bottom_row_is_down, 0,0, key->name});
+          wall_points.push_back({key->GetBottomRight(), direction_bottom_row_is_down, 0,0, key->name + connect_point_subfix_bottom_right});
+          wall_points.push_back({key->GetBottomLeft(),
+                                 direction_bottom_row_is_down,
+                                 0,
+                                 0,
+                                 key->name + connect_point_subfix_bottom_left});
+
     }
   }
 
@@ -970,7 +990,12 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
     Key* key = data.grid.get_key(i, 0);
     if (key) {
           wall_points.push_back(
-              {key->GetBottomLeft(), direction_left_column_is_left, 0,0, key->name});
+              {key->GetBottomLeft(), direction_left_column_is_left, 0,0, key->name + connect_point_subfix_bottom_left});
+          wall_points.push_back({key->GetTopLeft(),
+                                 direction_left_column_is_left,
+                                 0,
+                                 0,
+                                 key->name + connect_point_subfix_top_left});
     }
   }
 
