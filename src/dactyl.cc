@@ -791,12 +791,7 @@ Shape ConnectBowlKeysAndThumbClusterWallPosts(KeyData& data, bool isDefaultDactl
         if (each.unique_id == connect_point_1_destination_thumb) {
           is_included_wall_points_for_thumb_cluster = true;
           // Adding plate screw location
-          auto copy_tranform = each.transforms.clone();
-          plate_screw_locations.push_back({copy_tranform->TranslateX(-3).TranslateY(-2),
-                                           each.out_direction,
-                                           each.extra_width,
-                                           each.extra_distance,
-                                           connect_point_1_destination_thumb});
+          plate_screw_locations.push_back(each);
         }
         if (is_included_wall_points_for_thumb_cluster) {
           combined_wall_points.push_back(each);
@@ -813,7 +808,11 @@ Shape ConnectBowlKeysAndThumbClusterWallPosts(KeyData& data, bool isDefaultDactl
         if (each.unique_id == connect_point_2_destination_bowl) {
           is_included_bowl = true;
           // Adding plate screw location
-          plate_screw_locations.push_back(each);
+          plate_screw_locations.push_back({each.transforms.clone()->TranslateX(-3).TranslateY(-2),
+                                           each.out_direction,
+                                           each.extra_width,
+                                           each.extra_distance,
+                                           connect_point_1_destination_thumb});
         }
         if (is_included_bowl) {
             combined_wall_points.push_back(each);
