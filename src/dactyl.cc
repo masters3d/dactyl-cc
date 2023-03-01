@@ -475,46 +475,6 @@ data.key_thumb_0_5.Configure([&](Key& k) {
                                   key_bowl_edge_left->GetBottomRight(),
                               }));
 
-
-  // These transforms with TranslateFront are moving the connectors down in the z direction to
-  // reduce the vertical jumps.
-  //TransformList slash_bottom_right = data.key_4_2.GetBottomRight().TranslateFront(0, -5, -3);
-
-  //shapes.push_back(TriFan(slash_bottom_right,
-  //                        {
-  //                            data.key_4_3.GetBottomRight().TranslateFront(0, 0, -1),
-  //                            data.key_4_3.GetBottomLeft(),
-  //                            data.key_4_2.GetBottomRight().TranslateFront(0, 0, -1),
-  //                        }));
-  //shapes.push_back(TriFan(data.key_thumb_5_0.GetBottomLeft(),
-  //                        {
-  //                            slash_bottom_right,
-  //                            data.key_4_3.GetBottomRight().TranslateFront(0, 0, -1),
-  //                            data.key_4_4.GetBottomLeft().TranslateFront(0, 0, -1),
-  //                            data.key_4_4.GetBottomRight(),
-  //                        }));
-  //shapes.push_back(TriFan(data.key_4_1.GetBottomRight(),
-  //                        {
-  //                            data.key_4_2.GetBottomLeft(),
-  //                            data.key_4_2.GetBottomRight().TranslateFront(0, 0, -1),
-  //                            slash_bottom_right,
-  //                        }));
-  //shapes.push_back(TriFan(data.key_thumb_5_1.GetTopLeft(),
-  //                        {
-  //                            data.key_thumb_5_5.GetTopLeft(),
-  //                            data.key_3_5.GetBottomRight(),
-  //                            data.key_thumb_5_0.GetTopLeft(),
-  //                        }));
-  //shapes.push_back(TriFan(data.key_3_5.GetBottomLeft(),
-  //                        {
-  //                            data.key_3_5.GetBottomRight(),
-  //                            data.key_thumb_5_0.GetTopLeft(),
-  //                            data.key_thumb_5_0.GetTopLeft(),
-  //                            data.key_4_4.GetBottomRight(),
-  //                            data.key_4_4.GetTopRight(),
-  //                            data.key_3_4.GetBottomRight(),
-  //                        }));
-
     // Printing Intermediate Steps
   if (kCreateIntermediateArtifacts) {
       UnionAll(shapes).WriteToFile("validate_thumbcluster_02_top_connectors.scad");
@@ -544,13 +504,34 @@ std::vector<WallPoint> CreateWallPointsForBowlThumbCluster(
 
 
       wall_points.push_back(
-          {data.key_thumb_0_5.GetTopLeft(), Direction::UP, 0, 0, corner_key_top_left_point_top_left});
+          {data.key_thumb_0_5.GetTopLeft(), Direction::UP, 0, .5, corner_key_top_left_point_top_left});
+     
       wall_points.push_back(
-          {data.key_thumb_0_4.GetTopRight(), Direction::RIGHT, 0, 0, data.key_thumb_0_4.name});
+          {data.key_thumb_0_5.GetTopRight(), Direction::UP, 0, .5, data.key_thumb_0_5.name});
       wall_points.push_back(
-          {data.key_thumb_0_2.GetBottomRight(), Direction::DOWN, 0, 0, data.key_thumb_0_2.name});
+          {data.key_thumb_0_4.GetTopRight(), Direction::UP, 0, 2, data.key_thumb_0_4.name});
+      wall_points.push_back({data.key_thumb_0_4.GetTopRight(),
+                             Direction::RIGHT,
+                             0,
+                             .5,
+                             data.key_thumb_0_4.name});
+      wall_points.push_back({data.key_thumb_0_4.GetBottomRight(),
+                             Direction::RIGHT,
+                             0,
+                             .5,
+                             data.key_thumb_0_4.name});
       wall_points.push_back(
-          {data.key_thumb_0_0.GetBottomLeft(), Direction::UP, 0, 0, corner_key_bottom_left_point_bottom_left});
+          {data.key_thumb_0_2.GetBottomRight(), Direction::RIGHT, 0, 2, data.key_thumb_0_2.name});
+      wall_points.push_back({data.key_thumb_0_2.GetBottomRight(),
+                             Direction::DOWN,
+                             0,
+                             .5,
+                             data.key_thumb_0_2.name});
+      wall_points.push_back({data.key_thumb_0_0.GetBottomLeft(),
+                             Direction::UP,
+                             0,
+                             .5,
+                             corner_key_bottom_left_point_bottom_left});
       wall_points.push_back(
           {data.key_thumb_0_0.GetTopLeft(), Direction::UP, 0, 0, corner_key_bottom_left_point_top_left});
 
