@@ -850,11 +850,14 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
   GridCorner corner_bottom_right = corners[2];
   GridCorner corner_bottom_left = corners[3];
 
+  auto connect_point_subfix_top_right = "_top_right";
+  auto connect_point_subfix_bottom_right = "_bottom_right";
 
   // Setting Up Connections Points for the thumb cluster
   connect_point_1_source_bowl = data.grid
       .get_key_located_up(corner_bottom_right.index_row, corner_bottom_right.index_column)
-      ->name;
+          ->name +
+      connect_point_subfix_bottom_right;
 
   connect_point_2_destination_bowl =
       data.grid.get_key_located_left(corner_bottom_right.index_row, corner_bottom_right.index_column)
@@ -898,7 +901,16 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
  for (size_t i = 0; i < data.grid.num_rows() -1; i++) {
     Key* key = data.grid.get_key(i, data.grid.num_columns() - 1);
     if (key) {
-          wall_points.push_back({key->GetTopRight(), direction_right_column_is_right, 0,0, key ->name});
+          auto wall_point_id_top_right = key->name + connect_point_subfix_top_right;
+          auto wall_point_id_bottom_right = key->name + connect_point_subfix_bottom_right;
+
+          wall_points.push_back(
+              {key->GetTopRight(), direction_right_column_is_right, 0, 0, wall_point_id_top_right});
+          wall_points.push_back({key->GetBottomRight(),
+                                 direction_right_column_is_right,
+                                 0,
+                                 0,
+                                 wall_point_id_bottom_right});
     }
   }
 
