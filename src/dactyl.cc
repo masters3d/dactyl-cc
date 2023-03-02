@@ -446,20 +446,14 @@ data.key_thumb_0_5.Configure([&](Key& k) {
                                   key_bowl_edge_left->GetBottomRight(),
                                   data.key_thumb_0_0.GetTopLeft(),
                               }));
-      shapes.push_back(TriFan(data.key_thumb_0_0.GetTopLeft(),
+
+      shapes.push_back(TriFan(data.key_thumb_0_5.GetTopLeft(),
                               {
+                                  key_bowl_edge_up->GetBottomRight(),
                                   key_bowl_edge_left->GetBottomRight(),
-                                  key_bowl_edge_left->GetTopRight(),
-                                  key_bowl_edge_up->GetBottomLeft(),
-                                  key_bowl_edge_up->GetBottomRight(),
-                              }));
-      shapes.push_back(TriFan(data.key_thumb_0_0.GetTopRight(),
-                              {
-                                  key_bowl_edge_up->GetBottomRight(),
-                                  key_bowl_edge_up->GetBottomLeft(),
-                                  key_bowl_edge_left->GetMiddleRight(),
                                   data.key_thumb_0_0.GetTopLeft(),
                               }));
+
     } else {
     
         // TODO: Add the thumb cluster to the bowl.
