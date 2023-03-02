@@ -66,10 +66,13 @@ std::vector<WallPoint> CreateWallPointsForBowlThumbCluster(KeyData& data,
 int main() {
   printf("generating..\n");
   TransformList key_origin;
+
+  double adjust_height_for_origin = 3;
+
   // RotateY(15) makes the bowl anchor key to have zero ration but it causes the thumb cluster to gain the angle
   // A RotateY(5) has an effective angle of -10 (5 - 15)  
   // Depending on the y rotation you may need to adjust the starting heigh
-  key_origin.Translate(-20, -40, 3); //.RotateY(0);
+  key_origin.Translate(-20, -40, 3 + adjust_height_for_origin); //.RotateY(0);
 
   // This is where all of the logic to position the keys is done. Everything below is cosmetic
   // trying to build the case.
@@ -290,43 +293,54 @@ Shape ConnectThumbCluster(KeyData& data) {
     );
   }
 
+         // Thumb cluster is indepenently position from bowl keys.
+      double anchor_thumb_x =
+          66;  // 60; Both x and y need to change to move the keys away from the keywell.
+      double anchor_thumb_y = -15.18;  // -9.18;
+      double anchor_thumb_z =
+          32.83;  // original (42.83) -10 since we are not adding this offset for the keycaps
+      double anchor_thumb_rotate_x = -21;
+      double anchor_thumb_rotate_y = 12;
+      double anchor_thumb_rotate_z = -4.5;
+
+      //
+      // Thumb keys
+      //
+
+      data.key_thumb_0_0.Configure([&](Key& k) {
+        k.name = "key_thumb_0_0";
+        k.SetParent(data.origin_for_bowl);
+        k.SetPosition(anchor_thumb_x, anchor_thumb_y, anchor_thumb_z);
+        k.t().rz = anchor_thumb_rotate_x;
+        k.t().rx = anchor_thumb_rotate_y;
+        k.t().ry = anchor_thumb_rotate_z;
+      });
+
+      // Second thumb key.
+      data.key_thumb_0_1.Configure([&](Key& k) {
+        k.name = "key_thumb_0_1";
+        k.SetParent(data.key_thumb_0_0);
+        k.SetPosition(kDefaultKeySpacing, 0, 0);
+      });
+
+      // Bottom side key.
+      data.key_thumb_0_2.Configure([&](Key& k) {
+        k.name = "key_thumb_0_2";
+        k.SetParent(data.key_thumb_0_1);
+        k.SetPosition(kDefaultKeySpacing, kDefaultKeyHalfSpacing * -1, 0);
+      });
+
+
+      data.key_thumb_0_0.extra_width_bottom = 11;
+      data.key_thumb_0_0.extra_width_left = 1;  // original 3
+      data.key_thumb_0_1.extra_width_bottom = 11;
+      data.key_thumb_0_2.extra_width_bottom = 3;
+      data.key_thumb_0_2.extra_width_top = 3;
+      data.key_thumb_0_2.extra_width_right = 3;
+      data.key_thumb_0_2.extra_width_left = 3;
+
+
     if (isDefaultDactlyThumbCluster) {
-
-     // Thumb cluster is indepenently position from bowl keys.
-    double anchor_thumb_x = 66;  // 60; Both x and y need to change to move the keys away from the keywell.
-    double anchor_thumb_y = -15.18;  // -9.18;
-    double anchor_thumb_z = 32.83; // original (42.83) -10 since we are not adding this offset for the keycaps
-    double anchor_thumb_rotate_x = -21;
-    double anchor_thumb_rotate_y = 12;
-    double anchor_thumb_rotate_z = -4.5;
-
-    //
-    // Thumb keys
-    //
-
-    data.key_thumb_0_0.Configure([&](Key& k) {
-      k.name = "key_thumb_0_0";
-      k.SetParent(data.origin_for_bowl);
-      k.SetPosition(anchor_thumb_x, anchor_thumb_y, anchor_thumb_z);
-      k.t().rz = anchor_thumb_rotate_x;
-      k.t().rx = anchor_thumb_rotate_y;
-      k.t().ry = anchor_thumb_rotate_z;
-    });
-
-
-    // Second thumb key.
-    data.key_thumb_0_1.Configure([&](Key& k) {
-      k.name = "key_thumb_0_1";
-      k.SetParent(data.key_thumb_0_0);
-      k.SetPosition(kDefaultKeySpacing, 0, 0);
-    });
-
-    // Bottom side key.
-    data.key_thumb_0_2.Configure([&](Key& k) {
-      k.name = "key_thumb_0_2";
-      k.SetParent(data.key_thumb_0_1);
-      k.SetPosition(kDefaultKeySpacing, kDefaultKeyHalfSpacing * -1, 0);
-    });
 
     // Middle side key.
     data.key_thumb_0_3.Configure([&](Key& k) {
@@ -350,10 +364,7 @@ Shape ConnectThumbCluster(KeyData& data) {
     });
 
   // Set all of the widths here. This must be done before calling any of GetTopLeft etc.
-    data.key_thumb_0_0.extra_width_bottom = 11;
-    data.key_thumb_0_0.extra_width_left = 1; // original 3
-    data.key_thumb_0_1.extra_width_bottom = 11;
-    data.key_thumb_0_2.extra_width_bottom = 3;
+    
     data.key_thumb_0_5.extra_width_top = 3;
     data.key_thumb_0_4.extra_width_top = 3;
     data.key_thumb_0_4.extra_width_right = 3;
@@ -361,9 +372,7 @@ Shape ConnectThumbCluster(KeyData& data) {
     data.key_thumb_0_3.extra_width_right = 3;
     data.key_thumb_0_3.extra_width_left = 3;
     data.key_thumb_0_3.extra_width_top = 3;
-    data.key_thumb_0_2.extra_width_top = 3;
-    data.key_thumb_0_2.extra_width_right = 3;
-    data.key_thumb_0_2.extra_width_left = 3;
+  
 
     shapes.push_back(Union(ConnectHorizontal(data.key_thumb_0_5, data.key_thumb_0_4),
                            ConnectHorizontal(data.key_thumb_0_0, data.key_thumb_0_1),
