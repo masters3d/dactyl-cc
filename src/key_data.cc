@@ -79,7 +79,7 @@ KeyData::KeyData(TransformList key_origin) {
 
     // Cheyo's offsets:
  
-    double offset_anchor_z = -5;
+    double offset_anchor_z = -4;
     double offset_anchor_right_1_z = 5;
     double offset_anchor_left_1_z = 0;
     double offset_anchor_left_2_z = 10;

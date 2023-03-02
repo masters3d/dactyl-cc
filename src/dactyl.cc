@@ -293,8 +293,8 @@ Shape ConnectThumbCluster(KeyData& data) {
     if (isDefaultDactlyThumbCluster) {
 
      // Thumb cluster is indepenently position from bowl keys.
-    double anchor_thumb_x = 60;
-    double anchor_thumb_y = -9.18;
+    double anchor_thumb_x = 66;  // 60; Both x and y need to change to move the keys away from the keywell.
+    double anchor_thumb_y = -15.18;  // -9.18;
     double anchor_thumb_z = 32.83; // original (42.83) -10 since we are not adding this offset for the keycaps
     double anchor_thumb_rotate_x = -21;
     double anchor_thumb_rotate_y = 12;
@@ -434,23 +434,24 @@ data.key_thumb_0_5.Configure([&](Key& k) {
       UnionAll(shapes).WriteToFile("validate_thumbcluster_01_only_keys.scad");
   }
 
-
-  //
-  // Thumb plate
-  //
+    if (isDefaultDactlyThumbCluster) {
+  
+    //
+      // Thumb plate
+      //
 
       shapes.push_back(TriFan(data.key_thumb_0_0.GetBottomLeft(),
-                          {
-                              key_bowl_edge_left->GetBottomLeft(),
-                              key_bowl_edge_left->GetBottomRight(),
-                              data.key_thumb_0_0.GetTopLeft(),
-                          }));
+                              {
+                                  key_bowl_edge_left->GetBottomLeft(),
+                                  key_bowl_edge_left->GetBottomRight(),
+                                  data.key_thumb_0_0.GetTopLeft(),
+                              }));
       shapes.push_back(TriFan(data.key_thumb_0_0.GetTopLeft(),
-                          {
-                              key_bowl_edge_left->GetBottomRight(),
-                              key_bowl_edge_left->GetTopRight(),
-                              key_bowl_edge_up->GetBottomLeft(),
-                              key_bowl_edge_up->GetBottomRight(),
+                              {
+                                  key_bowl_edge_left->GetBottomRight(),
+                                  key_bowl_edge_left->GetTopRight(),
+                                  key_bowl_edge_up->GetBottomLeft(),
+                                  key_bowl_edge_up->GetBottomRight(),
                               }));
       shapes.push_back(TriFan(data.key_thumb_0_0.GetTopRight(),
                               {
@@ -459,6 +460,11 @@ data.key_thumb_0_5.Configure([&](Key& k) {
                                   key_bowl_edge_left->GetMiddleRight(),
                                   data.key_thumb_0_0.GetTopLeft(),
                               }));
+    } else {
+    
+        // TODO: Add the thumb cluster to the bowl.
+    }
+
 
     // Printing Intermediate Steps
   if (kCreateIntermediateArtifacts) {
