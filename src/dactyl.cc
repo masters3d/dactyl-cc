@@ -69,7 +69,7 @@ int main() {
   // RotateY(15) makes the bowl anchor key to have zero ration but it causes the thumb cluster to gain the angle
   // A RotateY(5) has an effective angle of -10 (5 - 15)  
   // Depending on the y rotation you may need to adjust the starting heigh
-  key_origin.Translate(-20, -40, 3).RotateY(10);
+  key_origin.Translate(-20, -40, 3); //.RotateY(0);
 
   // This is where all of the logic to position the keys is done. Everything below is cosmetic
   // trying to build the case.

@@ -76,16 +76,51 @@ Key GetXAxisRotatedKey(double radius, RotationDirection rotationDirection) {
 
 KeyData::KeyData(TransformList key_origin) {
 
-// captuting this origing so we can reference to it later. 
+
+    // Cheyo's offsets:
+ 
+    double offset_anchor_z = -5;
+    double offset_anchor_right_1_z = 5;
+    double offset_anchor_left_1_z = 0;
+    double offset_anchor_left_2_z = 10;
+
+    // captuting this origing so we can reference to it later. 
   origin_for_bowl = key_origin;
   origin_key = &key_2_3;
 
-  double anchor_x = 26.40;
-  double anchor_y = 50.32;
-  double anchor_z = 17.87;
   // This cotrolls the tilting of the whole bowl. Currently only affects the bowl keys. 
   // The thumb keys are affected by the rotation of the origin ( Along with the bowl keys ).
   double anchor_rotate_y = -15;
+ 
+  // (-20.887, 0, 0);
+  double anchor_left_3_x = -20.887;
+  double anchor_left_3_y = 0;
+  double anchor_left_3_z = 0;
+
+  //(-20.887, -6.170, 5.358);
+  double anchor_left_2_x = -20.887;
+  double anchor_left_2_y = -6.170;
+  double anchor_left_2_z = 5.358 + offset_anchor_left_2_z;
+
+  //(-19.571, -0.090, 5.430);
+  double anchor_left_1_x = -19.571;
+  double anchor_left_1_y = -0.090;
+  double anchor_left_1_z = 5.430 + offset_anchor_left_1_z;
+
+  // (26.40, 50.32, 17.87); This is root key. All other keys are relative to this one.
+  double anchor_x = 26.40;
+  double anchor_y = 50.32;
+  double anchor_z = 17.87 + offset_anchor_z;
+
+  // (19.938, -0.950, 5.249)
+  double anchor_right_1_x = 19.938;
+  double anchor_right_1_y = -0.950;
+  double anchor_right_1_z = 5.249 + offset_anchor_right_1_z;
+
+  // (20, -1.310, 3.305)
+  double anchor_right_2_x = 20;
+  double anchor_right_2_y = -1.310;
+  double anchor_right_2_z = 3.305;
 
   //
   // Main bowl keys
@@ -102,59 +137,38 @@ KeyData::KeyData(TransformList key_origin) {
 
   key_2_4.Configure([&](Key& k) {
     k.name = NAMEOF(key_2_4);
-
     k.SetParent(key_2_3);
-    k.SetPosition(19.938, -0.950, 5.249);
+    k.SetPosition(anchor_right_1_x, anchor_right_1_y, anchor_right_1_z);
     k.t().ry = -5;
   });
 
   key_2_5.Configure([&](Key& k) {
     k.name = NAMEOF(key_2_5);
-
-    // Absolute:
-    // k.SetPosition(60.16, 48.06, 37.39);
-    // k.t().ry = -30;
-
     k.SetParent(key_2_4);
-    k.SetPosition(20, -1.310, 3.305);
+    k.SetPosition(anchor_right_2_x, anchor_right_2_y, anchor_right_2_z);
     k.t().ry = -4;
   });
 
   key_2_2.Configure([&](Key& k) {
     k.name = NAMEOF(key_2_2);
-
-    // Absolute:
-    // k.SetPosition(6.09, 50.23, 18.05);
-    // k.t().ry = -10;
-
     k.SetParent(key_2_3);
-    k.SetPosition(-19.571, -0.090, 5.430);
+    k.SetPosition(anchor_left_1_x, anchor_left_1_y, anchor_left_1_z);
     k.t().ry = 5;
   });
 
   key_2_1.Configure([&](Key& k) {
     k.name = NAMEOF(key_2_1);
-
-    // Absolute:
-    // k.SetPosition(-15.41, 44.06, 19.7);
-    // k.t().ry = -10;
-
     k.SetParent(key_2_2);
-    k.SetPosition(-20.887, -6.170, 5.358);
+    k.SetPosition(anchor_left_2_x, anchor_left_2_y, anchor_left_2_z);
   });
 
   key_2_0.Configure([&](Key& k) {
     k.name = NAMEOF(key_2_0);
-
-    // Absolute:
-    // k.SetPosition(-37.7, 48.06, 15.98);
-    // k.t().ry = -5;
-
     k.SetParent(key_2_1);
-    //k.SetPosition(-22.597, 4.000, 0.207);
-    k.SetPosition(-20.887, 0, 0);
+    //k.SetPosition(-22.597, 4.000, 0.207); // is the original position
+    k.SetPosition(anchor_left_3_x, anchor_left_3_y, anchor_left_3_z);
 
-    //k.t().ry = 5;
+    //k.t().ry = 5; // is the original rotation
   });
 
   // D Column
