@@ -132,7 +132,7 @@ int main() {
       data.grid.get_key_located_left(data.grid.get_key_corner_bottom_right());
   
   if (key_left_of_corner_bottom_right) {
-        key_left_of_corner_bottom_right->extra_width_bottom = 2;
+        key_left_of_corner_bottom_right->extra_width_bottom = 0;
   }
 
   // All changes to `data` need to be done before calling the next steps.
@@ -265,7 +265,7 @@ Shape ConnectThumbCluster(KeyData& data) {
   auto key_bowl_edge_left = data.grid.get_key_located_left(data.grid.get_key_corner_bottom_right());
 
 
-  if (false){
+    if (false){
     // Experiment to see if we can match a thumb cluster that is attached to the same origina as the bowl
     int moveDiagonalAmount = 65;
     int moveZAmount = 20;
@@ -456,7 +456,8 @@ data.key_thumb_0_5.Configure([&](Key& k) {
                               {
                                   key_bowl_edge_up->GetBottomRight(),
                                   key_bowl_edge_up->GetBottomLeft(),
-                                  key_bowl_edge_left->GetBottomRight(),
+                                  key_bowl_edge_left->GetMiddleRight(),
+                                  data.key_thumb_0_0.GetTopLeft(),
                               }));
 
     // Printing Intermediate Steps
