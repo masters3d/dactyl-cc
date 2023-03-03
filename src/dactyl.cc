@@ -273,7 +273,7 @@ Shape ConnectThumbCluster(KeyData& data) {
       double anchor_thumb_y = -9.18 - adjust_thumb_distance;  // -9.18;
       double anchor_thumb_z =
           32.83;  // original (42.83) -10 since we are not adding this offset for the keycaps
-      double anchor_thumb_rotate_x = -21;  // isDefaultDactlyThumbCluster ? -21 : -45;
+      double anchor_thumb_rotate_x = isDefaultDactlyThumbCluster ? -21 : -33;
       double anchor_thumb_rotate_y = 12;
       double anchor_thumb_rotate_z = -4.5;
 
@@ -305,9 +305,9 @@ Shape ConnectThumbCluster(KeyData& data) {
       });
 
 
-      data.key_thumb_0_0.extra_width_bottom = 11;
+      data.key_thumb_0_0.extra_width_bottom = 12.5;
       data.key_thumb_0_0.extra_width_left = 1;  // original 3
-      data.key_thumb_0_1.extra_width_bottom = 11;
+      data.key_thumb_0_1.extra_width_bottom = 12.5;
       data.key_thumb_0_2.extra_width_bottom = 3;
       data.key_thumb_0_2.extra_width_top = 1;  // original 3
       data.key_thumb_0_2.extra_width_right = 3;
@@ -370,7 +370,7 @@ Shape ConnectThumbCluster(KeyData& data) {
     data.key_thumb_0_5.Configure([&](Key& k) {
       k.name = "key_thumb_0_5";
       k.SetParent(data.key_thumb_0_0);
-      k.SetPosition(kDefaultKeySpacing, kDefaultKeySpacing + kDefaultKeyHalfSpacing, 0);
+      k.SetPosition(0, kDefaultKeySpacing + kDefaultKeyHalfSpacing, 0);
     });
 
      // Top middle key;
@@ -425,6 +425,7 @@ Shape ConnectThumbCluster(KeyData& data) {
 
     shapes.push_back(TriFan(data.key_thumb_0_5.GetTopLeft(),
                             {
+                                key_bowl_edge_up->GetTopRight(),
                                 key_bowl_edge_up->GetBottomRight(),
                                 key_bowl_edge_left->GetBottomRight(),
                                 data.key_thumb_0_0.GetTopLeft(),
@@ -477,10 +478,6 @@ std::vector<WallPoint> CreateWallPointsForBowlThumbCluster(
       wall_points.push_back(
            {data.key_thumb_0_3.GetBottomRight(), Direction::RIGHT, 0, .75, data.key_thumb_0_3.name});
 
-      if (!isDefaultDactlyThumbCluster) {
-      wall_points.push_back(
-          {data.key_thumb_0_3.GetBottomRight(), Direction::DOWN, 0, .75, data.key_thumb_0_3.name});      
-      }
 
       thumb_top_right_corner.transforms.TranslateX(-4).TranslateY(-2);
       plate_screw_locations.push_back(thumb_top_right_corner);
@@ -496,6 +493,9 @@ std::vector<WallPoint> CreateWallPointsForBowlThumbCluster(
       // Adjusting so screw holes are inside the wall
       bottom_right_corner.transforms.TranslateX(-3).TranslateY(3);
       plate_screw_locations.push_back(bottom_right_corner);
+
+      wall_points.push_back(
+          {data.key_thumb_0_1.GetMiddleBottom(), Direction::DOWN, 2, .75, data.key_thumb_0_1.name});
 
       wall_points.push_back({data.key_thumb_0_0.GetBottomLeft(),
                              Direction::UP,
@@ -827,7 +827,7 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
 
   // Setting Up Connections Points for the thumb cluster
   connect_point_1_source_bowl = data.grid
-      .get_key_located_up(corner_bottom_right)->name + connect_point_subfix_bottom_right;
+      .get_key_located_up(corner_bottom_right)->name + connect_point_subfix_top_right;
 
   connect_point_2_destination_bowl =
       data.grid.get_key_located_left(corner_bottom_right)
