@@ -262,7 +262,7 @@ Shape ConnectThumbCluster(KeyData& data, bool isDefaultDactlyThumbCluster) {
   std::vector<Shape> shapes;
 
   constexpr double kDefaultKeySpacing = 19;
-  constexpr double kDefaultKeyHalfSpacing = 9;
+  constexpr double kDefaultKeyHalfSpacing = 9.5;
 
   auto key_bowl_edge_up = data.grid.get_key_located_up(data.grid.get_key_corner_bottom_right());
   auto key_bowl_edge_left = data.grid.get_key_located_left(data.grid.get_key_corner_bottom_right());
@@ -336,7 +336,7 @@ Shape ConnectThumbCluster(KeyData& data, bool isDefaultDactlyThumbCluster) {
     data.key_thumb_0_5.Configure([&](Key& k) {
       k.name = "key_thumb_0_5";
       k.SetParent(data.key_thumb_0_1);
-      k.SetPosition(0, 10 + kDefaultKeySpacing - 1, 0);
+      k.SetPosition(0, kDefaultKeyHalfSpacing + kDefaultKeySpacing, 0);
     });
 
   // Set all of the widths here. This must be done before calling any of GetTopLeft etc.
