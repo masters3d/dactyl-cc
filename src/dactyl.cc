@@ -11,7 +11,9 @@ using namespace scad;
 
 constexpr bool kWriteTestKeys = false;
 // Add the caps into the stl for testing.
-constexpr bool kAddCaps = false;
+constexpr bool kAddCaps = true;
+
+constexpr bool isDefaultDactlyThumbCluster = true;
 
 // print every step of the way to validate changes
 constexpr bool kCreateIntermediateArtifacts = true;
@@ -56,12 +58,12 @@ void AddShapes(std::vector<Shape>* shapes, std::vector<Shape> to_add) {
 Shape ConnectBowlKeysInternalStructure(KeyData& data);
 Shape ConnectBowlKeysGridToWall(KeyData& data);
 Shape ConnectBowlKeysAndThumbClusterWallPosts(KeyData& data,
-                                              bool isDefaultDactlyThumbCluster = true);
-Shape ConnectThumbCluster(KeyData& data);
+                                              bool isDefaultDactlyThumbCluster);
+Shape ConnectThumbCluster(KeyData& data, bool isDefaultDactlyThumbCluster);
 Shape ConnectCreateWalls(std::vector<WallPoint> wall_points);
 std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data);
 std::vector<WallPoint> CreateWallPointsForBowlThumbCluster(KeyData& data,
-                                                           bool isDefaultDactlyThumbCluster = true);
+                                                           bool isDefaultDactlyThumbCluster);
 
 int main() {
   printf("generating..\n");
@@ -170,7 +172,7 @@ int main() {
   }
 
   // Thumb Cluster
-  shapes.push_back(ConnectThumbCluster(data));
+  shapes.push_back(ConnectThumbCluster(data, isDefaultDactlyThumbCluster));
 
     // Printing Intermediate Steps
   if (kCreateIntermediateArtifacts) {
@@ -185,7 +187,7 @@ int main() {
         .WriteToFile("validate_05_substrack_thumb_preview.scad");
   }
 
-  shapes.push_back(ConnectBowlKeysAndThumbClusterWallPosts(data));
+  shapes.push_back(ConnectBowlKeysAndThumbClusterWallPosts(data, isDefaultDactlyThumbCluster));
 
   // Printing Intermediate Steps
   if (kCreateIntermediateArtifacts) {
@@ -255,11 +257,9 @@ int main() {
   return 0;
 }
 
-Shape ConnectThumbCluster(KeyData& data) {
+Shape ConnectThumbCluster(KeyData& data, bool isDefaultDactlyThumbCluster) {
 
   std::vector<Shape> shapes;
-
-  bool isDefaultDactlyThumbCluster = false;
 
   constexpr double kDefaultKeySpacing = 19;
   constexpr double kDefaultKeyHalfSpacing = 9;
@@ -450,7 +450,7 @@ std::vector<WallPoint> CreateWallPointsForBowlThumbCluster(
   // Left Column: Bottom to Top
   std::vector<WallPoint> wall_points = {};
 
-  if (isDefaultDactlyThumbCluster) {
+  // Ignoring isDefaultDactlyThumbCluster
 
       std::string corner_key_top_left_point_top_left = data.key_thumb_0_5.name + "_top_left";
 
@@ -502,12 +502,6 @@ std::vector<WallPoint> CreateWallPointsForBowlThumbCluster(
 
       connect_point_1_destination_thumb = corner_key_top_left_point_top_left;
       connect_point_2_source_thumb = corner_key_bottom_left_point_bottom_left;
-
-  }
-  else
-  {
-      //TODO:
-  }
 
   return wall_points;
 }
