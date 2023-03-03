@@ -53,7 +53,7 @@ void AddShapes(std::vector<Shape>* shapes, std::vector<Shape> to_add) {
   }
 }
 
-Shape ConnectBowlKeysInternal(KeyData& data);
+Shape ConnectBowlKeysInternalStructure(KeyData& data);
 Shape ConnectBowlKeysGridToWall(KeyData& data);
 Shape ConnectBowlKeysAndThumbClusterWallPosts(KeyData& data,
                                               bool isDefaultDactlyThumbCluster = true);
@@ -155,7 +155,7 @@ int main() {
   }
 
   // Creating the grid
-  shapes.push_back(ConnectBowlKeysInternal(data));
+  shapes.push_back(ConnectBowlKeysInternalStructure(data));
 
   // Printing Intermediate Steps
   if (kCreateIntermediateArtifacts) {
@@ -267,36 +267,12 @@ Shape ConnectThumbCluster(KeyData& data) {
   auto key_bowl_edge_up = data.grid.get_key_located_up(data.grid.get_key_corner_bottom_right());
   auto key_bowl_edge_left = data.grid.get_key_located_left(data.grid.get_key_corner_bottom_right());
 
-
-    if (false){
-    // Experiment to see if we can match a thumb cluster that is attached to the same origina as the bowl
-    int moveDiagonalAmount = 65;
-    int moveZAmount = 20;
-
-   
-    shapes.push_back(data.origin_key->GetMiddle()
-                         .Apply(Cube(70, 70, 6).RotateZ(45).Translate(
-                             moveDiagonalAmount, -moveDiagonalAmount, moveZAmount))
-                         .Color("red")
-    
-    );
-    shapes.push_back(data.origin_key->GetMiddle()
-                         .Apply(Cube(70, 70, 6).Rotate(10,10,45).Translate(
-                             moveDiagonalAmount, -moveDiagonalAmount, 10))
-                         .Color("green")
-       );
-    shapes.push_back(data.origin_for_bowl
-                         .Apply(Cube(70, 70, 6)
-                                    .Rotate(10, 10, 45)
-                                    .Translate(moveDiagonalAmount, -moveDiagonalAmount, 10))
-                         .Color("blue")
-    );
-  }
-
+      // Depending on the rotation. Both x and y need to change to move the keys away from the keywell.
+      // the actual distance will be greater since its the combine vector of the two directions. 
+      double adjust_thumb_distance = 6;
          // Thumb cluster is indepenently position from bowl keys.
-      double anchor_thumb_x =
-          66;  // 60; Both x and y need to change to move the keys away from the keywell.
-      double anchor_thumb_y = -15.18;  // -9.18;
+      double anchor_thumb_x = 60 + adjust_thumb_distance;  // 60;
+      double anchor_thumb_y = -9.18 - adjust_thumb_distance;  // -9.18;
       double anchor_thumb_z =
           32.83;  // original (42.83) -10 since we are not adding this offset for the keycaps
       double anchor_thumb_rotate_x = -21;
@@ -335,9 +311,9 @@ Shape ConnectThumbCluster(KeyData& data) {
       data.key_thumb_0_0.extra_width_left = 1;  // original 3
       data.key_thumb_0_1.extra_width_bottom = 11;
       data.key_thumb_0_2.extra_width_bottom = 3;
-      data.key_thumb_0_2.extra_width_top = 3;
+      data.key_thumb_0_2.extra_width_top = 1;  // original 3
       data.key_thumb_0_2.extra_width_right = 3;
-      data.key_thumb_0_2.extra_width_left = 3;
+      data.key_thumb_0_2.extra_width_left = 2.5; // original 3
 
 
     if (isDefaultDactlyThumbCluster) {
@@ -370,7 +346,7 @@ Shape ConnectThumbCluster(KeyData& data) {
     data.key_thumb_0_4.extra_width_right = 3;
     data.key_thumb_0_4.extra_width_left = 3;
     data.key_thumb_0_3.extra_width_right = 3;
-    data.key_thumb_0_3.extra_width_left = 3;
+    data.key_thumb_0_3.extra_width_left = 2.5;
     data.key_thumb_0_3.extra_width_top = 3;
   
 
@@ -393,40 +369,26 @@ Shape ConnectThumbCluster(KeyData& data) {
   } else {
     // This cluster will mirror more or less the maniform.
 
-    // Second thumb key.
-    data.key_thumb_0_1.Configure([&](Key& k) {
-      k.name = "key_thumb_0_1";
-      k.SetParent(data.key_thumb_0_0);
-      k.SetPosition(kDefaultKeySpacing, kDefaultKeyHalfSpacing * -1, 0);
-    });
-
-    // Bottom side key.
-    data.key_thumb_0_2.Configure([&](Key& k) {
-      k.name = "key_thumb_0_2";
-      k.SetParent(data.key_thumb_0_1);
-      k.SetPosition(kDefaultKeySpacing, kDefaultKeyHalfSpacing * -1, 0);
-    });
-
     // Middle side key.
     data.key_thumb_0_3.Configure([&](Key& k) {
       k.name = "key_thumb_0_3";
-      k.SetParent(data.key_thumb_0_2);
-      k.SetPosition(kDefaultKeyHalfSpacing, kDefaultKeySpacing, 0);
+      k.SetParent(data.key_thumb_0_1);
+      k.SetPosition(kDefaultKeyHalfSpacing + kDefaultKeySpacing, kDefaultKeyHalfSpacing, 0);
     });
 
     // Top side key;
     data.key_thumb_0_4.Configure([&](Key& k) {
       k.name = "key_thumb_0_4";
-      k.SetParent(data.key_thumb_0_3);
-      k.SetPosition(kDefaultKeySpacing * -1, kDefaultKeyHalfSpacing, 0);
+      k.SetParent(data.key_thumb_0_1);
+      k.SetPosition(kDefaultKeyHalfSpacing, kDefaultKeySpacing, 0);
     });
 
-// Top left key.
-data.key_thumb_0_5.Configure([&](Key& k) {
-    k.name = "key_thumb_0_5";
-    k.SetParent(data.key_thumb_0_4);
-    k.SetPosition(kDefaultKeySpacing * -1, kDefaultKeyHalfSpacing, 0);
-});
+    // Top left key.
+    data.key_thumb_0_5.Configure([&](Key& k) {
+      k.name = "key_thumb_0_5";
+      k.SetParent(data.key_thumb_0_1);
+      k.SetPosition(-1 * kDefaultKeyHalfSpacing, 10 + kDefaultKeySpacing - 1, 0);
+    });
   }
 
 
@@ -507,14 +469,15 @@ std::vector<WallPoint> CreateWallPointsForBowlThumbCluster(
 
       wall_points.push_back(thumb_top_right_corner);
 
+      wall_points.push_back(
+          {data.key_thumb_0_3.GetTopRight(), Direction::RIGHT, 0, .75, data.key_thumb_0_3.name});
+
+      wall_points.push_back(
+           {data.key_thumb_0_3.GetBottomRight(), Direction::RIGHT, 0, .75, data.key_thumb_0_3.name});
+
       thumb_top_right_corner.transforms.TranslateX(-4).TranslateY(-2);
       plate_screw_locations.push_back(thumb_top_right_corner);
 
-      wall_points.push_back({data.key_thumb_0_4.GetBottomRight(),
-                             Direction::RIGHT,
-                             0,
-                             0,
-                             data.key_thumb_0_4.name});
       wall_points.push_back(
           {data.key_thumb_0_2.GetBottomRight(), Direction::RIGHT, 0, .75, data.key_thumb_0_2.name});
       
@@ -547,7 +510,7 @@ std::vector<WallPoint> CreateWallPointsForBowlThumbCluster(
   return wall_points;
 }
 
-Shape ConnectBowlKeysInternal(KeyData& data) {
+Shape ConnectBowlKeysInternalStructure(KeyData& data) {
   std::vector<Shape> shapes;
   for (int r = 0; r < data.grid.num_rows(); ++r) {
     for (int c = 0; c < data.grid.num_columns(); ++c) {

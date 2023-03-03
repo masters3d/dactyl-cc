@@ -79,11 +79,14 @@ KeyData::KeyData(TransformList key_origin) {
 
     // Cheyo's offsets:
     
-    // If you lower, you are going to have to lift the whole keyboard with the inicial anchor transform
-    // See adjust_height_for_origin
-    double offset_anchor_z = -5; 
+
     // If we dont apply the opposite offset to the offset_anchor_z then the key will get cut off by the thumb cluster negative cut out
     double offset_anchor_right_1_z = 5; // Index Finger
+
+    // If you lower, you are going to have to lift the whole keyboard with the inicial anchor
+    // transform See adjust_height_for_origin
+    double offset_anchor_z = -1 * offset_anchor_right_1_z; 
+
     double offset_anchor_left_1_z = 0; // Ring Finger
     double offset_anchor_left_2_z = 10; // Pinky
 
