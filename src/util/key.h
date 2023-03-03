@@ -201,20 +201,20 @@ struct KeyGrid {
     return get_key(row + 1, column + 1);
   }
 
-  Key* get_key_located_up(int row, int column) {
-    return get_key(row - 1, column);
+  Key* get_key_located_up(int row, int column, int offset = 1) {
+    return get_key(row + (-1 * offset), column);
   }
 
-  Key* get_key_located_down(int row, int column) {
-    return get_key(row + 1, column);
+  Key* get_key_located_down(int row, int column, int offset = 1) {
+    return get_key(row + offset, column);
   }
  
-  Key* get_key_located_left(int row, int column) {
-    return get_key(row, column - 1);
+  Key* get_key_located_left(int row, int column, int offset = 1) {
+    return get_key(row, column + (-1 * offset));
   }
 
-  Key* get_key_located_right(int row, int column) {
-    return get_key(row, column + 1);
+  Key* get_key_located_right(int row, int column, int offset = 1) {
+    return get_key(row, column + offset);
   }
 
   // returns keys at the cornes going clockwise starting at top left. Will have size 4
@@ -265,20 +265,20 @@ struct KeyGrid {
     return get_key_located_diagonal_bottom_right(corner.index_row, corner.index_column);
   }
 
-  Key* get_key_located_up(GridCorner corner) {
-    return get_key_located_up(corner.index_row, corner.index_column);
+  Key* get_key_located_up(GridCorner corner, int offset = 1) {
+    return get_key_located_up(corner.index_row, corner.index_column, offset);
   }
 
-  Key* get_key_located_down(GridCorner corner) {
-    return get_key_located_down(corner.index_row, corner.index_column);
+  Key* get_key_located_down(GridCorner corner, int offset = 1) {
+    return get_key_located_down(corner.index_row, corner.index_column, offset);
   }
 
-  Key* get_key_located_left(GridCorner corner) {
-    return get_key_located_left(corner.index_row, corner.index_column);
+  Key* get_key_located_left(GridCorner corner, int offset = 1) {
+    return get_key_located_left(corner.index_row, corner.index_column, offset);
   }
 
-  Key* get_key_located_right(GridCorner corner) {
-    return get_key_located_right(corner.index_row, corner.index_column);
+  Key* get_key_located_right(GridCorner corner, int offset = 1) {
+    return get_key_located_right(corner.index_row, corner.index_column, offset);
   }
 
   GridCorner get_key_corner_top_left() {

@@ -264,6 +264,8 @@ Shape ConnectThumbCluster(KeyData& data) {
 
   auto key_bowl_edge_up = data.grid.get_key_located_up(data.grid.get_key_corner_bottom_right());
   auto key_bowl_edge_left = data.grid.get_key_located_left(data.grid.get_key_corner_bottom_right());
+  auto key_bowl_edge_left_left = data.grid.get_key_located_left(data.grid.get_key_corner_bottom_right(), 2);
+
 
       // Depending on the rotation. Both x and y need to change to move the keys away from the keywell.
       // the actual distance will be greater since its the combine vector of the two directions. 
@@ -418,6 +420,8 @@ Shape ConnectThumbCluster(KeyData& data) {
    
     shapes.push_back(TriFan(data.key_thumb_0_0.GetBottomLeft(),
                             {
+                                key_bowl_edge_left_left->GetBottomLeft(),
+                                key_bowl_edge_left_left->GetBottomRight(),
                                 key_bowl_edge_left->GetBottomLeft(),
                                 key_bowl_edge_left->GetBottomRight(),
                                 data.key_thumb_0_0.GetTopLeft(),
@@ -439,8 +443,7 @@ Shape ConnectThumbCluster(KeyData& data) {
   return UnionAll(shapes);
 }
 
-std::vector<WallPoint> CreateWallPointsForBowlThumbCluster(
-    KeyData& data) {
+std::vector<WallPoint> CreateWallPointsForBowlThumbCluster(KeyData& data) {
   // Start top left and go clockwise.
   // Top Row: Left to Right
   // Right Column: Top to Bottom
@@ -830,7 +833,7 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
       .get_key_located_up(corner_bottom_right)->name + connect_point_subfix_top_right;
 
   connect_point_2_destination_bowl =
-      data.grid.get_key_located_left(corner_bottom_right)
+      data.grid.get_key_located_left(corner_bottom_right, 2)
           ->name + connect_point_subfix_bottom_left;
 
   // Start top left and go clockwise.
@@ -975,7 +978,7 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
     wall_points.push_back({currentKey->GetBottomLeft(), direction_left_column_is_left, 0, .5});
 
     // Adjusting to screw plate locations
-    corner_bottom_left_wall_point.transforms.TranslateX(1);
+    corner_bottom_left_wall_point.transforms.TranslateX(3);
     plate_screw_locations.push_back(corner_bottom_left_wall_point);
   }
 
@@ -1017,7 +1020,7 @@ std::vector<WallPoint> CreateWallPointsForBowlKeys(KeyData& data) {
     wall_points.push_back(corner_top_left_wall_point);
     wall_points.push_back({currentKey->GetTopLeft(), direction_top_row_is_up, 0, .5});
 
-    corner_top_left_wall_point.transforms.TranslateX(1);
+    corner_top_left_wall_point.transforms.TranslateX(3);
     plate_screw_locations.push_back(corner_top_left_wall_point);
   }
 
