@@ -259,7 +259,7 @@ Shape ConnectThumbCluster(KeyData& data) {
 
   std::vector<Shape> shapes;
 
-  bool isDefaultDactlyThumbCluster = true;
+  bool isDefaultDactlyThumbCluster = false;
 
   constexpr double kDefaultKeySpacing = 19;
   constexpr double kDefaultKeyHalfSpacing = 9;
@@ -389,6 +389,19 @@ Shape ConnectThumbCluster(KeyData& data) {
       k.SetParent(data.key_thumb_0_1);
       k.SetPosition(-1 * kDefaultKeyHalfSpacing, 10 + kDefaultKeySpacing - 1, 0);
     });
+
+
+    data.key_thumb_0_5.extra_width_bottom = 10;
+    data.key_thumb_0_5.extra_width_top = 4;
+    data.key_thumb_0_4.extra_width_top = 4;
+    data.key_thumb_0_3.extra_width_top = 4;
+    data.key_thumb_0_3.extra_width_right = 4;
+
+    shapes.push_back(Union(ConnectHorizontal(data.key_thumb_0_4, data.key_thumb_0_3),
+                           ConnectHorizontal(data.key_thumb_0_0, data.key_thumb_0_1),
+                           ConnectVertical(data.key_thumb_0_4, data.key_thumb_0_1)
+                           ));
+
   }
 
 
@@ -405,32 +418,21 @@ Shape ConnectThumbCluster(KeyData& data) {
       UnionAll(shapes).WriteToFile("validate_thumbcluster_01_only_keys.scad");
   }
 
-    if (isDefaultDactlyThumbCluster) {
-  
-    //
-      // Thumb plate
-      //
+   
+    shapes.push_back(TriFan(data.key_thumb_0_0.GetBottomLeft(),
+                            {
+                                key_bowl_edge_left->GetBottomLeft(),
+                                key_bowl_edge_left->GetBottomRight(),
+                                data.key_thumb_0_0.GetTopLeft(),
+                            }));
 
-      shapes.push_back(TriFan(data.key_thumb_0_0.GetBottomLeft(),
-                              {
-                                  key_bowl_edge_left->GetBottomLeft(),
-                                  key_bowl_edge_left->GetBottomRight(),
-                                  data.key_thumb_0_0.GetTopLeft(),
-                              }));
-
-      shapes.push_back(TriFan(data.key_thumb_0_5.GetTopLeft(),
-                              {
-                                  key_bowl_edge_up->GetBottomRight(),
-                                  key_bowl_edge_left->GetBottomRight(),
-                                  data.key_thumb_0_0.GetTopLeft(),
-                              }));
-
-    } else {
+    shapes.push_back(TriFan(data.key_thumb_0_5.GetTopLeft(),
+                            {
+                                key_bowl_edge_up->GetBottomRight(),
+                                key_bowl_edge_left->GetBottomRight(),
+                                data.key_thumb_0_0.GetTopLeft(),
+                            }));
     
-        // TODO: Add the thumb cluster to the bowl.
-    }
-
-
     // Printing Intermediate Steps
   if (kCreateIntermediateArtifacts) {
       UnionAll(shapes).WriteToFile("validate_thumbcluster_02_top_connectors.scad");
