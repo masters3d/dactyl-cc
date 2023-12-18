@@ -1,0 +1,6 @@
+module glm {
+    requires cplusplus
+    header "../glm/glm.hpp"
+    header "../util/key.h"
+    export *
+}

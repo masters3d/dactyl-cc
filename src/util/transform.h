@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glm/glm.hpp>
+#include "../glm/glm.hpp"
 #include <vector>
 
 #include "scad.h"
@@ -195,7 +195,7 @@ class TransformList {
     }
   }
 
-  TransformList* TransformList::clone() const {
+  TransformList* clone() const {
     TransformList* p = new TransformList(transforms_);
     return p;
   }
@@ -203,7 +203,7 @@ class TransformList {
  private:
   std::vector<Transform> transforms_;
 
-  TransformList::TransformList(std::vector<Transform> transforms_incoming) {
+  TransformList(std::vector<Transform> transforms_incoming) {
     std::vector<Transform> copy_incoming(transforms_incoming);
     this->transforms_ = copy_incoming;
   }

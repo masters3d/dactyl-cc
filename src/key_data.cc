@@ -1,9 +1,9 @@
 #include "key_data.h"
 
-#include <glm/glm.hpp>
-#include "key.h"
-#include "scad.h"
-#include "transform.h"
+#include <../glm/glm.hpp>
+#include "util/key.h"
+#include "util/scad.h"
+#include "util/transform.h"
 
 namespace scad {
 namespace {

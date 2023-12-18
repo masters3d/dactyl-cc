@@ -1,7 +1,7 @@
 #pragma once
 
 #include <functional>
-#include <glm/glm.hpp>
+#include "../glm/glm.hpp"
 #include <memory>
 #include <string>
 

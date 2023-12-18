@@ -1,11 +1,11 @@
-#include <glm/glm.hpp>
+#include <../glm/glm.hpp>
 #include <string>
 #include <vector>
 
-#include "key.h"
+#include "util/key.h"
 #include "key_data.h"
-#include "scad.h"
-#include "transform.h"
+#include "util/scad.h"
+#include "util/transform.h"
 
 using namespace scad;
 

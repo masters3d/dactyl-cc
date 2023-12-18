@@ -1,7 +1,7 @@
 #pragma once
 
-#include "key.h"
-#include "transform.h"
+#include "util/key.h"
+#include "util/transform.h"
 
 namespace scad {
 
